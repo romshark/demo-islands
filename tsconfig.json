@@ -1,0 +1,37 @@
+{
+	"extends": "@tsconfig/svelte/tsconfig.json",
+	"compilerOptions": {
+		"strict": true,
+		"module": "ES2022",
+		"target": "ES2023",
+		"lib": [
+			"ES5",
+			"ES6",
+			"ES7",
+			"ES2022",
+			"ES2023",
+			"DOM",
+			"Decorators"
+		],
+		"allowJs": false,
+		"moduleResolution": "Bundler",
+		"allowUnreachableCode": false,
+		"allowSyntheticDefaultImports": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"baseUrl": ".",
+		"paths": {
+			"~/*": [
+				"./server/*"
+			]
+		}
+	},
+	"exclude": [
+		"node_modules",
+		"./server/public"
+	],
+	"include": [
+		"./server/**/*.ts",
+		"./server/components/**/*.svelte"
+	]
+}

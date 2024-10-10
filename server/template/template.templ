@@ -1,0 +1,373 @@
+package template
+
+import "fmt"
+import "time"
+import "github.com/romshark/htmx-demo-form/domain"
+
+templ htmlMain(title string) {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>{ title }</title>
+			
+			<script src="https://unpkg.com/htmx.org@2.0.3"></script>
+			<script src="https://unpkg.com/idiomorph@0.3.0/dist/idiomorph-ext.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
+			<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+			
+			<link rel="stylesheet" href="/public/dist.css"/>
+			<script src="/public/dist.js"></script>
+			<link rel="icon" href="/public/favicon.ico"/>
+		</head>
+		<body hx-ext="morph">
+			<div id="viewport">
+				{ children... }
+			</div>
+		</body>
+	</html>
+}
+
+templ viewIndex(
+	form Form,
+	addressCountryOptions []NamedOption,
+	shippingCompanyOptions []NamedOption,
+	shippingOrders []domain.ShippingDetails,
+) {
+	<div class="md:container md:mx-auto ml-4 mr-4 pb-16">
+		<div class="mt-4">
+			@componentOrderForm(form, addressCountryOptions, shippingCompanyOptions)
+		</div>
+		<hr class="mt-4">
+		<h1 class="mt-2 mb-2">Pending Orders</h1>
+		if len(shippingOrders) < 1 {
+			<p>No currently pending orders.</p>
+		}
+		for i, o := range shippingOrders {
+			<h1>Order #{ fmt.Sprintf("%d", i) } </h1>
+			<table class="border border-solid">
+				<tr>
+					<td>Company Name</td>
+					<td> { o.CompanyName.String() } </td>
+				</tr>
+				<tr>
+					<td>First Name</td>
+					<td> { o.ContactFirstName.String() } </td>
+				</tr>
+				<tr>
+					<td>Last Name</td>
+					<td> { o.ContactLastName.String() } </td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td> { o.ContactEmail.String() } </td>
+				</tr>
+				<tr>
+					<td>Phone</td>
+					<td> { o.ContactPhone.String() } </td>
+				</tr>
+				<tr>
+					<td>Express</td>
+					if o.Express {
+						<td> Yes </td>
+					} else {
+						<td> No </td>
+					}
+				</tr>
+				<tr>
+					<td>Shipping Company</td>
+					<td> { o.ShippingCompany.String() } </td>
+				</tr>
+				<tr>
+					<td>Due</td>
+					<td> { o.Due.Format(time.RFC822) } </td>
+				</tr>
+				<tr>
+					<td>Special Notes</td>
+					<td> { o.SpecialNotes.String() } </td>
+				</tr>
+			</table>
+		}
+	</div>
+}
+
+templ pageIndex(
+	form Form,
+	addressCountryOptions []NamedOption,
+	shippingCompanyOptions []NamedOption,
+	shippingOrders []domain.ShippingDetails,
+) {
+	@htmlMain("Index") {
+		@viewIndex(
+			form,
+			addressCountryOptions,
+			shippingCompanyOptions,
+			shippingOrders,
+		)
+	}
+}
+
+templ componentOrderForm(
+	form Form,
+	addressCountryOptions []NamedOption,
+	shippingCompanyOptions []NamedOption,
+) {
+	<form
+		class="grid gap-2 grid-cols-2"
+		hx-post="/form/"
+		hx-target="this"
+		hx-swap="morph:outerHTML"
+		hx-trigger="input delay:400ms">
+		<h2 class="col-span-full">Contact</h2>
+		// Company Name
+		<div class="flex flex-col gap-1 col-span-full">
+			@fragmentLabel(
+				"input-company-name",
+				"Company Name",
+				form.ErrorCompanyName != "",
+			)
+			<input
+				id="input-company-name"
+				name="companyName"
+				placeholder="Company Name"
+				autocomplete="off"
+				value={form.ValueCompanyName}>
+			if form.ErrorCompanyName != "" {
+				@animatedAppear() {
+					<p class="mb-2 text-red-600">⚠️ { form.ErrorCompanyName }</p>
+				}
+			}
+		</div>
+		// First Name
+		<div class="flex flex-col gap-1">
+			@fragmentLabel("input-first-name", "First Name", form.ErrorFirstName != "")
+			<input
+				id="input-first-name"
+				name="firstName"
+				placeholder="First Name"
+				autocomplete="off"
+				value={form.ValueFirstName}>
+			if form.ErrorFirstName != "" {
+				@animatedAppear() {
+					<p class="mb-2 text-red-600">⚠️ { form.ErrorFirstName }</p>
+				}
+			}
+		</div>
+		// Last Name
+		<div class="flex flex-col gap-1">
+			@fragmentLabel("input-last-name", "Last Name", form.ErrorLastName != "")
+			<input
+				id="input-last-name"
+				name="lastName"
+				placeholder="Last Name"
+				autocomplete="off"
+				value={form.ValueLastName}>
+			if form.ErrorLastName != "" {
+				@animatedAppear() {
+					<p class="mb-2 text-red-600">⚠️ { form.ErrorLastName }</p>
+				}
+			}
+		</div>
+		// Email
+		<div class="flex flex-col gap-1">
+			@fragmentLabel("input-email", "Email", form.ErrorEmail != "")
+			<input
+				id="input-email"
+				name="email"
+				placeholder="Email"
+				autocomplete="off"
+				value={form.ValueEmail}>
+			if form.ErrorEmail != "" {
+				@animatedAppear() {
+					<p class="mb-2 text-red-600">⚠️ { form.ErrorEmail }</p>
+				}
+			}
+		</div>
+		// Phone Number
+		<div class="flex flex-col gap-1">
+			@fragmentLabel("input-phone", "Phone Number", form.ErrorPhone != "")
+			<input
+				id="input-phone"
+				type="tel"
+				name="phone"
+				placeholder="Phone"
+				autocomplete="off"
+				value={form.ValuePhone}>
+			if form.ErrorPhone != "" {
+				@animatedAppear() {
+					<p class="mb-2 text-red-600 animate-fade-in">⚠️ { form.ErrorPhone }</p>
+				}
+			}
+		</div>
+		// Address Country
+		<h2 class="col-span-full">Address</h2>
+		<div class="flex flex-col gap-1">
+			@fragmentLabel(
+				"input-address-country",
+				"Country",
+				form.ErrorAddressCountry != "",
+			)
+			<select
+				id="input-address-country"
+				name="addressCountry"
+				placeholder="Country"
+				autocomplete="off">
+				@fragmentNamedOptions(addressCountryOptions, form.ValueAddressCountry)
+			</select>
+			if form.ErrorAddressCountry != "" {
+				@animatedAppear() {
+					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCountry }</p>
+				}
+			}
+		</div>
+		// Address Postal Code
+		<div class="flex flex-col gap-1">
+			@fragmentLabel(
+				"input-address-postal-code",
+				"Postal Code",
+				form.ErrorAddressPostalCode != "",
+			)
+			<input
+				id="input-address-postal-code"
+				name="addressPostalCode"
+				placeholder="Postal Code"
+				autocomplete="off"
+				value={form.ValueAddressPostalCode}>
+			if form.ErrorAddressPostalCode != "" {
+				@animatedAppear() {
+					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressPostalCode }</p>
+				}
+			}
+		</div>
+		// Address City
+		<div class="flex flex-col gap-1 col-span-full">
+			@fragmentLabel(
+				"input-address-city",
+				"City",
+				form.ErrorAddressCity != "",
+			)
+			<input
+				id="input-address-city"
+				name="addressCity"
+				placeholder="City"
+				autocomplete="off"
+				value={form.ValueAddressCity}>
+			if form.ErrorAddressCity != "" {
+				@animatedAppear() {
+					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCity }</p>
+				}
+			}
+		</div>
+		<h2 class="col-span-full">Shipping</h2>
+
+		// Due Date
+		<div class="flex flex-col gap-1">
+			@fragmentLabel("input-due", "Due Date", form.ErrorDue != "")
+			<input
+				id="input-due"
+				name="due"
+				type="date"
+				autocomplete="off"
+				value={form.ValueDue}>
+			if form.ErrorDue != "" {
+				@animatedAppear() {
+					<p class="mb-2 text-red-600">⚠️ { form.ErrorDue }</p>
+				}
+			}
+		</div>
+
+		// Shipping Company
+		<div class="flex flex-col gap-1">
+			@fragmentLabel(
+				"input-shipping-company",
+				"Shipping Company",
+				form.ErrorShippingCompany != "",
+			)
+			<select
+				id="input-shipping-company"
+				name="shippingCompany"
+				placeholder="Shipping Company"
+				autocomplete="off">
+				@fragmentNamedOptions(shippingCompanyOptions, form.ValueShippingCompany)
+			</select>
+			if form.ErrorShippingCompany != "" {
+				@animatedAppear() {
+					<p class="mb-2 text-red-600">⚠️ { form.ErrorShippingCompany }</p>
+				}
+			}
+		</div>
+
+		// Express Shipping
+		<div class="flex items-center gap-1 col-span-full">
+			<input
+				id="input-express"
+				name="express"
+				type="checkbox"
+				placeholder="Express"
+				if form.ValueExpress != "" {
+					checked
+				}>
+			<label for="input-express">Express</label>
+		</div>
+		
+		<h2 class="col-span-full">Additional</h2>
+
+		// Special Notes
+		<div class="flex flex-col gap-1 col-span-full">
+			@fragmentLabel(
+				"input-special-notes",
+				"Special Notes",
+				form.ErrorSpecialNotes != "",
+			)
+			<textarea
+				id="input-special-notes"
+				name="specialNotes"
+				placeholder="Special Notes"
+				autocomplete="off">
+				{form.ValueSpecialNotes}
+			</textarea>
+		</div>
+		if form.ErrorSpecialNotes != "" {
+			@animatedAppear() {
+				<p class="mb-2 text-red-600">⚠️ { form.ErrorSpecialNotes }</p>
+			}
+		}
+
+		<button
+			type="submit"
+			hx-post="/orders/"
+			hx-swap="innerHTML"
+			hx-target="#viewport">Add</button>
+	</form>
+}
+
+templ fragmentNamedOptions(opts []NamedOption, selected string) {
+	for _, opt := range opts {
+		<option
+			value={opt.Value}
+			if selected == opt.Value {
+				selected
+			}
+		>{opt.Name}</option>
+	}
+}
+
+templ fragmentLabel(forID, text string, hasErr bool) {
+	<label
+		if hasErr {
+			class="text-xs text-red-600"
+		} else {
+			class="text-xs text-slate-500"
+		}
+		for={forID}>{text}</label>
+}
+
+templ animatedAppear() {
+	<div
+		x-data="{b: false}"
+		x-init="$nextTick(() => {b = !b})"
+		x-show="b"
+		x-collapse
+		x-collapse.duration.300ms>
+		{children...}
+	</div>
+}

@@ -1,0 +1,57 @@
+proxy-timeout: 10s
+lint: true
+templier-host: "localhost:7331"
+log:
+  level: erronly
+  clear-on: file-change
+  print-js-debug-logs: true
+debounce:
+  templ: 50ms
+  go: 50ms
+tls:
+app:
+  dir-src-root: "./"
+  exclude:
+    - ".*" # All hidden files.
+    - "*~" # Any temporary backup files IDEs might use.
+    - node_modules/*
+    - eslint.config.mjs
+  dir-cmd: "./"
+  dir-work:
+  host: "http://127.0.0.1:8080"
+  go-flags:
+  flags:
+custom-watchers:
+  - name: "Bundle CSS"
+    cmd: npm run build:css
+    include:
+      - "*.templ"
+      - "server/input.css"
+      - "tailwind.config.js"
+      - "postcss.config.js"
+    exclude: ["server/public/*"]
+    fail-on-error: true
+    debounce:
+    requires: # no action, "Bundle Changed" will do the reloading
+  - name: Bundle TS
+    cmd: npm run build:ts
+    include: ["*.ts"]
+    exclude: ["server/public/*"]
+    fail-on-error: true
+    debounce:
+    # reload browser after successful bundling
+    requires: # no action, "Bundle Changed" will do the reloading
+  - name: Bundle Changed
+    cmd: # Just rebuild
+    include: ["server/public/*"]
+    exclude:
+    fail-on-error:
+    debounce:
+    requires: rebuild
+  - name: Bundle Changed
+    cmd: # Just rebuild
+    include: ["server/public/*"]
+    exclude:
+    fail-on-error:
+    debounce:
+    requires: rebuild
