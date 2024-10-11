@@ -1,15 +1,18 @@
 <script lang="ts">
-	import { Command as CommandPrimitive } from "cmdk-sv";
-	import { mergeClass } from "~/utils.js";
+  import { Command as CommandPrimitive } from "cmdk-sv";
+  import { mergeClass } from "../utils";
 
-	type $$Props = CommandPrimitive.ListProps;
-	let className: string | undefined | null = undefined;
-	export { className as class };
+  type $$Props = CommandPrimitive.ListProps;
+  let className: string | undefined | null = undefined;
+  export { className as class };
 </script>
 
 <CommandPrimitive.List
-	class={mergeClass("max-h-[300px] overflow-y-auto overflow-x-hidden", className)}
-	{...$$restProps}
+  class={mergeClass(
+    "max-h-[300px] overflow-y-auto overflow-x-hidden",
+    className
+  )}
+  {...$$restProps}
 >
-	<slot />
+  <slot />
 </CommandPrimitive.List>

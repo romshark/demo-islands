@@ -16,6 +16,7 @@ app:
     - "*~" # Any temporary backup files IDEs might use.
     - node_modules/*
     - eslint.config.mjs
+    - vite.config.js.timestamp-*.mjs # Temporary vite files.
   dir-cmd: "./"
   dir-work:
   host: "http://127.0.0.1:8080"
@@ -23,32 +24,38 @@ app:
   flags:
 custom-watchers:
   - name: "Bundle CSS"
-    cmd: npm run build:css
+    cmd: bun run build:css
     include:
       - "*.templ"
-      - "server/input.css"
+      - "server/*.css"
       - "tailwind.config.js"
       - "postcss.config.js"
     exclude: ["server/public/*"]
     fail-on-error: true
     debounce:
     requires: # no action, "Bundle Changed" will do the reloading
+  - name: Bundle Components
+    cmd: bun run build:components
+    include:
+      - "server/components/*"
+      - "vite.config.js"
+      - "tsconfig.js"
+      - "svelte.config.js"
+      - "postcss.config.js"
+      - "tailwind.config.js"
+    exclude:
+    fail-on-error: true
+    debounce:
+    requires: # no action, "Bundle Changed" will do the reloading
   - name: Bundle TS
-    cmd: npm run build:ts
-    include: ["*.ts"]
-    exclude: ["server/public/*"]
+    cmd: bun run build:ts
+    include: ["server/*"]
+    exclude: ["server/components/*", "server/public/*"]
     fail-on-error: true
     debounce:
     # reload browser after successful bundling
     requires: # no action, "Bundle Changed" will do the reloading
-  - name: Bundle Changed
-    cmd: # Just rebuild
-    include: ["server/public/*"]
-    exclude:
-    fail-on-error:
-    debounce:
-    requires: rebuild
-  - name: Bundle Changed
+  - name: Rebuild Server on Bundle Changed
     cmd: # Just rebuild
     include: ["server/public/*"]
     exclude:

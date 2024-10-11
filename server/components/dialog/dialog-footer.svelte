@@ -2,18 +2,18 @@
   import type { HTMLAttributes } from "svelte/elements";
   import { mergeClass } from "../utils";
 
-  type $$Props = HTMLAttributes<HTMLSpanElement>;
+  type $$Props = HTMLAttributes<HTMLDivElement>;
 
-  let className: string | undefined | null = undefined;
+  let className: $$Props["class"] = undefined;
   export { className as class };
 </script>
 
-<span
+<div
   class={mergeClass(
-    "text-muted-foreground ml-auto text-xs tracking-widest",
+    "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
     className
   )}
   {...$$restProps}
 >
   <slot />
-</span>
+</div>

@@ -58,19 +58,33 @@ jobs:
           echo "Detected uncommitted changes after running npm run build:css" \
           "Please regenerate all CSS and commit changes." && exit 1
 
-      # Make sure JavaScript was built before commit
-      - name: Build JavaScript
-        run: npm run build:js
-      - name: Check file changes after building JavaScript
+      # Make sure Svelte web components were built before commit
+      - name: Build Svelte WebComponents
+        run: npm run build:components
+      - name: Check file changes after building web components
         run: |
           git diff --exit-code
-        id: diff_files_after_js_build
+        id: diff_files_after_svelte_build
         continue-on-error: true
       - name: Fail if changes are detected
-        if: steps.diff_files_after_js_build.outcome == 'failure'
+        if: steps.diff_files_after_svelte_build.outcome == 'failure'
+        run: |
+          echo "Detected uncommitted changes after running npm run build:components" \
+          "Please regenerate all Svelte components and commit changes." && exit 1
+
+      # Make sure TypeScript was built before commit
+      - name: Build TypeScript
+        run: npm run build:ts
+      - name: Check file changes after building TypeScript
+        run: |
+          git diff --exit-code
+        id: diff_files_after_ts_build
+        continue-on-error: true
+      - name: Fail if changes are detected
+        if: steps.diff_files_after_ts_build.outcome == 'failure'
         run: |
           echo "Detected uncommitted changes after running npm run build:js" \
-          "Please regenerate all JavaScript and commit changes." && exit 1
+          "Please regenerate all TypeScript and commit changes." && exit 1
 
       # Try compile
       - name: Compile
