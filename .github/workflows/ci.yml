@@ -9,10 +9,12 @@ jobs:
         with:
           go-version: "1.23.2"
           check-latest: true
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install npm
-        run: npm i
+      - name: Install JavaScript Dependencies
+        run: bun i
 
       # Test
       - name: Test
@@ -46,7 +48,7 @@ jobs:
 
       # Make sure CSS was built before commit
       - name: Build CSS
-        run: npm run build:css
+        run: bun run build:css
       - name: Check file changes after building CSS
         run: |
           git diff --exit-code
@@ -55,12 +57,12 @@ jobs:
       - name: Fail if changes are detected
         if: steps.diff_files_after_css_build.outcome == 'failure'
         run: |
-          echo "Detected uncommitted changes after running npm run build:css" \
+          echo "Detected uncommitted changes after running bun run build:css" \
           "Please regenerate all CSS and commit changes." && exit 1
 
       # Make sure Svelte web components were built before commit
       - name: Build Svelte WebComponents
-        run: npm run build:components
+        run: bun run build:components
       - name: Check file changes after building web components
         run: |
           git diff --exit-code
@@ -69,12 +71,12 @@ jobs:
       - name: Fail if changes are detected
         if: steps.diff_files_after_svelte_build.outcome == 'failure'
         run: |
-          echo "Detected uncommitted changes after running npm run build:components" \
+          echo "Detected uncommitted changes after running bun run build:components" \
           "Please regenerate all Svelte components and commit changes." && exit 1
 
       # Make sure TypeScript was built before commit
       - name: Build TypeScript
-        run: npm run build:ts
+        run: bun run build:ts
       - name: Check file changes after building TypeScript
         run: |
           git diff --exit-code
@@ -83,7 +85,7 @@ jobs:
       - name: Fail if changes are detected
         if: steps.diff_files_after_ts_build.outcome == 'failure'
         run: |
-          echo "Detected uncommitted changes after running npm run build:js" \
+          echo "Detected uncommitted changes after running bun run build:js" \
           "Please regenerate all TypeScript and commit changes." && exit 1
 
       # Try compile
