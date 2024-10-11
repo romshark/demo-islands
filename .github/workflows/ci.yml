@@ -19,13 +19,13 @@ jobs:
         run: go test -v -race ./...
       - name: Calculate coverage
         run: go test -v -covermode=count -coverprofile=coverage.out
-      - name: Convert coverage.out to coverage.lcov
-        uses: jandelgado/gcov2lcov-action@v1.0.9
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          path-to-lcov: coverage.lcov
+      # - name: Convert coverage.out to coverage.lcov
+      #   uses: jandelgado/gcov2lcov-action@v1.0.9
+      # - name: Coveralls
+      #   uses: coverallsapp/github-action@master
+      #   with:
+      #     github-token: ${{ secrets.github_token }}
+      #     path-to-lcov: coverage.lcov
       - name: Run go vet
         continue-on-error: true
         run: go vet ./...
