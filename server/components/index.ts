@@ -5,3 +5,7 @@ import "./dialog/dialog-content.svelte";
 import "./input/input.svelte";
 import "./label/label.svelte";
 import "./popover/popover-content.svelte";
+import "./textarea/textarea.svelte";
+import "./select/select-content.svelte";
+import "./select/select.svelte";
+import "./select/select-item.svelte";

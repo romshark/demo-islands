@@ -126,12 +126,12 @@ templ componentOrderForm(
 				"Company Name",
 				form.ErrorCompanyName != "",
 			)
-			<input
+			<custom-input
 				id="input-company-name"
 				name="companyName"
 				placeholder="Company Name"
 				autocomplete="off"
-				value={form.ValueCompanyName}>
+				value={form.ValueCompanyName}></custom-input>
 			if form.ErrorCompanyName != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorCompanyName }</p>
@@ -141,12 +141,12 @@ templ componentOrderForm(
 		// First Name
 		<div class="flex flex-col gap-1">
 			@fragmentLabel("input-first-name", "First Name", form.ErrorFirstName != "")
-			<input
+			<custom-input
 				id="input-first-name"
 				name="firstName"
 				placeholder="First Name"
 				autocomplete="off"
-				value={form.ValueFirstName}>
+				value={form.ValueFirstName}></custom-input>
 			if form.ErrorFirstName != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorFirstName }</p>
@@ -156,12 +156,12 @@ templ componentOrderForm(
 		// Last Name
 		<div class="flex flex-col gap-1">
 			@fragmentLabel("input-last-name", "Last Name", form.ErrorLastName != "")
-			<input
+			<custom-input
 				id="input-last-name"
 				name="lastName"
 				placeholder="Last Name"
 				autocomplete="off"
-				value={form.ValueLastName}>
+				value={form.ValueLastName}></custom-input>
 			if form.ErrorLastName != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorLastName }</p>
@@ -171,12 +171,12 @@ templ componentOrderForm(
 		// Email
 		<div class="flex flex-col gap-1">
 			@fragmentLabel("input-email", "Email", form.ErrorEmail != "")
-			<input
+			<custom-input
 				id="input-email"
 				name="email"
 				placeholder="Email"
 				autocomplete="off"
-				value={form.ValueEmail}>
+				value={form.ValueEmail}></custom-input>
 			if form.ErrorEmail != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorEmail }</p>
@@ -186,13 +186,13 @@ templ componentOrderForm(
 		// Phone Number
 		<div class="flex flex-col gap-1">
 			@fragmentLabel("input-phone", "Phone Number", form.ErrorPhone != "")
-			<input
+			<custom-input
 				id="input-phone"
 				type="tel"
 				name="phone"
 				placeholder="Phone"
 				autocomplete="off"
-				value={form.ValuePhone}>
+				value={form.ValuePhone}></custom-input>
 			if form.ErrorPhone != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600 animate-fade-in">⚠️ { form.ErrorPhone }</p>
@@ -207,13 +207,18 @@ templ componentOrderForm(
 				"Country",
 				form.ErrorAddressCountry != "",
 			)
-			<select
-				id="input-address-country"
-				name="addressCountry"
-				placeholder="Country"
-				autocomplete="off">
-				@fragmentNamedOptions(addressCountryOptions, form.ValueAddressCountry)
-			</select>
+
+			<test-select></test-select>
+			
+			// <test-select
+			// 	id="input-address-country"
+			// 	name="addressCountry"
+			// 	placeholder="Country"
+			// 	autocomplete="off">
+			// 	// @fragmentNamedOptions(addressCountryOptions, form.ValueAddressCountry)
+			// 	<custom-select-item value="Foo" label="Foo">Foo</custom-select-item>
+			// 	<custom-select-item value="Bar" label="Bar">Bar</custom-select-item>
+			// </test-select>
 			if form.ErrorAddressCountry != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCountry }</p>
@@ -227,12 +232,12 @@ templ componentOrderForm(
 				"Postal Code",
 				form.ErrorAddressPostalCode != "",
 			)
-			<input
+			<custom-input
 				id="input-address-postal-code"
 				name="addressPostalCode"
 				placeholder="Postal Code"
 				autocomplete="off"
-				value={form.ValueAddressPostalCode}>
+				value={form.ValueAddressPostalCode}></custom-input>
 			if form.ErrorAddressPostalCode != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressPostalCode }</p>
@@ -246,12 +251,12 @@ templ componentOrderForm(
 				"City",
 				form.ErrorAddressCity != "",
 			)
-			<input
+			<custom-input
 				id="input-address-city"
 				name="addressCity"
 				placeholder="City"
 				autocomplete="off"
-				value={form.ValueAddressCity}>
+				value={form.ValueAddressCity}></custom-input>
 			if form.ErrorAddressCity != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCity }</p>
@@ -263,12 +268,12 @@ templ componentOrderForm(
 		// Due Date
 		<div class="flex flex-col gap-1">
 			@fragmentLabel("input-due", "Due Date", form.ErrorDue != "")
-			<input
+			<custom-input
 				id="input-due"
 				name="due"
 				type="date"
 				autocomplete="off"
-				value={form.ValueDue}>
+				value={form.ValueDue}></custom-input>
 			if form.ErrorDue != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorDue }</p>
@@ -319,13 +324,13 @@ templ componentOrderForm(
 				"Special Notes",
 				form.ErrorSpecialNotes != "",
 			)
-			<textarea
+			<custom-textarea
 				id="input-special-notes"
 				name="specialNotes"
 				placeholder="Special Notes"
 				autocomplete="off">
 				{form.ValueSpecialNotes}
-			</textarea>
+			</custom-textarea>
 		</div>
 		if form.ErrorSpecialNotes != "" {
 			@animatedAppear() {
@@ -343,23 +348,24 @@ templ componentOrderForm(
 
 templ fragmentNamedOptions(opts []NamedOption, selected string) {
 	for _, opt := range opts {
-		<option
+		<custom-select-item
 			value={opt.Value}
+			label={opt.Name}
 			if selected == opt.Value {
 				selected
 			}
-		>{opt.Name}</option>
+		>{opt.Name}</custom-select-item>
 	}
 }
 
 templ fragmentLabel(forID, text string, hasErr bool) {
-	<label
+	<custom-label
 		if hasErr {
 			class="text-xs text-red-600"
 		} else {
 			class="text-xs text-slate-500"
 		}
-		for={forID}>{text}</label>
+		for={forID}>{text}</custom-label>
 }
 
 templ animatedAppear() {

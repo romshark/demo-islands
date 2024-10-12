@@ -636,6 +636,9 @@ video {
 .inset-0 {
   inset: 0px;
 }
+.left-2 {
+  left: 0.5rem;
+}
 .left-\[50\%\] {
   left: 50%;
 }
@@ -663,6 +666,10 @@ video {
 .-mx-1 {
   margin-left: -0.25rem;
   margin-right: -0.25rem;
+}
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 .mb-2 {
   margin-bottom: 0.5rem;
@@ -757,6 +764,9 @@ video {
 .h-11 {
   height: 2.75rem;
 }
+.h-3\.5 {
+  height: 0.875rem;
+}
 .h-4 {
   height: 1rem;
 }
@@ -772,8 +782,14 @@ video {
 .max-h-\[300px\] {
   max-height: 300px;
 }
+.min-h-\[80px\] {
+  min-height: 80px;
+}
 .w-10 {
   width: 2.5rem;
+}
+.w-3\.5 {
+  width: 0.875rem;
 }
 .w-4 {
   width: 1rem;
@@ -781,11 +797,17 @@ video {
 .w-72 {
   width: 18rem;
 }
+.w-\[180px\] {
+  width: 180px;
+}
 .w-\[200px\] {
   width: 200px;
 }
 .w-full {
   width: 100%;
+}
+.min-w-\[8rem\] {
+  min-width: 8rem;
 }
 .max-w-lg {
   max-width: 32rem;
@@ -1019,6 +1041,10 @@ video {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--destructive) / var(--tw-bg-opacity));
 }
+.bg-muted {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--muted) / var(--tw-bg-opacity));
+}
 .bg-popover {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--popover) / var(--tw-bg-opacity));
@@ -1083,6 +1109,12 @@ video {
 }
 .pb-16 {
   padding-bottom: 4rem;
+}
+.pl-8 {
+  padding-left: 2rem;
+}
+.pr-2 {
+  padding-right: 0.5rem;
 }
 .text-center {
   text-align: center;
@@ -1532,13 +1564,28 @@ li::before {
   color: hsl(var(--accent-foreground) / var(--tw-text-opacity));
 }
 
+.aria-\[invalid\]\:border-destructive[aria-invalid] {
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--destructive) / var(--tw-border-opacity));
+}
+
 .data-\[disabled\]\:pointer-events-none[data-disabled] {
   pointer-events: none;
+}
+
+.data-\[highlighted\]\:bg-accent[data-highlighted] {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--accent) / var(--tw-bg-opacity));
 }
 
 .data-\[state\=open\]\:bg-accent[data-state="open"] {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--accent) / var(--tw-bg-opacity));
+}
+
+.data-\[highlighted\]\:text-accent-foreground[data-highlighted] {
+  --tw-text-opacity: 1;
+  color: hsl(var(--accent-foreground) / var(--tw-text-opacity));
 }
 
 .data-\[state\=open\]\:text-muted-foreground[data-state="open"] {
@@ -1585,6 +1632,18 @@ li::before {
   .md\:w-full {
     width: 100%;
   }
+}
+
+.\[\&\>span\]\:line-clamp-1>span {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.data-\[placeholder\]\:\[\&\>span\]\:text-muted-foreground>span[data-placeholder] {
+  --tw-text-opacity: 1;
+  color: hsl(var(--muted-foreground) / var(--tw-text-opacity));
 }
 
 .\[\&_\[data-cmdk-group-heading\]\]\:px-2 [data-cmdk-group-heading] {

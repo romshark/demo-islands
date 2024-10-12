@@ -346,7 +346,7 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input id=\"input-company-name\" name=\"companyName\" placeholder=\"Company Name\" autocomplete=\"off\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<custom-input id=\"input-company-name\" name=\"companyName\" placeholder=\"Company Name\" autocomplete=\"off\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -359,7 +359,7 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></custom-input> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -408,7 +408,7 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input id=\"input-first-name\" name=\"firstName\" placeholder=\"First Name\" autocomplete=\"off\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<custom-input id=\"input-first-name\" name=\"firstName\" placeholder=\"First Name\" autocomplete=\"off\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -421,7 +421,7 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></custom-input> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -470,7 +470,7 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input id=\"input-last-name\" name=\"lastName\" placeholder=\"Last Name\" autocomplete=\"off\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<custom-input id=\"input-last-name\" name=\"lastName\" placeholder=\"Last Name\" autocomplete=\"off\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -483,7 +483,7 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></custom-input> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -532,7 +532,7 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input id=\"input-email\" name=\"email\" placeholder=\"Email\" autocomplete=\"off\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<custom-input id=\"input-email\" name=\"email\" placeholder=\"Email\" autocomplete=\"off\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -545,7 +545,7 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></custom-input> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -594,7 +594,7 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input id=\"input-phone\" type=\"tel\" name=\"phone\" placeholder=\"Phone\" autocomplete=\"off\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<custom-input id=\"input-phone\" type=\"tel\" name=\"phone\" placeholder=\"Phone\" autocomplete=\"off\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -607,7 +607,7 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></custom-input> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -660,15 +660,7 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<select id=\"input-address-country\" name=\"addressCountry\" placeholder=\"Country\" autocomplete=\"off\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = fragmentNamedOptions(addressCountryOptions, form.ValueAddressCountry).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</select> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<test-select></test-select>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -692,7 +684,7 @@ func componentOrderForm(
 				var templ_7745c5c3_Var32 string
 				templ_7745c5c3_Var32, templ_7745c5c3_Err = templ.JoinStringErrs(form.ErrorAddressCountry)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 219, Col: 67}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 224, Col: 67}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var32))
 				if templ_7745c5c3_Err != nil {
@@ -721,20 +713,20 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input id=\"input-address-postal-code\" name=\"addressPostalCode\" placeholder=\"Postal Code\" autocomplete=\"off\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<custom-input id=\"input-address-postal-code\" name=\"addressPostalCode\" placeholder=\"Postal Code\" autocomplete=\"off\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var33 string
 		templ_7745c5c3_Var33, templ_7745c5c3_Err = templ.JoinStringErrs(form.ValueAddressPostalCode)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 235, Col: 38}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 240, Col: 38}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var33))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></custom-input> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -758,7 +750,7 @@ func componentOrderForm(
 				var templ_7745c5c3_Var35 string
 				templ_7745c5c3_Var35, templ_7745c5c3_Err = templ.JoinStringErrs(form.ErrorAddressPostalCode)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 238, Col: 70}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 243, Col: 70}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var35))
 				if templ_7745c5c3_Err != nil {
@@ -787,20 +779,20 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input id=\"input-address-city\" name=\"addressCity\" placeholder=\"City\" autocomplete=\"off\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<custom-input id=\"input-address-city\" name=\"addressCity\" placeholder=\"City\" autocomplete=\"off\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var36 string
 		templ_7745c5c3_Var36, templ_7745c5c3_Err = templ.JoinStringErrs(form.ValueAddressCity)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 254, Col: 32}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 259, Col: 32}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var36))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></custom-input> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -824,7 +816,7 @@ func componentOrderForm(
 				var templ_7745c5c3_Var38 string
 				templ_7745c5c3_Var38, templ_7745c5c3_Err = templ.JoinStringErrs(form.ErrorAddressCity)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 257, Col: 64}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 262, Col: 64}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var38))
 				if templ_7745c5c3_Err != nil {
@@ -849,20 +841,20 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input id=\"input-due\" name=\"due\" type=\"date\" autocomplete=\"off\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<custom-input id=\"input-due\" name=\"due\" type=\"date\" autocomplete=\"off\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var39 string
 		templ_7745c5c3_Var39, templ_7745c5c3_Err = templ.JoinStringErrs(form.ValueDue)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 271, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 276, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var39))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></custom-input> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -886,7 +878,7 @@ func componentOrderForm(
 				var templ_7745c5c3_Var41 string
 				templ_7745c5c3_Var41, templ_7745c5c3_Err = templ.JoinStringErrs(form.ErrorDue)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 274, Col: 56}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 279, Col: 56}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var41))
 				if templ_7745c5c3_Err != nil {
@@ -947,7 +939,7 @@ func componentOrderForm(
 				var templ_7745c5c3_Var43 string
 				templ_7745c5c3_Var43, templ_7745c5c3_Err = templ.JoinStringErrs(form.ErrorShippingCompany)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 295, Col: 68}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 300, Col: 68}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var43))
 				if templ_7745c5c3_Err != nil {
@@ -986,20 +978,20 @@ func componentOrderForm(
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<textarea id=\"input-special-notes\" name=\"specialNotes\" placeholder=\"Special Notes\" autocomplete=\"off\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<custom-textarea id=\"input-special-notes\" name=\"specialNotes\" placeholder=\"Special Notes\" autocomplete=\"off\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var44 string
 		templ_7745c5c3_Var44, templ_7745c5c3_Err = templ.JoinStringErrs(form.ValueSpecialNotes)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 327, Col: 27}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 332, Col: 27}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var44))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</custom-textarea></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -1023,7 +1015,7 @@ func componentOrderForm(
 				var templ_7745c5c3_Var46 string
 				templ_7745c5c3_Var46, templ_7745c5c3_Err = templ.JoinStringErrs(form.ErrorSpecialNotes)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 332, Col: 64}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 337, Col: 64}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var46))
 				if templ_7745c5c3_Err != nil {
@@ -1070,16 +1062,29 @@ func fragmentNamedOptions(opts []NamedOption, selected string) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		for _, opt := range opts {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<option value=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<custom-select-item value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var48 string
 			templ_7745c5c3_Var48, templ_7745c5c3_Err = templ.JoinStringErrs(opt.Value)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 347, Col: 19}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 352, Col: 19}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var48))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" label=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var49 string
+			templ_7745c5c3_Var49, templ_7745c5c3_Err = templ.JoinStringErrs(opt.Name)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 353, Col: 18}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var49))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -1097,16 +1102,16 @@ func fragmentNamedOptions(opts []NamedOption, selected string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var49 string
-			templ_7745c5c3_Var49, templ_7745c5c3_Err = templ.JoinStringErrs(opt.Name)
+			var templ_7745c5c3_Var50 string
+			templ_7745c5c3_Var50, templ_7745c5c3_Err = templ.JoinStringErrs(opt.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 351, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 357, Col: 12}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var49))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var50))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</option>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</custom-select-item>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -1131,12 +1136,12 @@ func fragmentLabel(forID, text string, hasErr bool) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var50 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var50 == nil {
-			templ_7745c5c3_Var50 = templ.NopComponent
+		templ_7745c5c3_Var51 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var51 == nil {
+			templ_7745c5c3_Var51 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<custom-label")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -1155,12 +1160,12 @@ func fragmentLabel(forID, text string, hasErr bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var51 string
-		templ_7745c5c3_Var51, templ_7745c5c3_Err = templ.JoinStringErrs(forID)
+		var templ_7745c5c3_Var52 string
+		templ_7745c5c3_Var52, templ_7745c5c3_Err = templ.JoinStringErrs(forID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 362, Col: 12}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 368, Col: 12}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var51))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var52))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -1168,16 +1173,16 @@ func fragmentLabel(forID, text string, hasErr bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var52 string
-		templ_7745c5c3_Var52, templ_7745c5c3_Err = templ.JoinStringErrs(text)
+		var templ_7745c5c3_Var53 string
+		templ_7745c5c3_Var53, templ_7745c5c3_Err = templ.JoinStringErrs(text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 362, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server/template/template.templ`, Line: 368, Col: 19}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var52))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var53))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</custom-label>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -1201,16 +1206,16 @@ func animatedAppear() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var53 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var53 == nil {
-			templ_7745c5c3_Var53 = templ.NopComponent
+		templ_7745c5c3_Var54 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var54 == nil {
+			templ_7745c5c3_Var54 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"{b: false}\" x-init=\"$nextTick(() =&gt; {b = !b})\" x-show=\"b\" x-collapse x-collapse.duration.300ms>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ_7745c5c3_Var53.Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templ_7745c5c3_Var54.Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
