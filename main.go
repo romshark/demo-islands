@@ -5,6 +5,7 @@ import (
 	"flag"
 	"log/slog"
 	"net/http"
+	"os"
 
 	"github.com/romshark/htmx-demo-form/server"
 )
@@ -15,7 +16,13 @@ func main() {
 
 	logAccess, logError := slog.Default(), slog.Default()
 
-	s := server.New(logAccess, logError)
+	_, devMode := os.LookupEnv("DEV")
+	s := server.New(logAccess, logError, !devMode)
+
+	slog.Info("listening",
+		slog.String("host", *fHost),
+		slog.Bool("productionMode", !devMode))
+
 	if err := http.ListenAndServe(*fHost, s); err != nil {
 		if !errors.Is(err, http.ErrServerClosed) {
 			slog.Error("serving HTTP", slog.Any("error", err))

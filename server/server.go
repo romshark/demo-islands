@@ -30,7 +30,7 @@ type Server struct {
 
 var _ http.Handler = new(Server)
 
-func New(logAccess, logError *slog.Logger) *Server {
+func New(logAccess, logError *slog.Logger, productionMode bool) *Server {
 	s := &Server{
 		logAccess: logAccess,
 		logError:  logError,
@@ -40,7 +40,20 @@ func New(logAccess, logError *slog.Logger) *Server {
 		shippingCompanyOptions: newShippingCompanyOptions(),
 	}
 
-	s.m.Handle("GET /public/", http.FileServer(http.FS(embedDirPublic)))
+	var handlerPublicAssets http.Handler
+	if productionMode {
+		// In production mode the files should be served from embedded public dir
+		// to deploy a single static server binary without external dependencies.
+		handlerPublicAssets = http.FileServerFS(embedDirPublic)
+	} else {
+		// In development mode the files should be served dynamically
+		// from the os filesystem to allow for faster reloads on source changes.
+		handlerPublicAssets = http.StripPrefix(
+			"/public/", http.FileServer(http.Dir("./server/public/")),
+		)
+	}
+
+	s.m.Handle("GET /public/", handlerPublicAssets)
 	s.m.Handle("GET /{$}", http.HandlerFunc(s.handleGetIndex))
 	s.m.Handle("POST /form/{$}", http.HandlerFunc(s.handlePostForm))
 	s.m.Handle("POST /orders/{$}", http.HandlerFunc(s.handlePostOrders))

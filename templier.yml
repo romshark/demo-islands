@@ -33,7 +33,7 @@ custom-watchers:
     exclude: ["server/public/*"]
     fail-on-error: true
     debounce:
-    requires: # no action, "Bundle Changed" will do the reloading
+    requires: # No action, "Bundle Changed" will do the reloading.
   - name: Bundle Components
     cmd: bun run build:components
     include:
@@ -46,19 +46,18 @@ custom-watchers:
     exclude:
     fail-on-error: true
     debounce:
-    requires: # no action, "Bundle Changed" will do the reloading
+    requires: # No action, "Bundle Changed" will do the reloading.
   - name: Bundle TS
     cmd: bun run build:ts
-    include: ["server/*"]
+    include: ["server/*.ts"]
     exclude: ["server/components/*", "server/public/*"]
     fail-on-error: true
     debounce:
-    # reload browser after successful bundling
-    requires: # no action, "Bundle Changed" will do the reloading
-  - name: Rebuild Server on Bundle Changed
-    cmd: # Just rebuild
+    requires: # No action, "Bundle Changed" will do the reloading.
+  - name: Bundle Changed
+    cmd: # Just reload all tabs.
     include: ["server/public/*"]
     exclude:
     fail-on-error:
     debounce:
-    requires: rebuild
+    requires: reload
