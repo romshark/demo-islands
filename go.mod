@@ -4,7 +4,7 @@ go 1.23.2
 
 require (
 	github.com/a-h/templ v0.2.778
-	github.com/romshark/templier v0.7.2
+	github.com/romshark/templier v0.7.3
 	github.com/stretchr/testify v1.9.0
 )
 
