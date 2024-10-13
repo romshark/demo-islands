@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"net/http"
 	"sort"
+	"time"
 
 	"github.com/romshark/htmx-demo-form/domain"
 	"github.com/romshark/htmx-demo-form/server/template"
@@ -46,11 +47,11 @@ func New(logAccess, logError *slog.Logger, productionMode bool) *Server {
 		// to deploy a single static server binary without external dependencies.
 		handlerPublicAssets = http.FileServerFS(embedDirPublic)
 	} else {
-		// In development mode the files should be served dynamically
+		// In development mode the files should be served dynamically without caching
 		// from the os filesystem to allow for faster reloads on source changes.
-		handlerPublicAssets = http.StripPrefix(
+		handlerPublicAssets = NoCache(http.StripPrefix(
 			"/public/", http.FileServer(http.Dir("./server/public/")),
-		)
+		))
 	}
 
 	s.m.Handle("GET /public/", handlerPublicAssets)
@@ -208,4 +209,26 @@ func (s *Server) errInternal(w http.ResponseWriter, err error) {
 	http.Error(w,
 		http.StatusText(http.StatusInternalServerError),
 		http.StatusInternalServerError)
+}
+
+// NoCache disables caching for handler h.
+func NoCache(h http.Handler) http.Handler {
+	expires := time.Unix(0, 0).Format(time.RFC1123)
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Delete any ETag headers.
+		r.Header.Del("ETag")
+		r.Header.Del("If-Modified-Since")
+		r.Header.Del("If-Match")
+		r.Header.Del("If-None-Match")
+		r.Header.Del("If-Range")
+		r.Header.Del("If-Unmodified-Since")
+
+		// Set NoCache headers.
+		w.Header().Set("Expires", expires)
+		w.Header().Set("Cache-Control", "no-cache, private, max-age=0")
+		w.Header().Set("Pragma", "no-cache")
+		w.Header().Set("X-Accel-Expires", "0")
+
+		h.ServeHTTP(w, r)
+	})
 }
