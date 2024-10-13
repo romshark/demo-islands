@@ -8,7 +8,8 @@
     "watch:css": "tailwindcss -i ./server/input.css -o ./server/public/dist.css --watch",
     "build:components": "vite build",
     "build:ts": "eslint && bun build --minify --outfile ./server/public/dist.js ./server/input.ts",
-    "lint:ts": "eslint ."
+    "lint:ts": "eslint .",
+    "lint:svelte": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json"
   },
   "keywords": [],
   "author": "Roman Scharkov <roman.scharkov@gmail.com>",

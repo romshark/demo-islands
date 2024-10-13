@@ -16,13 +16,14 @@ export default defineConfig({
     },
   },
   build: {
-    sourcemap: false, // Disable sourcemaps for simplicity.
+    sourcemap: true, // Disable sourcemaps for simplicity.
     // minify: "terser", // Minify the output.
+    minify: false,
     lib: {
       entry: path.resolve(__dirname, "./server/components/index.ts"),
       name: "MyComponents",
       formats: ["es"],
-      fileName: (format) => `components.min.js`,
+      fileName: "components.min",
     },
     emptyOutDir: false,
     rollupOptions: {
