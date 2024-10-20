@@ -60,19 +60,19 @@ jobs:
           echo "Detected uncommitted changes after running bun run build:css" \
           "Please regenerate all CSS and commit changes." && exit 1
 
-      # Make sure Svelte web components were built before commit
-      - name: Build Svelte WebComponents
+      # Make sure Lit web components were built before commit
+      - name: Build Lit WebComponents
         run: bun run build:components
       - name: Check file changes after building web components
         run: |
           git diff --exit-code
-        id: diff_files_after_svelte_build
+        id: diff_files_after_lit_build
         continue-on-error: true
       - name: Fail if changes are detected
-        if: steps.diff_files_after_svelte_build.outcome == 'failure'
+        if: steps.diff_files_after_lit_build.outcome == 'failure'
         run: |
           echo "Detected uncommitted changes after running bun run build:components" \
-          "Please regenerate all Svelte components and commit changes." && exit 1
+          "Please regenerate all Lit components and commit changes." && exit 1
 
       # Make sure TypeScript was built before commit
       - name: Build TypeScript

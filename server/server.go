@@ -125,9 +125,9 @@ func newAddressCountryOptions() []template.NamedOption {
 func newShippingCompanyOptions() []template.NamedOption {
 	v := domain.ShippingCompanyValues()
 	o := make([]template.NamedOption, len(v))
-	for i, country := range v {
+	for i, c := range v {
 		o[i] = template.NamedOption{
-			Value: country.String(), Name: country.String(),
+			Value: c.ID, Name: c.Name.String(),
 		}
 	}
 	// Sort options alphabetically by name.

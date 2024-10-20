@@ -1,5 +1,4 @@
 {
-	"extends": "@tsconfig/svelte/tsconfig.json",
 	"compilerOptions": {
 		"strict": true,
 		"module": "ESNext",
@@ -15,9 +14,7 @@
 		"baseUrl": ".",
 	},
 	"include": [
-		"vite.config.js",
 		"./server/**/*.ts",
-		"./server/components/**/*.svelte"
 	],
 	"exclude": [
 		"node_modules",

@@ -1,3 +1,5 @@
+// Package domain contains all business entities and logic
+// immitating a real backend.
 package domain
 
 import (
@@ -17,7 +19,7 @@ type ShippingDetails struct {
 	Articles           []ArticleNumber
 	Express            bool
 	Due                time.Time
-	ShippingCompany    ShippingCompany
+	ShippingCompany    ShippingCompanyName
 	SpecialNotes       SpecialNotes
 }
 
@@ -161,14 +163,28 @@ func NewPhoneNumber(p string) (PhoneNumber, error) {
 	return PhoneNumber{p}, nil
 }
 
-type ShippingCompany struct{ string }
+type ShippingCompany struct {
+	ID   string
+	Name ShippingCompanyName
+}
 
-func (s ShippingCompany) String() string { return s.string }
+type ShippingCompanyName struct{ string }
+
+func (s ShippingCompanyName) String() string { return s.string }
 
 var knownShippingCompanies = []ShippingCompany{
-	{"Swift & Sons"},
-	{"FastEx Co."},
-	{"LogiSpeed Inc."},
+	{
+		ID:   "swift_and_sons",
+		Name: ShippingCompanyName{"Swift & Sons"},
+	},
+	{
+		ID:   "fastex_co",
+		Name: ShippingCompanyName{"FastEx Co."},
+	},
+	{
+		ID:   "logispeed_inc",
+		Name: ShippingCompanyName{"LogiSpeed Inc."},
+	},
 }
 
 func ShippingCompanyValues() []ShippingCompany {
@@ -179,11 +195,25 @@ func ShippingCompanyValues() []ShippingCompany {
 
 var ErrShippingCompanyUnknown = errors.New("shipping company unknown")
 
-func NewShippingCompany(s string) (ShippingCompany, error) {
-	if s == "" || !slices.Contains(knownShippingCompanies, ShippingCompany{s}) {
-		return ShippingCompany{}, ErrShippingCompanyUnknown
+func GetShippingCompanyByID(id string) (ShippingCompany, error) {
+	for _, c := range knownShippingCompanies {
+		if c.ID == id {
+			return c, nil
+		}
 	}
-	return ShippingCompany{s}, nil
+	return ShippingCompany{}, ErrShippingCompanyUnknown
+}
+
+func NewShippingCompanyName(s string) (ShippingCompanyName, error) {
+	if s == "" || !slices.ContainsFunc(
+		knownShippingCompanies,
+		func(sc ShippingCompany) bool {
+			return sc.Name == ShippingCompanyName{s}
+		},
+	) {
+		return ShippingCompanyName{}, ErrShippingCompanyUnknown
+	}
+	return ShippingCompanyName{s}, nil
 }
 
 type SpecialNotes struct{ string }

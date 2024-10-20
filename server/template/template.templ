@@ -14,8 +14,11 @@ templ htmlMain(title string) {
 			<script src="https://unpkg.com/idiomorph@0.3.0/dist/idiomorph-ext.min.js"></script>
 			<script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
 			<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.17.1/cdn/themes/light.css" />
+			<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.17.1/cdn/shoelace-autoloader.js"></script>
+
 			
-			<script src="/public/components.min.js" type="module"></script>
+			// <script src="/public/components.js" type="module"></script>
 			<link rel="stylesheet" href="/public/dist.css"/>
 			<script src="/public/dist.js"></script>
 			<link rel="icon" href="/public/favicon.ico"/>
@@ -121,17 +124,12 @@ templ componentOrderForm(
 		<h2 class="col-span-full">Contact</h2>
 		// Company Name
 		<div class="flex flex-col gap-1 col-span-full">
-			@fragmentLabel(
-				"input-company-name",
-				"Company Name",
-				form.ErrorCompanyName != "",
-			)
-			<input
+			<sl-input
 				id="input-company-name"
 				name="companyName"
-				placeholder="Company Name"
-				autocomplete="off"
-				value={form.ValueCompanyName}>
+				label="Company Name"
+				value={form.ValueCompanyName}
+			></sl-input>
 			if form.ErrorCompanyName != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorCompanyName }</p>
@@ -140,13 +138,11 @@ templ componentOrderForm(
 		</div>
 		// First Name
 		<div class="flex flex-col gap-1">
-			@fragmentLabel("input-first-name", "First Name", form.ErrorFirstName != "")
-			<input
+			<sl-input
 				id="input-first-name"
 				name="firstName"
-				placeholder="First Name"
-				autocomplete="off"
-				value={form.ValueFirstName}>
+				label="First Name"
+				value={form.ValueFirstName}></sl-input>
 			if form.ErrorFirstName != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorFirstName }</p>
@@ -155,13 +151,12 @@ templ componentOrderForm(
 		</div>
 		// Last Name
 		<div class="flex flex-col gap-1">
-			@fragmentLabel("input-last-name", "Last Name", form.ErrorLastName != "")
-			<input
+			<sl-input
 				id="input-last-name"
 				name="lastName"
-				placeholder="Last Name"
-				autocomplete="off"
-				value={form.ValueLastName}>
+				label="Last Name"
+				value={form.ValueLastName}
+			></sl-input>
 			if form.ErrorLastName != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorLastName }</p>
@@ -170,13 +165,13 @@ templ componentOrderForm(
 		</div>
 		// Email
 		<div class="flex flex-col gap-1">
-			@fragmentLabel("input-email", "Email", form.ErrorEmail != "")
-			<input
+			<sl-input
 				id="input-email"
 				name="email"
-				placeholder="Email"
-				autocomplete="off"
-				value={form.ValueEmail}>
+				type="email"
+				label="Email"
+				value={form.ValueEmail}
+			></sl-input>
 			if form.ErrorEmail != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorEmail }</p>
@@ -185,14 +180,13 @@ templ componentOrderForm(
 		</div>
 		// Phone Number
 		<div class="flex flex-col gap-1">
-			@fragmentLabel("input-phone", "Phone Number", form.ErrorPhone != "")
-			<input
+			<sl-input
 				id="input-phone"
-				type="tel"
 				name="phone"
-				placeholder="Phone"
-				autocomplete="off"
-				value={form.ValuePhone}>
+				type="tel"
+				label="Phone Number"
+				value={form.ValuePhone}
+			></sl-input>
 			if form.ErrorPhone != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600 animate-fade-in">⚠️ { form.ErrorPhone }</p>
@@ -202,18 +196,14 @@ templ componentOrderForm(
 		// Address Country
 		<h2 class="col-span-full">Address</h2>
 		<div class="flex flex-col gap-1">
-			@fragmentLabel(
-				"input-address-country",
-				"Country",
-				form.ErrorAddressCountry != "",
-			)
-			<select
+			<sl-input
 				id="input-address-country"
 				name="addressCountry"
-				placeholder="Country"
-				autocomplete="off">
-				@fragmentNamedOptions(addressCountryOptions, form.ValueAddressCountry)
-			</select>
+				label="Country"
+				value={form.ValueAddressCountry}
+			>
+				@fragmentNamedOptions(addressCountryOptions)
+			</sl-input>
 			if form.ErrorAddressCountry != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCountry }</p>
@@ -222,17 +212,11 @@ templ componentOrderForm(
 		</div>
 		// Address Postal Code
 		<div class="flex flex-col gap-1">
-			@fragmentLabel(
-				"input-address-postal-code",
-				"Postal Code",
-				form.ErrorAddressPostalCode != "",
-			)
-			<input
+			<sl-input
 				id="input-address-postal-code"
 				name="addressPostalCode"
-				placeholder="Postal Code"
-				autocomplete="off"
-				value={form.ValueAddressPostalCode}>
+				label="Postal Code"
+				value={form.ValueAddressPostalCode}></sl-input>
 			if form.ErrorAddressPostalCode != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressPostalCode }</p>
@@ -241,17 +225,11 @@ templ componentOrderForm(
 		</div>
 		// Address City
 		<div class="flex flex-col gap-1 col-span-full">
-			@fragmentLabel(
-				"input-address-city",
-				"City",
-				form.ErrorAddressCity != "",
-			)
-			<input
+			<sl-input
 				id="input-address-city"
 				name="addressCity"
-				placeholder="City"
-				autocomplete="off"
-				value={form.ValueAddressCity}>
+				label="City"
+				value={form.ValueAddressCity}></sl-input>
 			if form.ErrorAddressCity != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCity }</p>
@@ -262,13 +240,12 @@ templ componentOrderForm(
 
 		// Due Date
 		<div class="flex flex-col gap-1">
-			@fragmentLabel("input-due", "Due Date", form.ErrorDue != "")
-			<input
+			<sl-input
 				id="input-due"
 				name="due"
 				type="date"
-				autocomplete="off"
-				value={form.ValueDue}>
+				label="Due Date"
+				value={form.ValueDue}></sl-input>
 			if form.ErrorDue != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorDue }</p>
@@ -278,18 +255,13 @@ templ componentOrderForm(
 
 		// Shipping Company
 		<div class="flex flex-col gap-1">
-			@fragmentLabel(
-				"input-shipping-company",
-				"Shipping Company",
-				form.ErrorShippingCompany != "",
-			)
-			<select
+			<sl-select
 				id="input-shipping-company"
 				name="shippingCompany"
-				placeholder="Shipping Company"
-				autocomplete="off">
-				@fragmentNamedOptions(shippingCompanyOptions, form.ValueShippingCompany)
-			</select>
+				label="Shipping Company"
+				value={form.ValueShippingCompanyID}>
+				@fragmentNamedOptions(shippingCompanyOptions)
+			</sl-select>
 			if form.ErrorShippingCompany != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorShippingCompany }</p>
@@ -299,14 +271,13 @@ templ componentOrderForm(
 
 		// Express Shipping
 		<div class="flex items-center gap-1 col-span-full">
-			<input
+			<sl-checkbox
 				id="input-express"
 				name="express"
-				type="checkbox"
-				placeholder="Express"
+				label="Express"
 				if form.ValueExpress != "" {
 					checked
-				}>
+				}></sl-checkbox>
 			<label for="input-express">Express</label>
 		</div>
 		
@@ -314,18 +285,13 @@ templ componentOrderForm(
 
 		// Special Notes
 		<div class="flex flex-col gap-1 col-span-full">
-			@fragmentLabel(
-				"input-special-notes",
-				"Special Notes",
-				form.ErrorSpecialNotes != "",
-			)
-			<textarea
+			<sl-textarea
 				id="input-special-notes"
 				name="specialNotes"
-				placeholder="Special Notes"
-				autocomplete="off">
+				label="Special Notes"
+				resize="auto">
 				{form.ValueSpecialNotes}
-			</textarea>
+			</sl-textarea>
 		</div>
 		if form.ErrorSpecialNotes != "" {
 			@animatedAppear() {
@@ -333,33 +299,18 @@ templ componentOrderForm(
 			}
 		}
 
-		<button
+		<sl-button
 			type="submit"
 			hx-post="/orders/"
 			hx-swap="innerHTML"
-			hx-target="#viewport">Add</button>
+			hx-target="#viewport">Add</sl-button>
 	</form>
 }
 
-templ fragmentNamedOptions(opts []NamedOption, selected string) {
+templ fragmentNamedOptions(opts []NamedOption) {
 	for _, opt := range opts {
-		<option
-			value={opt.Value}
-			if selected == opt.Value {
-				selected
-			}
-		>{opt.Name}</option>
+		<sl-option value={opt.Value}>{opt.Name}</sl-option>
 	}
-}
-
-templ fragmentLabel(forID, text string, hasErr bool) {
-	<label
-		if hasErr {
-			class="text-xs text-red-600"
-		} else {
-			class="text-xs text-slate-500"
-		}
-		for={forID}>{text}</label>
 }
 
 templ animatedAppear() {
