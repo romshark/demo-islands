@@ -18,7 +18,7 @@ templ htmlMain(title string) {
 			<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.17.1/cdn/shoelace-autoloader.js"></script>
 
 			
-			// <script src="/public/components.js" type="module"></script>
+			<script src="/public/components.js" type="module"></script>
 			<link rel="stylesheet" href="/public/dist.css"/>
 			<script src="/public/dist.js"></script>
 			<link rel="icon" href="/public/favicon.ico"/>
@@ -120,7 +120,7 @@ templ componentOrderForm(
 		hx-post="/form/"
 		hx-target="this"
 		hx-swap="morph:outerHTML"
-		hx-trigger="input delay:400ms">
+		hx-trigger="sl-input delay:400ms">
 		<h2 class="col-span-full">Contact</h2>
 		// Company Name
 		<div class="flex flex-col gap-1 col-span-full">
@@ -129,7 +129,9 @@ templ componentOrderForm(
 				name="companyName"
 				label="Company Name"
 				value={form.ValueCompanyName}
-			></sl-input>
+			>
+				<sl-icon slot="prefix" name="buildings"></sl-icon>
+			</sl-input>
 			if form.ErrorCompanyName != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorCompanyName }</p>
@@ -142,7 +144,9 @@ templ componentOrderForm(
 				id="input-first-name"
 				name="firstName"
 				label="First Name"
-				value={form.ValueFirstName}></sl-input>
+				value={form.ValueFirstName}>
+				<sl-icon slot="prefix" name="person"></sl-icon>
+			</sl-input>
 			if form.ErrorFirstName != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorFirstName }</p>
@@ -156,7 +160,9 @@ templ componentOrderForm(
 				name="lastName"
 				label="Last Name"
 				value={form.ValueLastName}
-			></sl-input>
+			>
+				<sl-icon slot="prefix" name="person"></sl-icon>
+			</sl-input>
 			if form.ErrorLastName != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorLastName }</p>
@@ -171,7 +177,9 @@ templ componentOrderForm(
 				type="email"
 				label="Email"
 				value={form.ValueEmail}
-			></sl-input>
+			>
+				<sl-icon slot="prefix" name="envelope"></sl-icon>
+			</sl-input>
 			if form.ErrorEmail != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorEmail }</p>
@@ -186,7 +194,9 @@ templ componentOrderForm(
 				type="tel"
 				label="Phone Number"
 				value={form.ValuePhone}
-			></sl-input>
+			>
+				<sl-icon slot="prefix" name="telephone"></sl-icon>
+			</sl-input>
 			if form.ErrorPhone != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600 animate-fade-in">⚠️ { form.ErrorPhone }</p>
@@ -196,14 +206,22 @@ templ componentOrderForm(
 		// Address Country
 		<h2 class="col-span-full">Address</h2>
 		<div class="flex flex-col gap-1">
-			<sl-input
+			<sl-select
 				id="input-address-country"
 				name="addressCountry"
 				label="Country"
 				value={form.ValueAddressCountry}
 			>
-				@fragmentNamedOptions(addressCountryOptions)
-			</sl-input>
+				if form.ValueAddressCountry != "" {
+					<custom-countryflag
+						slot="prefix"
+						width="22"
+						code={form.ValueAddressCountry}></custom-countryflag>
+				} else {
+					<sl-icon slot="prefix" name="map"></sl-icon>
+				}
+				@fragmentCountryOptions(addressCountryOptions)
+			</sl-select>
 			if form.ErrorAddressCountry != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCountry }</p>
@@ -216,7 +234,9 @@ templ componentOrderForm(
 				id="input-address-postal-code"
 				name="addressPostalCode"
 				label="Postal Code"
-				value={form.ValueAddressPostalCode}></sl-input>
+				value={form.ValueAddressPostalCode}>
+				<sl-icon slot="prefix" name="mailbox-flag"></sl-icon>
+			</sl-input>
 			if form.ErrorAddressPostalCode != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressPostalCode }</p>
@@ -229,7 +249,9 @@ templ componentOrderForm(
 				id="input-address-city"
 				name="addressCity"
 				label="City"
-				value={form.ValueAddressCity}></sl-input>
+				value={form.ValueAddressCity}>
+				<sl-icon slot="prefix" name="geo-alt"></sl-icon>
+			</sl-input>
 			if form.ErrorAddressCity != "" {
 				@animatedAppear() {
 					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCity }</p>
@@ -277,8 +299,8 @@ templ componentOrderForm(
 				label="Express"
 				if form.ValueExpress != "" {
 					checked
-				}></sl-checkbox>
-			<label for="input-express">Express</label>
+				}>
+			</sl-checkbox>
 		</div>
 		
 		<h2 class="col-span-full">Additional</h2>
@@ -305,6 +327,18 @@ templ componentOrderForm(
 			hx-swap="innerHTML"
 			hx-target="#viewport">Add</sl-button>
 	</form>
+}
+
+templ fragmentCountryOptions(opts []NamedOption) {
+	for _, opt := range opts {
+		<sl-option value={opt.Value}>
+			<custom-countryflag
+				slot="prefix"
+				width="22"
+				code={opt.Value}></custom-countryflag>
+			{opt.Name}
+		</sl-option>
+	}
 }
 
 templ fragmentNamedOptions(opts []NamedOption) {

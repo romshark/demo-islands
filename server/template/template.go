@@ -43,7 +43,9 @@ func RenderComponentForm(
 	).Render(ctx, w)
 }
 
-type NamedOption struct{ Name, Value string }
+type (
+	NamedOption struct{ Name, Value string }
+)
 
 type Form struct {
 	ValueShippingCompanyID string

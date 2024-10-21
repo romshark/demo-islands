@@ -499,6 +499,9 @@ video {
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
+.static {
+  position: static;
+}
 .col-span-full {
   grid-column: 1 / -1;
 }

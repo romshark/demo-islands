@@ -33,17 +33,17 @@ custom-watchers:
     fail-on-error: true
     debounce:
     requires: # No action, "Bundle Changed" will do the reloading.
-  # - name: Bundle Components
-  #   cmd: bun run build:components
-  #   include:
-  #     - "server/components/*"
-  #     - "tsconfig.js"
-  #     - "postcss.config.js"
-  #     - "tailwind.config.js"
-  #   exclude:
-  #   fail-on-error: true
-  #   debounce:
-  # requires: # No action, "Bundle Changed" will do the reloading.
+  - name: Bundle Components
+    cmd: bun run build:components
+    include:
+      - "server/components/*"
+      - "tsconfig.js"
+      - "postcss.config.js"
+      - "tailwind.config.js"
+    exclude:
+    fail-on-error: true
+    debounce:
+    requires: # No action, "Bundle Changed" will do the reloading.
   - name: Bundle TS
     cmd: bun run build:ts
     include: ["server/*.ts"]
