@@ -18,7 +18,7 @@ jobs:
 
       # Test
       - name: Test and calculate coverage
-        run: go test -race -v -covermode=count -coverprofile=coverage.out ./...
+        run: go test -race -v -covermode=atomic -coverprofile=coverage.out ./...
       # - name: Convert coverage.out to coverage.lcov
       #   uses: jandelgado/gcov2lcov-action@v1.0.9
       # - name: Coveralls
