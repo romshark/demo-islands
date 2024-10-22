@@ -16,7 +16,6 @@ app:
     - "*~" # Any temporary backup files IDEs might use.
     - node_modules/*
     - eslint.config.mjs
-    - vite.config.js.timestamp-*.mjs # Temporary vite files.
   dir-cmd: "./"
   dir-work:
   host: "http://127.0.0.1:8080"
@@ -38,9 +37,7 @@ custom-watchers:
     cmd: bun run build:components
     include:
       - "server/components/*"
-      - "vite.config.js"
       - "tsconfig.js"
-      - "svelte.config.js"
       - "postcss.config.js"
       - "tailwind.config.js"
     exclude:

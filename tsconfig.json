@@ -1,5 +1,4 @@
 {
-	"extends": "@tsconfig/svelte/tsconfig.json",
 	"compilerOptions": {
 		"strict": true,
 		"module": "ESNext",
@@ -7,6 +6,8 @@
 		"lib": ["ES2022", "ES2023", "DOM", "Decorators"],
 		"allowJs": false,
 		"moduleResolution": "Bundler",
+		"experimentalDecorators": true,
+    	"emitDecoratorMetadata": true,
 		"allowUnreachableCode": false,
 		"allowSyntheticDefaultImports": true,
 		"noImplicitAny": true,
@@ -15,9 +16,7 @@
 		"baseUrl": ".",
 	},
 	"include": [
-		"vite.config.js",
 		"./server/**/*.ts",
-		"./server/components/**/*.svelte"
 	],
 	"exclude": [
 		"node_modules",

@@ -2,6 +2,7 @@ package server
 
 import (
 	"embed"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"sort"
@@ -125,9 +126,9 @@ func newAddressCountryOptions() []template.NamedOption {
 func newShippingCompanyOptions() []template.NamedOption {
 	v := domain.ShippingCompanyValues()
 	o := make([]template.NamedOption, len(v))
-	for i, country := range v {
+	for i, c := range v {
 		o[i] = template.NamedOption{
-			Value: country.String(), Name: country.String(),
+			Value: c.ID, Name: c.Name.String(),
 		}
 	}
 	// Sort options alphabetically by name.
@@ -160,7 +161,9 @@ func (s *Server) handleGetIndex(w http.ResponseWriter, r *http.Request) {
 func (s *Server) handlePostForm(w http.ResponseWriter, r *http.Request) {
 	var f template.Form
 	f.UnmarshalForm(r)
+	fmt.Println("SHIP COMP", f.ErrorShippingCompany, f.ParsedShippingCompany, f.ValueShippingCompanyID)
 	f.ResetErrorsForZero()
+
 	if err := template.RenderComponentForm(
 		r.Context(), w,
 		f, s.addressCountryOptions, s.shippingCompanyOptions,

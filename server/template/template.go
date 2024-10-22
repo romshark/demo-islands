@@ -43,10 +43,12 @@ func RenderComponentForm(
 	).Render(ctx, w)
 }
 
-type NamedOption struct{ Name, Value string }
+type (
+	NamedOption struct{ Name, Value string }
+)
 
 type Form struct {
-	ValueShippingCompany   string
+	ValueShippingCompanyID string
 	ValueCompanyName       string
 	ValueFirstName         string
 	ValueLastName          string
@@ -59,7 +61,7 @@ type Form struct {
 	ValueAddressCity       string
 	ValueAddressPostalCode string
 
-	ParsedShippingCompany   domain.ShippingCompany
+	ParsedShippingCompany   domain.ShippingCompanyName
 	ParsedCompanyName       domain.CompanyName
 	ParsedFirstName         domain.Name
 	ParsedLastName          domain.Name
@@ -88,7 +90,7 @@ type Form struct {
 func (f *Form) UnmarshalForm(source interface{ FormValue(string) string }) {
 	var err error
 
-	f.ValueShippingCompany = source.FormValue("shippingCompany")
+	f.ValueShippingCompanyID = source.FormValue("shippingCompany")
 	f.ValueCompanyName = source.FormValue("companyName")
 	f.ValueFirstName = source.FormValue("firstName")
 	f.ValueLastName = source.FormValue("lastName")
@@ -127,9 +129,11 @@ func (f *Form) UnmarshalForm(source interface{ FormValue(string) string }) {
 		f.ErrorDue = "due date is in the past"
 	}
 
-	if f.ParsedShippingCompany, err = domain.NewShippingCompany(
-		f.ValueShippingCompany,
-	); err != nil {
+	if shippingCompany, err := domain.GetShippingCompanyByID(
+		f.ValueShippingCompanyID,
+	); err == nil {
+		f.ParsedShippingCompany = shippingCompany.Name
+	} else {
 		f.ErrorShippingCompany = err.Error()
 	}
 
@@ -181,7 +185,7 @@ func (f *Form) ResetErrorsForZero() {
 	if f.ValueDue == "" {
 		f.ErrorDue = ""
 	}
-	if f.ValueShippingCompany == "" {
+	if f.ValueShippingCompanyID == "" {
 		f.ErrorShippingCompany = ""
 	}
 	if f.ValueSpecialNotes == "" {

@@ -1,14 +1,14 @@
 {
   "name": "htmx-demo-form",
   "version": "0.1.0",
-  "description": "An islands of interactivity demo using Go, Templ, HTMX, Svelte and Tailwind",
+  "description": "An islands of interactivity demo using Go, Templ, HTMX, Lit and Tailwind",
   "type": "module",
   "scripts": {
     "build:css": "postcss ./server/input.css -o ./server/public/dist.css",
-    "watch:css": "tailwindcss -i ./server/input.css -o ./server/public/dist.css --watch",
-    "build:components": "vite build",
+    "build:components": "bun build --minify --outfile ./server/public/components.js ./server/components/index.ts",
     "build:ts": "eslint && bun build --minify --outfile ./server/public/dist.js ./server/input.ts",
-    "lint:ts": "eslint ."
+    "lint:ts": "eslint .",
+    "download:icon": "curl --fail -o ./server/public/assets/icons/$ICON.svg https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/$ICON.svg && echo \"Added to ./server/public/assets/icons/$ICON.svg\""
   },
   "keywords": [],
   "author": "Roman Scharkov <roman.scharkov@gmail.com>",
@@ -18,8 +18,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.12.0",
-    "@sveltejs/vite-plugin-svelte": "^3.1.2",
-    "@tsconfig/svelte": "^5.0.4",
+    "@shoelace-style/shoelace": "^2.17.1",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^22.7.5",
     "@types/tailwindcss": "^3.1.0",
@@ -27,23 +26,19 @@
     "@typescript-eslint/parser": "^8.9.0",
     "autoprefixer": "^10.4.20",
     "bits-ui": "^0.21.16",
-    "bun": "^1.1.30",
+    "bun": "^1.1.31",
     "clsx": "^2.1.1",
     "cmdk-sv": "^0.0.18",
     "eslint": "^9.12.0",
     "globals": "^15.11.0",
     "htmx.org": "^1.9.12",
-    "lucide-svelte": "^0.453.0",
+    "lit": "^3.2.1",
     "postcss": "^8.4.47",
     "postcss-cli": "^11.0.0",
-    "svelte": "^4.2.19",
-    "svelte-check": "^4.0.5",
-    "svelte-preprocess": "^6.0.3",
     "tailwind-merge": "^2.5.4",
     "tailwind-variants": "^0.2.1",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.9.0",
-    "vite": "^5.4.9"
+    "typescript-eslint": "^8.9.0"
   }
 }
