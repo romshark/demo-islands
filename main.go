@@ -12,15 +12,20 @@ import (
 
 func main() {
 	fHost := flag.String("host", ":8080", "host address")
+	fGZIP := flag.Bool("gzip", false, "enable gzip compression")
 	flag.Parse()
 
 	logAccess, logError := slog.Default(), slog.Default()
 
 	_, devMode := os.LookupEnv("DEV")
-	s := server.New(logAccess, logError, !devMode)
+	s := server.New(logAccess, logError, server.Config{
+		ProductionMode:        !devMode,
+		EnableGZIPCompression: *fGZIP,
+	})
 
 	slog.Info("listening",
 		slog.String("host", *fHost),
+		slog.Bool("gzip", *fGZIP),
 		slog.Bool("productionMode", !devMode))
 
 	if err := http.ListenAndServe(*fHost, s); err != nil {
