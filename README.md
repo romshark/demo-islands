@@ -2,7 +2,7 @@
 
 Near-perfect [Lighthouse](https://developer.chrome.com/docs/lighthouse) score.
 
-# Demo: Islands
+# Demo: Islands 🏝️
 
 This tech-demo demonstrates a web frontend application written in Go and TypeScript
 following the
@@ -12,15 +12,15 @@ a cutting-edge tech stack:
 
 - **Templating**
   - [Templ](https://github.com/a-h/templ) for fast and convenient
-    server-side templating in Go.
+    server-side templating in Go. 🖨️
 - **Dev Tools**
   - [Templiér](https://github.com/romshark/templier) for hot-reloads in dev mode. ♻️
-  - [Bun](https://bun.sh/) for TypeScript bundling and JS package management.
-  - [Lit](https://lit.dev/) for building maintainable and fast web components.
+  - [Bun](https://bun.sh/) for TypeScript bundling and JS package management. 🍞
+  - [Lit](https://lit.dev/) for building maintainable and fast web components. 🔥
 - **Frontend**
-  - [TailwindCSS](https://tailwindcss.com/) for easy styling.
-  - [Shoelace](https://shoelace.style/) for reusable and extensible web components.
-  - [ESLint](https://eslint.org/) for JavaScript/TypeScript linting.
+  - [TailwindCSS](https://tailwindcss.com/) for easy styling. 💅
+  - [Shoelace](https://shoelace.style/) for reusable and extensible web components. 👟
+  - [ESLint](https://eslint.org/) for JavaScript/TypeScript linting. 🔎
 - **CI/CD**
   - [GitHub Actions](https://github.com/features/actions) for CI/CD.
 
