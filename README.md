@@ -1,3 +1,7 @@
+![image](https://github.com/user-attachments/assets/7c9f95b8-e70e-48cb-b453-da8762b6894d)
+
+Near-perfect [Lighthouse](https://developer.chrome.com/docs/lighthouse) score.
+
 # Demo: Islands
 
 This tech-demo demonstrates a web frontend application written in Go and TypeScript
