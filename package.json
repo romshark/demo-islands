@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "build:css": "postcss ./server/input.css -o ./server/public/dist.css",
-    "watch:css": "tailwindcss -i ./server/input.css -o ./server/public/dist.css --watch",
     "build:components": "bun build --minify --outfile ./server/public/components.js ./server/components/index.ts",
     "build:ts": "eslint && bun build --minify --outfile ./server/public/dist.js ./server/input.ts",
-    "lint:ts": "eslint ."
+    "lint:ts": "eslint .",
+    "download:icon": "curl --fail -o ./server/public/assets/icons/$ICON.svg https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/$ICON.svg && echo \"Added to ./server/public/assets/icons/$ICON.svg\""
   },
   "keywords": [],
   "author": "Roman Scharkov <roman.scharkov@gmail.com>",

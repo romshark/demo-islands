@@ -13,10 +13,7 @@ templ htmlMain(title string) {
 			<script src="https://unpkg.com/htmx.org@2.0.3"></script>
 			<script src="https://unpkg.com/idiomorph@0.3.0/dist/idiomorph-ext.min.js"></script>
 			<script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
-			<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.17.1/cdn/themes/light.css" />
-			<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.17.1/cdn/shoelace-autoloader.js"></script>
-
 			
 			<script src="/public/components.js" type="module"></script>
 			<link rel="stylesheet" href="/public/dist.css"/>
@@ -213,10 +210,10 @@ templ componentOrderForm(
 				value={form.ValueAddressCountry}
 			>
 				if form.ValueAddressCountry != "" {
-					<custom-countryflag
+					<slx-countryflag
 						slot="prefix"
 						width="22"
-						code={form.ValueAddressCountry}></custom-countryflag>
+						code={form.ValueAddressCountry}></slx-countryflag>
 				} else {
 					<sl-icon slot="prefix" name="map"></sl-icon>
 				}
@@ -282,6 +279,7 @@ templ componentOrderForm(
 				name="shippingCompany"
 				label="Shipping Company"
 				value={form.ValueShippingCompanyID}>
+				<sl-icon slot="prefix" name="truck"></sl-icon>
 				@fragmentNamedOptions(shippingCompanyOptions)
 			</sl-select>
 			if form.ErrorShippingCompany != "" {
@@ -332,10 +330,10 @@ templ componentOrderForm(
 templ fragmentCountryOptions(opts []NamedOption) {
 	for _, opt := range opts {
 		<sl-option value={opt.Value}>
-			<custom-countryflag
+			<slx-countryflag
 				slot="prefix"
 				width="22"
-				code={opt.Value}></custom-countryflag>
+				code={opt.Value}></slx-countryflag>
 			{opt.Name}
 		</sl-option>
 	}
