@@ -28,7 +28,7 @@ a cutting-edge tech stack:
 
 - [Go 1.23](https://go.dev/doc/install)
 - [Bun](https://bun.sh/)
-- [mkcert ](https://github.com/FiloSottile/mkcert) (only when HTTPS is required)
+- [mkcert](https://github.com/FiloSottile/mkcert) (only when HTTPS is required)
 
 ## How To
 
