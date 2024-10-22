@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { property } from "lit/decorators.js";
 
+// Component CountryFlag displays a country flag SVG from https://flagpedia.net/.
 export default class CountryFlag extends LitElement {
   static styles = css`
     :host {
@@ -14,25 +15,25 @@ export default class CountryFlag extends LitElement {
     }
   `;
 
-  // Declare reactive properties
-  @property()
-  code: string = "CH"; // default to Switzerland
+  @property({ type: String })
+  code: string = "CH"; // Default to Switzerland 🇨🇭.
 
   @property({ type: Number })
-  width: number = 32;
+  width: number = 32; // Default to 32 pixels.
 
-  @property({ type: Number })
-  height?: number; // optional height, defaults to auto
+  @property({ type: Number, reflect: true })
+  height?: number; // Default to auto.
 
-  // Render the UI as a function of component state
+  @property({ type: String })
+  baseURL: string = "https://flagcdn.com"; // Default to CDN.
+
   render() {
-    const flagUrl = `https://flagcdn.com/${this.code.toLowerCase()}.svg`;
-
+    const flagUrl = `${this.baseURL}/${this.code.toLowerCase()}.svg`;
     return html`
       <div>
         <img
           src="${flagUrl}"
-          alt="Flag of ${this.code}"
+          alt="Flag for country code ${this.code}"
           width="${this.width}"
           height="${this.height || "auto"}"
         />
