@@ -5,7 +5,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/romshark/htmx-demo-form/domain"
+	"github.com/romshark/demo-islands/domain"
 )
 
 func RenderPageIndex(

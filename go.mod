@@ -1,4 +1,4 @@
-module github.com/romshark/htmx-demo-form
+module github.com/romshark/demo-islands
 
 go 1.23.2
 

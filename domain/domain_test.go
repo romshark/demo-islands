@@ -3,7 +3,7 @@ package domain_test
 import (
 	"testing"
 
-	"github.com/romshark/htmx-demo-form/domain"
+	"github.com/romshark/demo-islands/domain"
 
 	"github.com/stretchr/testify/require"
 )

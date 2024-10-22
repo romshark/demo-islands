@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"sort"
 
-	"github.com/romshark/htmx-demo-form/domain"
-	"github.com/romshark/htmx-demo-form/server/middleware"
-	"github.com/romshark/htmx-demo-form/server/template"
+	"github.com/romshark/demo-islands/domain"
+	"github.com/romshark/demo-islands/server/middleware"
+	"github.com/romshark/demo-islands/server/template"
 )
 
 // embedDirPublic Embeds the public assets directory

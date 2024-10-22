@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/romshark/htmx-demo-form/server"
+	"github.com/romshark/demo-islands/server"
 )
 
 func main() {
