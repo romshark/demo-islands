@@ -6,9 +6,11 @@ import "github.com/romshark/htmx-demo-form/domain"
 
 templ htmlMain(title string) {
 	<!DOCTYPE html>
-	<html>
+	<html lang="en">
 		<head>
 			<title>{ title }</title>
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<meta charset="UTF-8">
 			
 			<script src="https://unpkg.com/htmx.org@2.0.3"></script>
 			<script src="https://unpkg.com/idiomorph@0.3.0/dist/idiomorph-ext.min.js"></script>
@@ -294,10 +296,10 @@ templ componentOrderForm(
 			<sl-checkbox
 				id="input-express"
 				name="express"
-				label="Express"
 				if form.ValueExpress != "" {
 					checked
 				}>
+				Express
 			</sl-checkbox>
 		</div>
 		
@@ -319,11 +321,19 @@ templ componentOrderForm(
 			}
 		}
 
-		<sl-button
-			type="submit"
-			hx-post="/orders/"
-			hx-swap="innerHTML"
-			hx-target="#viewport">Add</sl-button>
+		<div class="col-span-full mt-6">
+			<sl-button
+				if !form.IsValid() {
+					disabled
+				}
+				type="submit"
+				hx-post="/orders/"
+				hx-swap="innerHTML"
+				hx-target="#viewport">
+				Add
+				<sl-icon slot="prefix" name="file-earmark-plus"></sl-icon>
+			</sl-button>
+		</div>
 	</form>
 }
 
