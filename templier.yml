@@ -16,7 +16,7 @@ app:
     - "*~" # Any temporary backup files IDEs might use.
     - node_modules/*
     - eslint.config.mjs
-  dir-cmd: "./"
+  dir-cmd: "./cmd/server"
   dir-work:
   host: "http://127.0.0.1:8080"
   go-flags:
