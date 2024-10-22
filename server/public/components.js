@@ -7,6 +7,7 @@ var r1=Object.defineProperty;var o1=(r,o)=>{for(var i in o)r1(r,i,{get:o[i],enum
     img {
       display: block;
       height: auto;
+      box-shadow: 0 0 0.2rem 0px #00000069;
     }
   `;render(){let r=`${this.baseURL}/${this.code.toLowerCase()}.svg`;return v`
       <div>

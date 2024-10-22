@@ -12,6 +12,7 @@ export default class CountryFlag extends LitElement {
     img {
       display: block;
       height: auto;
+      box-shadow: 0 0 0.2rem 0px #00000069;
     }
   `;
 
