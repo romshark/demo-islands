@@ -1,7 +1,7 @@
 {
-  "name": "htmx-demo-form",
+  "name": "demo-islands",
   "version": "0.1.0",
-  "description": "An islands of interactivity demo using Go, Templ, HTMX, Lit and Tailwind",
+  "description": "An islands of interactivity demo using Go, Templ, HTMX, Lit, Shoelace and Tailwind",
   "type": "module",
   "scripts": {
     "build:css": "postcss ./server/input.css -o ./server/public/dist.css",
