@@ -29,3 +29,7 @@ bin
 
 # NPM
 node_modules
+
+# Local TLS cert & key
+islands.demo-key.pem
+islands.demo.pem

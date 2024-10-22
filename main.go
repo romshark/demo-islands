@@ -23,14 +23,37 @@ func main() {
 		EnableGZIPCompression: *fGZIP,
 	})
 
-	slog.Info("listening",
-		slog.String("host", *fHost),
-		slog.Bool("gzip", *fGZIP),
-		slog.Bool("productionMode", !devMode))
+	tlsCert := os.Getenv("TLS_CERT")
+	tlsKey := os.Getenv("TLS_KEY")
 
-	if err := http.ListenAndServe(*fHost, s); err != nil {
-		if !errors.Is(err, http.ErrServerClosed) {
-			slog.Error("serving HTTP", slog.Any("error", err))
+	{
+		initLog := slog.With(
+			slog.String("host", *fHost),
+			slog.Bool("gzip", *fGZIP),
+			slog.Bool("productionMode", !devMode),
+		)
+		if tlsCert != "" && tlsKey != "" {
+			initLog = initLog.With(
+				slog.String("tls.cert", tlsCert),
+				slog.String("tls.key", tlsKey),
+			)
+		}
+		initLog.Info("listening")
+	}
+
+	if tlsCert != "" && tlsKey != "" {
+		if err := http.ListenAndServeTLS(
+			*fHost, tlsCert, tlsKey, s,
+		); err != nil {
+			if !errors.Is(err, http.ErrServerClosed) {
+				slog.Error("serving HTTPS", slog.Any("error", err))
+			}
+		}
+	} else {
+		if err := http.ListenAndServe(*fHost, s); err != nil {
+			if !errors.Is(err, http.ErrServerClosed) {
+				slog.Error("serving HTTP", slog.Any("error", err))
+			}
 		}
 	}
 }

@@ -24,6 +24,12 @@ a cutting-edge tech stack:
 - **CI/CD**
   - [GitHub Actions](https://github.com/features/actions) for CI/CD.
 
+## Prerequisits
+
+- [Go 1.23](https://go.dev/doc/install)
+- [Bun](https://bun.sh/)
+- [mkcert ](https://github.com/FiloSottile/mkcert) (only when HTTPS is required)
+
 ## How To
 
 ### Development
@@ -37,7 +43,36 @@ Run Témplier to enable automatic hot-reload on source changes:
 Then navigate to http://127.0.0.1:7331.
 
 ℹ️ Use http://127.0.0.1:8080/ to access the actual application server without
-the Templiér proxy (this will not auto-reload on changes).
+the Templiér proxy (this won't auto-reload on changes).
+
+#### HTTPS
+
+If you want to test the server with TLS enabled,
+first add the domain to your `/etc/hosts` file:
+
+```
+127.0.0.1 islands.demo
+```
+
+Then install [mkcert](https://github.com/FiloSottile/mkcert) and run:
+
+```sh
+mkcert -install
+```
+
+Once the CA certificates are installed, create the certificate and key files:
+
+```sh
+mkcert islands.demo
+```
+
+Finally, run the server:
+
+```sh
+TLS_CERT="islands.demo.pem" TLS_KEY="islands.demo-key.pem" go run . -host islands.demo:8080
+```
+
+<!-- To run the server in production mode, first make sure  -->
 
 ### Downloading an Icon
 
