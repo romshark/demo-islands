@@ -69,7 +69,7 @@ mkcert islands.demo
 Finally, run the server:
 
 ```sh
-TLS_CERT="islands.demo.pem" TLS_KEY="islands.demo-key.pem" go run . -host islands.demo:8080
+TLS_CERT="islands.demo.pem" TLS_KEY="islands.demo-key.pem" go run ./cmd/server -host islands.demo:8080
 ```
 
 <!-- To run the server in production mode, first make sure  -->
