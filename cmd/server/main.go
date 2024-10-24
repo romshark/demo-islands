@@ -12,15 +12,19 @@ import (
 
 func main() {
 	fHost := flag.String("host", ":8080", "host address")
-	fGZIP := flag.Bool("gzip", false, "enable gzip compression")
+	fCompress := flag.Bool(
+		"compress",
+		false,
+		"enable gzip/brotli compression (brotli is preferred over gzip when available)",
+	)
 	flag.Parse()
 
 	logAccess, logError := slog.Default(), slog.Default()
 
 	_, devMode := os.LookupEnv("DEV")
 	s := server.New(logAccess, logError, server.Config{
-		ProductionMode:        !devMode,
-		EnableGZIPCompression: *fGZIP,
+		ProductionMode:    !devMode,
+		EnableCompression: *fCompress,
 	})
 
 	tlsCert := os.Getenv("TLS_CERT")
@@ -29,7 +33,7 @@ func main() {
 	{
 		initLog := slog.With(
 			slog.String("host", *fHost),
-			slog.Bool("gzip", *fGZIP),
+			slog.Bool("compress", *fCompress),
 			slog.Bool("productionMode", !devMode),
 		)
 		if tlsCert != "" && tlsKey != "" {

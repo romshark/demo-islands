@@ -4,6 +4,7 @@ go 1.23.2
 
 require (
 	github.com/a-h/templ v0.2.778
+	github.com/andybalholm/brotli v1.1.1
 	github.com/romshark/templier v0.7.5
 	github.com/stretchr/testify v1.9.0
 )
@@ -12,7 +13,6 @@ require (
 	github.com/PuerkitoBio/goquery v1.10.0 // indirect
 	github.com/a-h/parse v0.0.0-20240121214402-3caf7543159a // indirect
 	github.com/a-h/protocol v0.0.0-20240821172110-e94e5c43897f // indirect
-	github.com/andybalholm/brotli v1.1.1 // indirect
 	github.com/andybalholm/cascadia v1.3.2 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect

@@ -20,7 +20,7 @@ app:
   dir-work:
   host: "http://127.0.0.1:8080"
   go-flags:
-  flags: -gzip
+  flags:
 custom-watchers:
   - name: "Bundle CSS"
     cmd: bun run build:css

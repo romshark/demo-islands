@@ -2,38 +2,28 @@
 package middleware
 
 import (
-	"compress/gzip"
+	"io"
 	"net/http"
-	"strings"
 	"time"
+
+	"github.com/andybalholm/brotli"
 )
 
-// GZIP enables gzip compression.
-func GZIP(next http.Handler) http.Handler {
+// Compress enables brotli/gzip compression.
+func Compress(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if !strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
-			// Client doesn't support gzip.
-			next.ServeHTTP(w, r)
-			return
-		}
-
-		gz := gzip.NewWriter(w)
-		defer gz.Close()
-
-		w.Header().Set("Content-Encoding", "gzip")
-		gzr := gzipResponseWriter{ResponseWriter: w, Writer: gz}
-		next.ServeHTTP(gzr, r)
+		wr := brotli.HTTPCompressor(w, r)
+		defer wr.Close()
+		next.ServeHTTP(compressedResponseWriter{ResponseWriter: w, w: wr}, r)
 	})
 }
 
-type gzipResponseWriter struct {
+type compressedResponseWriter struct {
 	http.ResponseWriter
-	Writer *gzip.Writer
+	w io.Writer
 }
 
-func (gzw gzipResponseWriter) Write(b []byte) (int, error) {
-	return gzw.Writer.Write(b)
-}
+func (w compressedResponseWriter) Write(b []byte) (int, error) { return w.w.Write(b) }
 
 // NoCache disables caching.
 func NoCache(next http.Handler) http.Handler {

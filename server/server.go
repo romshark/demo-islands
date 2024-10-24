@@ -2,7 +2,6 @@ package server
 
 import (
 	"embed"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"sort"
@@ -33,8 +32,8 @@ type Server struct {
 var _ http.Handler = new(Server)
 
 type Config struct {
-	ProductionMode        bool
-	EnableGZIPCompression bool
+	ProductionMode    bool
+	EnableCompression bool
 }
 
 func New(logAccess, logError *slog.Logger, conf Config) *Server {
@@ -61,8 +60,8 @@ func New(logAccess, logError *slog.Logger, conf Config) *Server {
 	}
 
 	handler := func(h http.Handler) http.Handler {
-		if conf.EnableGZIPCompression {
-			return middleware.GZIP(h)
+		if conf.EnableCompression {
+			return middleware.Compress(h)
 		}
 		return h
 	}
@@ -173,7 +172,6 @@ func (s *Server) handleGetIndex(w http.ResponseWriter, r *http.Request) {
 func (s *Server) handlePostForm(w http.ResponseWriter, r *http.Request) {
 	var f template.Form
 	f.UnmarshalForm(r)
-	fmt.Println("SHIP COMP", f.ErrorShippingCompany, f.ParsedShippingCompany, f.ValueShippingCompanyID)
 	f.ResetErrorsForZero()
 
 	if err := template.RenderComponentForm(
