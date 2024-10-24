@@ -1,6 +1,7 @@
-![image](https://github.com/user-attachments/assets/7c9f95b8-e70e-48cb-b453-da8762b6894d)
 
-Near-perfect [Lighthouse](https://developer.chrome.com/docs/lighthouse) score.
+![lighthouse_desktop_score](https://github.com/user-attachments/assets/5ccea4f9-8040-4a09-8d78-8a235f3715d8)
+
+Perfect [Lighthouse](https://developer.chrome.com/docs/lighthouse) score.
 
 # Demo: Islands 🏝️
 
