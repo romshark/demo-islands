@@ -340,20 +340,31 @@ templ componentOrderForm(
 
 templ fragmentCountryOptions(opts []NamedOption) {
 	for _, opt := range opts {
-		<sl-option value={opt.Value}>
+		@slOption(opt) {
 			<slx-countryflag
 				slot="prefix"
 				width="22"
 				code={opt.Value}></slx-countryflag>
-			{opt.Name}
-		</sl-option>
+		}
 	}
 }
 
 templ fragmentNamedOptions(opts []NamedOption) {
 	for _, opt := range opts {
-		<sl-option value={opt.Value}>{opt.Name}</sl-option>
+		@slOption(opt)
 	}
+}
+
+// slOption is an instance of <sl-option> that's automatically revealed
+// on window.load and htmx:afterSwap events to avoid CLS (cumulative layout shift).
+templ slOption(o NamedOption) {
+	// class "hidden" is applied to avoid CLS (cumulative layout shift) on
+	// page load. This class will be removed slOptionsReveal on `window.load`
+	// and `htmx:afterSwap` events.
+	<sl-option class="hidden" value={o.Value}>
+		{o.Name}
+		{children...}
+	</sl-option>
 }
 
 templ animatedAppear() {

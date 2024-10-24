@@ -33,3 +33,14 @@ document.addEventListener("htmx:afterRequest", function (event) {
   // Remove the class (just in case it was applied)
   target.classList.remove("non-interactable");
 });
+
+function slOptionsReveal() {
+  document
+    .querySelectorAll("sl-option.hidden")
+    .forEach((o) => o.classList.remove("hidden"));
+}
+
+// Reveal <sl-option> elements once the page is loaded or
+// parts of the page are reloaded to avoid CLS (cumulative layout shift).
+window.addEventListener("load", slOptionsReveal);
+document.addEventListener("htmx:afterSwap", slOptionsReveal);
