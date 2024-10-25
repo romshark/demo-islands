@@ -393,11 +393,14 @@ templ slOption(o NamedOption) {
 	</sl-option>
 }
 
-// skeleton reserves space for the children to avoid CLS (cumulative layout shift).
+// skeleton reserves space for the children to avoid CLS (cumulative layout shift)
+// and provide visual loading indication while the contents are initializing.
 templ skeleton(width, height string) {
-	<div { templ.Attributes{
-		"style": "width:"+width+";height:"+height,
-	}... }>
+	<div
+		{ templ.Attributes{
+			"class": "skeleton",
+			"style": "width:"+width+";height:"+height,
+		}... }>
 		{children...}
 	</div>
 }

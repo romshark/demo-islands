@@ -1448,7 +1448,8 @@ func slOption(o NamedOption) templ.Component {
 	})
 }
 
-// skeleton reserves space for the children to avoid CLS (cumulative layout shift).
+// skeleton reserves space for the children to avoid CLS (cumulative layout shift)
+// and provide visual loading indication while the contents are initializing.
 func skeleton(width, height string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -1475,6 +1476,7 @@ func skeleton(width, height string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, templ.Attributes{
+			"class": "skeleton",
 			"style": "width:" + width + ";height:" + height,
 		})
 		if templ_7745c5c3_Err != nil {
