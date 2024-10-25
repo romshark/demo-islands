@@ -752,10 +752,10 @@ li::before {
         #f2f2f2 75%
     );
     background-size: 200% 100%;
-    animation: loadingSkeleton 1.5s infinite linear;
+    animation: skeletonLoading 2s infinite linear;
 }
 
-@keyframes loadingSkeleton {
+@keyframes skeletonLoading {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
 }
