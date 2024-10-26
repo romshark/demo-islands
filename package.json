@@ -4,7 +4,7 @@
   "description": "An islands of interactivity demo using Go, Templ, HTMX, Lit, Shoelace and Tailwind",
   "type": "module",
   "scripts": {
-    "build:css": "postcss ./server/input.css -o ./server/public/dist.css",
+    "build:css": "postcss ./server/input.tw.css -o ./server/public/dist.css",
     "build:components": "bun build --minify --outfile ./server/public/components.js ./server/components/index.ts",
     "build:ts": "eslint && bun build --minify --outfile ./server/public/dist.js ./server/input.ts",
     "lint:ts": "eslint .",
