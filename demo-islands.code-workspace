@@ -1,0 +1,33 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "eslint.enable": true,
+        "eslint.options": {
+            "extensions": [".js", ".ts", ".tsx"]
+        },
+        "editor.formatOnSave": true,
+        "files.associations": {
+            "*.css": "tailwindcss"
+        },
+        "launch": {
+            "version": "0.2.0",
+            "configurations": [
+                {
+                    "name": "Server Debug",
+                    "type": "go",
+                    "request": "launch",
+                    "mode": "auto",
+                    "program": "${workspaceFolder}/cmd/server",
+                    "env": {"DEV":"true"},
+                    "args": [],
+                    "cwd": "${workspaceFolder}",
+                    "console": "integratedTerminal"
+                  }
+            ],
+        },
+    }
+}
