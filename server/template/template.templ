@@ -395,11 +395,11 @@ templ slOption(o NamedOption) {
 
 // skeleton reserves space for the children to avoid CLS (cumulative layout shift)
 // and provide visual loading indication while the contents are initializing.
-templ skeleton(width, height string) {
+templ skeleton(minWidth, minHeight string) {
 	<div
 		{ templ.Attributes{
 			"class": "skeleton",
-			"style": "width:"+width+";height:"+height,
+			"style": "min-width:"+minWidth+";min-height:"+minHeight,
 		}... }>
 		{children...}
 	</div>
