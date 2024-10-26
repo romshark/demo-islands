@@ -3,11 +3,16 @@
 		"strict": true,
 		"module": "ESNext",
 		"target": "ESNext",
-		"lib": ["ES2022", "ES2023", "DOM", "Decorators"],
+		"lib": [
+			"ES2022",
+			"ES2023",
+			"DOM",
+			"Decorators"
+		],
 		"allowJs": false,
 		"moduleResolution": "Bundler",
 		"experimentalDecorators": true,
-    	"emitDecoratorMetadata": true,
+		"emitDecoratorMetadata": true,
 		"allowUnreachableCode": false,
 		"allowSyntheticDefaultImports": true,
 		"noImplicitAny": true,

@@ -16,7 +16,8 @@
         "editor.formatOnSave": true,
         "files.associations": {
             "*.css": "css",
-            "*.tw.css": "tailwindcss"
+            "*.tw.css": "tailwindcss",
+            "*.json": "json"
         },
         "launch": {
             "version": "0.2.0",
