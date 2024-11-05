@@ -61,12 +61,11 @@ li::before {
     opacity: 0.35;
   }
 }
-
 .skeleton {
   position: relative;
 }
 
-.skeleton:has(:not(*:defined))::before {
+.skeleton::before {
   content: "";
   display: block;
   position: absolute;
@@ -77,7 +76,22 @@ li::before {
   border-radius: 12px;
   background: linear-gradient(90deg, #f2f2f2 25%, #e8e8e8 50%, #f2f2f2 75%);
   background-size: 200% 100%;
-  animation: skeletonLoading 2s infinite linear;
+  /* Start fully transparent and transition to visible after a delay */
+  opacity: 0;
+}
+
+.skeleton:has(:not(*:defined))::before {
+  animation:
+    /* 20ms delay before showing the skeleton for a clean white/black page.
+    This avoids visual flickering when the page loads within the delay period. */
+    fadeInSkeleton 0.2s forwards ease-in-out 20ms,
+    skeletonLoading 2s infinite linear 20ms;
+}
+
+@keyframes fadeInSkeleton {
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes skeletonLoading {
