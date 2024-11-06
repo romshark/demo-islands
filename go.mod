@@ -3,7 +3,7 @@ module github.com/romshark/demo-islands
 go 1.23.2
 
 require (
-	github.com/a-h/templ v0.2.778
+	github.com/a-h/templ v0.2.793
 	github.com/andybalholm/brotli v1.1.1
 	github.com/romshark/templier v0.7.5
 	github.com/stretchr/testify v1.9.0
@@ -19,7 +19,7 @@ require (
 	github.com/cli/browser v1.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/color v1.18.0 // indirect
-	github.com/fsnotify/fsnotify v1.7.0 // indirect
+	github.com/fsnotify/fsnotify v1.8.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.6 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
