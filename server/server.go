@@ -203,7 +203,7 @@ func (s *Server) handlePostFormRandomize(w http.ResponseWriter, r *http.Request)
 	f.ValueFirstName = gofakeit.FirstName()
 	f.ValueLastName = gofakeit.LastName()
 	f.ValueEmail = gofakeit.Email()
-	f.ValuePhone = gofakeit.Phone()
+	f.ValuePhone = "+" + gofakeit.Phone()
 	f.ValueDue = time.Now().Add(rand.Dur(time.Hour, 30*24*time.Hour)).Format(time.DateOnly)
 	f.ValueExpress = fmt.Sprintf("%t", gofakeit.Bool())
 	if gofakeit.Bool() {
@@ -230,7 +230,6 @@ func (s *Server) handlePostOrders(w http.ResponseWriter, r *http.Request) {
 	f.UnmarshalForm(r)
 	if f.IsValid() {
 		// Add order and display empty form.
-		fmt.Println("ADD ORDER", f)
 		s.orders = append(s.orders, domain.ShippingDetails{
 			CompanyName:      f.ParsedCompanyName,
 			ContactFirstName: f.ParsedFirstName,
