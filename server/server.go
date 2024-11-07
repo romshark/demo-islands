@@ -2,11 +2,16 @@ package server
 
 import (
 	"embed"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"sort"
+	"time"
+
+	"github.com/brianvoe/gofakeit/v7"
 
 	"github.com/romshark/demo-islands/domain"
+	"github.com/romshark/demo-islands/internal/rand"
 	"github.com/romshark/demo-islands/server/middleware"
 	"github.com/romshark/demo-islands/server/template"
 )
@@ -69,6 +74,8 @@ func New(logAccess, logError *slog.Logger, conf Config) *Server {
 	s.m.Handle("GET /public/", handler(handlerPublicAssets))
 	s.m.Handle("GET /{$}", handler(http.HandlerFunc(s.handleGetIndex)))
 	s.m.Handle("POST /form/{$}", handler(http.HandlerFunc(s.handlePostForm)))
+	s.m.Handle("POST /form/randomized/{$}",
+		handler(http.HandlerFunc(s.handlePostFormRandomize)))
 	s.m.Handle("POST /orders/{$}", handler(http.HandlerFunc(s.handlePostOrders)))
 	return s
 }
@@ -183,6 +190,39 @@ func (s *Server) handlePostForm(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// handlePostFormRandomize handles "POST /form/randomized/" which
+// returns the form component with randomized input.
+func (s *Server) handlePostFormRandomize(w http.ResponseWriter, r *http.Request) {
+	var f template.Form
+	shippingCompany := rand.Item(domain.ShippingCompanyValues())
+	f.ValueShippingCompanyID = shippingCompany.ID
+	f.ValueCompanyName = gofakeit.Company()
+	if gofakeit.Bool() {
+		f.ValueCompanyName += " " + gofakeit.CompanySuffix()
+	}
+	f.ValueFirstName = gofakeit.FirstName()
+	f.ValueLastName = gofakeit.LastName()
+	f.ValueEmail = gofakeit.Email()
+	f.ValuePhone = gofakeit.Phone()
+	f.ValueDue = time.Now().Add(rand.Dur(time.Hour, 30*24*time.Hour)).Format(time.DateOnly)
+	f.ValueExpress = fmt.Sprintf("%t", gofakeit.Bool())
+	if gofakeit.Bool() {
+		f.ValueSpecialNotes = gofakeit.LoremIpsumParagraph(1, 4, 20, "")
+	}
+	destinationCountry := rand.Item(domain.DestinationCountryValues())
+	f.ValueAddressCountry = destinationCountry.String()
+	f.ValueAddressCity = gofakeit.City()
+	f.ValueAddressPostalCode = rand.String("ABCDEFGHIKLMNOPQ1234567890", 6, 9)
+
+	if err := template.RenderComponentForm(
+		r.Context(), w,
+		f, s.addressCountryOptions, s.shippingCompanyOptions,
+	); err != nil {
+		s.errInternal(w, err)
+		return
+	}
+}
+
 // handlePostOrders handles "POST /orders/" which expects form inputs,
 // adds a new shipping order if the inputs are valid and renders the main page.
 func (s *Server) handlePostOrders(w http.ResponseWriter, r *http.Request) {
@@ -190,6 +230,7 @@ func (s *Server) handlePostOrders(w http.ResponseWriter, r *http.Request) {
 	f.UnmarshalForm(r)
 	if f.IsValid() {
 		// Add order and display empty form.
+		fmt.Println("ADD ORDER", f)
 		s.orders = append(s.orders, domain.ShippingDetails{
 			CompanyName:      f.ParsedCompanyName,
 			ContactFirstName: f.ParsedFirstName,
@@ -209,6 +250,7 @@ func (s *Server) handlePostOrders(w http.ResponseWriter, r *http.Request) {
 		})
 		f = template.Form{}
 	}
+	fmt.Printf("NOT VALID? %t %#v\n", f.IsValid(), f)
 	if err := template.RenderViewIndex(
 		r.Context(), w,
 		f, s.addressCountryOptions, s.shippingCompanyOptions, s.orders,

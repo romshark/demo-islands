@@ -5,6 +5,7 @@ go 1.23.2
 require (
 	github.com/a-h/templ v0.2.793
 	github.com/andybalholm/brotli v1.1.1
+	github.com/brianvoe/gofakeit/v7 v7.1.2
 	github.com/romshark/templier v0.7.6
 	github.com/stretchr/testify v1.9.0
 )

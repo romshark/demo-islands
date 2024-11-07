@@ -37,60 +37,62 @@ templ viewIndex(
 	shippingCompanyOptions []NamedOption,
 	shippingOrders []domain.ShippingDetails,
 ) {
-	<div class="md:container md:mx-auto ml-4 mr-4 pb-16">
-		<div class="mt-4">
-			@componentOrderForm(form, addressCountryOptions, shippingCompanyOptions)
+	<div>
+		<div class="md:container md:mx-auto ml-4 mr-4 pb-16">
+			<div class="mt-4">
+				@componentOrderForm(form, addressCountryOptions, shippingCompanyOptions)
+			</div>
+			<hr class="mt-4">
+			<h1 class="mt-2 mb-2">Pending Orders</h1>
+			if len(shippingOrders) < 1 {
+				<p>No currently pending orders.</p>
+			}
+			for i, o := range shippingOrders {
+				<h1>Order #{ fmt.Sprintf("%d", i) } </h1>
+				<table class="border border-solid">
+					<tr>
+						<td>Company Name</td>
+						<td> { o.CompanyName.String() } </td>
+					</tr>
+					<tr>
+						<td>First Name</td>
+						<td> { o.ContactFirstName.String() } </td>
+					</tr>
+					<tr>
+						<td>Last Name</td>
+						<td> { o.ContactLastName.String() } </td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td> { o.ContactEmail.String() } </td>
+					</tr>
+					<tr>
+						<td>Phone</td>
+						<td> { o.ContactPhone.String() } </td>
+					</tr>
+					<tr>
+						<td>Express</td>
+						if o.Express {
+							<td> Yes </td>
+						} else {
+							<td> No </td>
+						}
+					</tr>
+					<tr>
+						<td>Shipping Company</td>
+						<td> { o.ShippingCompany.String() } </td>
+					</tr>
+					<tr>
+						<td>Due</td>
+						<td> { o.Due.Format(time.RFC822) } </td>
+					</tr>
+					<tr>
+						<td>Special Notes</td>
+						<td> { o.SpecialNotes.String() } </td>
+					</tr>
+				</table>
+			}
 		</div>
-		<hr class="mt-4">
-		<h1 class="mt-2 mb-2">Pending Orders</h1>
-		if len(shippingOrders) < 1 {
-			<p>No currently pending orders.</p>
-		}
-		for i, o := range shippingOrders {
-			<h1>Order #{ fmt.Sprintf("%d", i) } </h1>
-			<table class="border border-solid">
-				<tr>
-					<td>Company Name</td>
-					<td> { o.CompanyName.String() } </td>
-				</tr>
-				<tr>
-					<td>First Name</td>
-					<td> { o.ContactFirstName.String() } </td>
-				</tr>
-				<tr>
-					<td>Last Name</td>
-					<td> { o.ContactLastName.String() } </td>
-				</tr>
-				<tr>
-					<td>Email</td>
-					<td> { o.ContactEmail.String() } </td>
-				</tr>
-				<tr>
-					<td>Phone</td>
-					<td> { o.ContactPhone.String() } </td>
-				</tr>
-				<tr>
-					<td>Express</td>
-					if o.Express {
-						<td> Yes </td>
-					} else {
-						<td> No </td>
-					}
-				</tr>
-				<tr>
-					<td>Shipping Company</td>
-					<td> { o.ShippingCompany.String() } </td>
-				</tr>
-				<tr>
-					<td>Due</td>
-					<td> { o.Due.Format(time.RFC822) } </td>
-				</tr>
-				<tr>
-					<td>Special Notes</td>
-					<td> { o.SpecialNotes.String() } </td>
-				</tr>
-			</table>
-		}
 	</div>
 }
 
@@ -116,9 +118,10 @@ templ componentOrderForm(
 	shippingCompanyOptions []NamedOption,
 ) {
 	<form
+		id="form"
 		class="grid gap-2 grid-cols-2"
 		hx-post="/form/"
-		hx-target="this"
+		hx-target="#form"
 		hx-swap="morph:outerHTML"
 		hx-trigger="sl-input delay:400ms">
 		<h2 class="col-span-full">Contact</h2>
@@ -335,8 +338,8 @@ templ componentOrderForm(
 					id="input-special-notes"
 					name="specialNotes"
 					label="Special Notes"
-					resize="auto">
-					{form.ValueSpecialNotes}
+					resize="auto"
+					value={form.ValueSpecialNotes}>
 				</sl-textarea>
 			}
 		</div>
@@ -346,7 +349,7 @@ templ componentOrderForm(
 			}
 		}
 
-		<div class="col-span-full mt-6">
+		<div class="mt-6 col-span-full">
 			@skeleton("100%", "2.6rem") {
 				<sl-button
 					if !form.IsValid() {
@@ -358,6 +361,14 @@ templ componentOrderForm(
 					hx-target="#viewport">
 					Add
 					<sl-icon slot="prefix" name="file-earmark-plus"></sl-icon>
+				</sl-button>
+				<sl-button
+					type="randomize"
+					hx-post="/form/randomized/"
+					hx-target="#form"
+					hx-swap="morph:outerHTML">
+					Randomize
+					<sl-icon slot="prefix" name="dice-3-fill"></sl-icon>
 				</sl-button>
 			}
 		</div>

@@ -203,6 +203,19 @@ func (f *Form) ResetErrorsForZero() {
 }
 
 func (f *Form) IsValid() bool {
+	if f.ValueCompanyName == "" ||
+		f.ValueFirstName == "" ||
+		f.ValueLastName == "" ||
+		f.ValueEmail == "" ||
+		f.ValuePhone == "" ||
+		f.ValueDue == "" ||
+		f.ValueShippingCompanyID == "" ||
+		f.ValueAddressCountry == "" ||
+		f.ValueAddressCity == "" ||
+		f.ValueAddressPostalCode == "" {
+		return false
+	}
+
 	return !(f.ErrorCompanyName != "" ||
 		f.ErrorFirstName != "" ||
 		f.ErrorLastName != "" ||
@@ -210,8 +223,8 @@ func (f *Form) IsValid() bool {
 		f.ErrorPhone != "" ||
 		f.ErrorDue != "" ||
 		f.ErrorShippingCompany != "" ||
-		f.ErrorSpecialNotes != "" ||
 		f.ErrorAddressCountry != "" ||
 		f.ErrorAddressCity != "" ||
-		f.ErrorAddressPostalCode != "")
+		f.ErrorAddressPostalCode != "" ||
+		f.ErrorSpecialNotes != "")
 }
