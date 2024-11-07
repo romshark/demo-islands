@@ -205,7 +205,9 @@ func (s *Server) handlePostFormRandomize(w http.ResponseWriter, r *http.Request)
 	f.ValueEmail = gofakeit.Email()
 	f.ValuePhone = "+" + gofakeit.Phone()
 	f.ValueDue = time.Now().Add(rand.Dur(time.Hour, 30*24*time.Hour)).Format(time.DateOnly)
-	f.ValueExpress = fmt.Sprintf("%t", gofakeit.Bool())
+	if gofakeit.Bool() {
+		f.ValueExpress = "true"
+	}
 	if gofakeit.Bool() {
 		f.ValueSpecialNotes = gofakeit.LoremIpsumParagraph(1, 4, 20, "")
 	}
