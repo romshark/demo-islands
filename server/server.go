@@ -2,7 +2,6 @@ package server
 
 import (
 	"embed"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"sort"
@@ -251,7 +250,6 @@ func (s *Server) handlePostOrders(w http.ResponseWriter, r *http.Request) {
 		})
 		f = template.Form{}
 	}
-	fmt.Printf("NOT VALID? %t %#v\n", f.IsValid(), f)
 	if err := template.RenderViewIndex(
 		r.Context(), w,
 		f, s.addressCountryOptions, s.shippingCompanyOptions, s.orders,

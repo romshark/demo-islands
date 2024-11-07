@@ -351,25 +351,37 @@ templ componentOrderForm(
 
 		<div class="mt-6 col-span-full">
 			@skeleton("100%", "2.6rem") {
-				<sl-button
+				<sl-tooltip
 					if !form.IsValid() {
-						disabled
-					}
-					type="submit"
-					hx-post="/orders/"
-					hx-swap="innerHTML"
-					hx-target="#viewport">
-					Add
-					<sl-icon slot="prefix" name="file-earmark-plus"></sl-icon>
-				</sl-button>
-				<sl-button
-					type="randomize"
-					hx-post="/form/randomized/"
-					hx-target="#form"
-					hx-swap="morph:outerHTML">
-					Randomize
-					<sl-icon slot="prefix" name="dice-3-fill"></sl-icon>
-				</sl-button>
+						content={
+							"Some inputs are either missing or incorrect. "+
+								"Please correct them first."
+						}
+					} else {
+						content="Submit new order"
+					}>
+					<sl-button
+						if !form.IsValid() {
+							disabled
+						}
+						type="submit"
+						hx-post="/orders/"
+						hx-swap="innerHTML"
+						hx-target="#viewport">
+						Add
+						<sl-icon slot="prefix" name="file-earmark-plus"></sl-icon>
+					</sl-button>
+				</sl-tooltip>
+				<sl-tooltip content="Randomize form inputs">
+					<sl-button
+						type="randomize"
+						hx-post="/form/randomized/"
+						hx-target="#form"
+						hx-swap="morph:outerHTML">
+						Randomize
+						<sl-icon slot="prefix" name="dice-3-fill"></sl-icon>
+					</sl-button>
+				</sl-tooltip>
 			}
 		</div>
 	</form>
