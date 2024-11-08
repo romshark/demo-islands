@@ -760,6 +760,18 @@ li::before {
   opacity: 0;
 }
 
+.skeleton * {
+  /* Show contents of the skeleton once they got initialized. */
+  opacity: 1;
+}
+
+.skeleton:has(:not(*:defined)) * {
+  /* Avoid showing contents behind the skeleton before they're initialized.
+  Because some content may be static HTML and it would be visible behind
+  the skeleton body. */
+  opacity: 0;
+}
+
 .skeleton:has(:not(*:defined))::before {
   animation:
     /* 20ms delay before showing the skeleton for a clean white/black page.
