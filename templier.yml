@@ -1,4 +1,5 @@
 proxy-timeout: 10s
+format: true
 lint: true
 templier-host: "localhost:7331"
 log:
