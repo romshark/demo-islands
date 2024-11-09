@@ -1,5 +1,5 @@
 // Package domain contains all business entities and logic
-// immitating a real backend.
+// imitating a real backend.
 package domain
 
 import (
