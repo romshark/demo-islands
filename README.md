@@ -1,4 +1,3 @@
-
 ![lighthouse_desktop_score](https://github.com/user-attachments/assets/5ccea4f9-8040-4a09-8d78-8a235f3715d8)
 
 Perfect [Lighthouse](https://developer.chrome.com/docs/lighthouse) score.
@@ -73,7 +72,18 @@ Finally, run the server:
 TLS_CERT="islands.demo.pem" TLS_KEY="islands.demo-key.pem" go run ./cmd/server -host islands.demo:8080
 ```
 
-<!-- To run the server in production mode, first make sure  -->
+### Production mode
+
+```sh
+# First, build all generated files.
+./buildall.sh
+
+# Build server
+go build -o server ./cmd/server
+
+# Run server
+TLS_CERT="path/to/cert.pem" TLS_KEY="path/to/key.pem" ./server -compress -host hostaddr
+```
 
 ### Downloading an Icon
 

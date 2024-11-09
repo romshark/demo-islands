@@ -31,5 +31,15 @@ bin
 node_modules
 
 # Local TLS cert & key
-islands.demo-key.pem
-islands.demo.pem
+*-key.pem
+*.pem
+
+# macOS
+.DS_Store
+
+# Generated files
+server/public/dist.css
+server/public/dist.js
+server/public/components.js
+server/template/*_templ.go
+server/template/*_templ.txt

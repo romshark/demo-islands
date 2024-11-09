@@ -4,87 +4,35 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Go 1.23.2
+      # Install
+      - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.23.2"
+          go-version: "1.23.3"
           check-latest: true
       - name: Install Bun
         uses: oven-sh/setup-bun@v2
+      - name: Install Templ
+        run: go install github.com/a-h/templ/cmd/templ@v0.2.793
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install JavaScript Dependencies
-        run: bun i
+      
+      # Generate
+      - name: Generate files
+        run: ./buildall.sh
 
-      # Test
-      - name: Test and calculate coverage
-        run: go test -race -v -covermode=atomic -coverprofile=coverage.out ./...
-      # - name: Convert coverage.out to coverage.lcov
-      #   uses: jandelgado/gcov2lcov-action@v1.0.9
-      # - name: Coveralls
-      #   uses: coverallsapp/github-action@master
-      #   with:
-      #     github-token: ${{ secrets.github_token }}
-      #     path-to-lcov: coverage.lcov
+      # Lint
       - name: Run go vet
         continue-on-error: true
         run: go vet ./...
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
 
-      # Make sure templ generate was executed before commit
-      - name: Generate templates
-        run: go run github.com/a-h/templ/cmd/templ@v0.2.793 generate
-      - name: Check file changes after templ generate
-        run: |
-          git diff --exit-code
-        id: diff_files_after_templ_generate
-        continue-on-error: true
-      - name: Fail if changes are detected
-        if: steps.diff_files_after_templ_generate.outcome == 'failure'
-        run: |
-          echo "Detected uncommitted changes after running templ generate." \
-          "Please regenerate .templ templates and commit changes." && exit 1
-
-      # Make sure CSS was built before commit
-      - name: Build CSS
-        run: bun run build:css
-      - name: Check file changes after building CSS
-        run: |
-          git diff --exit-code
-        id: diff_files_after_css_build
-        continue-on-error: true
-      - name: Fail if changes are detected
-        if: steps.diff_files_after_css_build.outcome == 'failure'
-        run: |
-          echo "Detected uncommitted changes after running bun run build:css" \
-          "Please regenerate all CSS and commit changes." && exit 1
-
-      # Make sure Lit web components were built before commit
-      - name: Build Lit WebComponents
-        run: bun run build:components
-      - name: Check file changes after building web components
-        run: |
-          git diff --exit-code
-        id: diff_files_after_lit_build
-        continue-on-error: true
-      - name: Fail if changes are detected
-        if: steps.diff_files_after_lit_build.outcome == 'failure'
-        run: |
-          echo "Detected uncommitted changes after running bun run build:components" \
-          "Please regenerate all Lit components and commit changes." && exit 1
-
-      # Make sure TypeScript was built before commit
-      - name: Build TypeScript
-        run: bun run build:ts
-      - name: Check file changes after building TypeScript
-        run: |
-          git diff --exit-code
-        id: diff_files_after_ts_build
-        continue-on-error: true
-      - name: Fail if changes are detected
-        if: steps.diff_files_after_ts_build.outcome == 'failure'
-        run: |
-          echo "Detected uncommitted changes after running bun run build:js" \
-          "Please regenerate all TypeScript and commit changes." && exit 1
+      # Test
+      - name: Test and calculate coverage
+        run: go test -v -covermode=count -coverprofile=coverage.out ./...
 
       # Try compile
       - name: Compile
