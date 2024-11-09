@@ -7,10 +7,9 @@
     "build:css": "postcss ./server/input.tw.css -o ./server/public/dist.css",
     "build:components": "bun build --minify --outfile ./server/public/components.js ./server/components/index.ts",
     "build:ts": "bun build --minify --outfile ./server/public/dist.js ./server/input.ts",
-    "lint:ts": "eslint .",
+    "lint:ts": "bunx tsc --noEmit && eslint .",
     "download:icon": "curl --fail -o ./server/public/assets/icons/$ICON.svg https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/$ICON.svg && echo \"Added to ./server/public/assets/icons/$ICON.svg\""
   },
-  "keywords": [],
   "author": "Roman Scharkov <roman.scharkov@gmail.com>",
   "license": "MIT",
   "devDependencies": {

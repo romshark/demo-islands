@@ -16,12 +16,14 @@ jobs:
         run: go install github.com/a-h/templ/cmd/templ@v0.2.793
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       # Generate
       - name: Generate files
         run: ./buildall.sh
 
       # Lint
+      - name: Run lint:ts
+        run: bun run lint:ts
       - name: Run go vet
         continue-on-error: true
         run: go vet ./...
