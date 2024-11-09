@@ -2,6 +2,7 @@
 
 Perfect [Lighthouse](https://developer.chrome.com/docs/lighthouse) score.
 
+[![Coverage Status](https://coveralls.io/repos/github/romshark/demo-islands/badge.svg?branch=main)](https://coveralls.io/github/romshark/demo-islands?branch=main)
 [![GoReportCard](https://goreportcard.com/badge/github.com/romshark/demo-islands)](https://goreportcard.com/report/github.com/romshark/demo-islands)
 [![License](https://img.shields.io/github/license/romshark/demo-islands)](https://github.com/romshark/demo-islands?tab=MIT-1-ov-file#readme)
 [![GoDoc](https://godoc.org/github.com/romshark/demo-islands?status.svg)](https://pkg.go.dev/github.com/romshark/demo-islands)
