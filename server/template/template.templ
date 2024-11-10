@@ -16,14 +16,13 @@ templ htmlMain(title string) {
 			<meta name="description" content="Islands-Architecture Web App Demo"/>
 			<script src="https://unpkg.com/htmx.org@2.0.3"></script>
 			<script src="https://unpkg.com/idiomorph@0.3.0/dist/idiomorph-ext.min.js"></script>
-			<script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/themes/light.css"/>
 			<script src="/public/components.js" type="module"></script>
 			<link rel="stylesheet" href="/public/dist.css"/>
 			<script src="/public/dist.js"></script>
 			<link rel="icon" href="/public/favicon.ico"/>
 		</head>
-		<body hx-ext="morph">
+		<body hx-ext="morph" x-data="app">
 			<div id="viewport">
 				{ children... }
 			</div>
@@ -38,6 +37,18 @@ templ viewIndex(
 	shippingOrders []domain.ShippingDetails,
 ) {
 	<div>
+		<nav class="p-4 h-20 flex items-center align-middle w-full">
+			<sl-select
+				x-ref="themeSelect"
+				class="w-32"
+				name="theme"
+				@sl-change="(e) => app.setTheme(e.target.value)"
+			>
+				<sl-option value="">System</sl-option>
+				<sl-option value="dark">Dark</sl-option>
+				<sl-option value="light">Light</sl-option>
+			</sl-select>
+		</nav>
 		<div class="md:container md:mx-auto ml-4 mr-4 pb-16">
 			<div class="mt-4">
 				@componentOrderForm(form, addressCountryOptions, shippingCompanyOptions)
@@ -139,9 +150,7 @@ templ componentOrderForm(
 				</sl-input>
 			}
 			if form.ErrorCompanyName != "" {
-				@animatedAppear() {
-					<p class="mb-2 text-red-600">⚠️ { form.ErrorCompanyName }</p>
-				}
+				<p class="mb-2 text-red-600">⚠️ { form.ErrorCompanyName }</p>
 			}
 		</div>
 		// First Name
@@ -157,9 +166,7 @@ templ componentOrderForm(
 				</sl-input>
 			}
 			if form.ErrorFirstName != "" {
-				@animatedAppear() {
-					<p class="mb-2 text-red-600">⚠️ { form.ErrorFirstName }</p>
-				}
+				<p class="mb-2 text-red-600">⚠️ { form.ErrorFirstName }</p>
 			}
 		</div>
 		// Last Name
@@ -175,9 +182,7 @@ templ componentOrderForm(
 				</sl-input>
 			}
 			if form.ErrorLastName != "" {
-				@animatedAppear() {
-					<p class="mb-2 text-red-600">⚠️ { form.ErrorLastName }</p>
-				}
+				<p class="mb-2 text-red-600">⚠️ { form.ErrorLastName }</p>
 			}
 		</div>
 		// Email
@@ -194,9 +199,7 @@ templ componentOrderForm(
 				</sl-input>
 			}
 			if form.ErrorEmail != "" {
-				@animatedAppear() {
-					<p class="mb-2 text-red-600">⚠️ { form.ErrorEmail }</p>
-				}
+				<p class="mb-2 text-red-600">⚠️ { form.ErrorEmail }</p>
 			}
 		</div>
 		// Phone Number
@@ -213,9 +216,7 @@ templ componentOrderForm(
 				</sl-input>
 			}
 			if form.ErrorPhone != "" {
-				@animatedAppear() {
-					<p class="mb-2 text-red-600 animate-fade-in">⚠️ { form.ErrorPhone }</p>
-				}
+				<p class="mb-2 text-red-600 animate-fade-in">⚠️ { form.ErrorPhone }</p>
 			}
 		</div>
 		// Address Country
@@ -241,9 +242,7 @@ templ componentOrderForm(
 				</sl-select>
 			}
 			if form.ErrorAddressCountry != "" {
-				@animatedAppear() {
-					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCountry }</p>
-				}
+				<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCountry }</p>
 			}
 		</div>
 		// Address Postal Code
@@ -259,9 +258,7 @@ templ componentOrderForm(
 				</sl-input>
 			}
 			if form.ErrorAddressPostalCode != "" {
-				@animatedAppear() {
-					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressPostalCode }</p>
-				}
+				<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressPostalCode }</p>
 			}
 		</div>
 		// Address City
@@ -277,9 +274,7 @@ templ componentOrderForm(
 				</sl-input>
 			}
 			if form.ErrorAddressCity != "" {
-				@animatedAppear() {
-					<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCity }</p>
-				}
+				<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCity }</p>
 			}
 		</div>
 		<h2 class="col-span-full">Shipping</h2>
@@ -295,9 +290,7 @@ templ componentOrderForm(
 				></sl-input>
 			}
 			if form.ErrorDue != "" {
-				@animatedAppear() {
-					<p class="mb-2 text-red-600">⚠️ { form.ErrorDue }</p>
-				}
+				<p class="mb-2 text-red-600">⚠️ { form.ErrorDue }</p>
 			}
 		</div>
 		// Shipping Company
@@ -314,9 +307,7 @@ templ componentOrderForm(
 				</sl-select>
 			}
 			if form.ErrorShippingCompany != "" {
-				@animatedAppear() {
-					<p class="mb-2 text-red-600">⚠️ { form.ErrorShippingCompany }</p>
-				}
+				<p class="mb-2 text-red-600">⚠️ { form.ErrorShippingCompany }</p>
 			}
 		</div>
 		// Express Shipping
@@ -347,9 +338,7 @@ templ componentOrderForm(
 			}
 		</div>
 		if form.ErrorSpecialNotes != "" {
-			@animatedAppear() {
-				<p class="mb-2 text-red-600">⚠️ { form.ErrorSpecialNotes }</p>
-			}
+			<p class="mb-2 text-red-600">⚠️ { form.ErrorSpecialNotes }</p>
 		}
 		<div class="mt-6 col-span-full">
 			@skeleton("100%", "2.6rem") {
@@ -428,18 +417,6 @@ templ skeleton(minWidth, minHeight string) {
 			"class": "skeleton",
 			"style": "min-width:"+minWidth+";min-height:"+minHeight,
 		}... }
-	>
-		{ children... }
-	</div>
-}
-
-templ animatedAppear() {
-	<div
-		x-data="{b: false}"
-		x-init="$nextTick(() => {b = !b})"
-		x-show="b"
-		x-collapse
-		x-collapse.duration.300ms
 	>
 		{ children... }
 	</div>
