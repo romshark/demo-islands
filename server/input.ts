@@ -130,7 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
       applyTheme() {
         const current = this.theme ?? getSystemTheme();
 
-        // Create and insert a new link element for the theme.
+        // Set Shoelace theme by creating and inserting a new link element for the theme.
+        // Then switch the body class.
         const newEl = document.createElement("link");
         newEl.setAttribute("rel", "stylesheet");
         newEl.setAttribute("href", themes[current].url);
@@ -147,6 +148,13 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.add(themes[current].className);
             this.themeLinkEl?.remove();
             this.themeLinkEl = newEl;
+
+            // Switch TailwindCSS theme.
+            if (current === Theme.Dark) {
+              document.documentElement.classList.add("dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+            }
           },
           { once: true }
         );
