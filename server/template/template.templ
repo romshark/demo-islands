@@ -1,23 +1,23 @@
 package template
 
-import "fmt"
-import "time"
-import "github.com/romshark/demo-islands/domain"
+import (
+	"fmt"
+	"github.com/romshark/demo-islands/domain"
+	"time"
+)
 
 templ htmlMain(title string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
 			<title>{ title }</title>
-			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<meta charset="UTF-8">
-			<meta name="description" content="Islands-Architecture Web App Demo">
-			
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<meta charset="UTF-8"/>
+			<meta name="description" content="Islands-Architecture Web App Demo"/>
 			<script src="https://unpkg.com/htmx.org@2.0.3"></script>
 			<script src="https://unpkg.com/idiomorph@0.3.0/dist/idiomorph-ext.min.js"></script>
 			<script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/themes/light.css" />
-			
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/themes/light.css"/>
 			<script src="/public/components.js" type="module"></script>
 			<link rel="stylesheet" href="/public/dist.css"/>
 			<script src="/public/dist.js"></script>
@@ -42,7 +42,7 @@ templ viewIndex(
 			<div class="mt-4">
 				@componentOrderForm(form, addressCountryOptions, shippingCompanyOptions)
 			</div>
-			<hr class="mt-4">
+			<hr class="mt-4"/>
 			<h1 class="mt-2 mb-2">Pending Orders</h1>
 			if len(shippingOrders) < 1 {
 				<p>No currently pending orders.</p>
@@ -52,43 +52,43 @@ templ viewIndex(
 				<table class="border border-solid">
 					<tr>
 						<td>Company Name</td>
-						<td> { o.CompanyName.String() } </td>
+						<td>{ o.CompanyName.String() } </td>
 					</tr>
 					<tr>
 						<td>First Name</td>
-						<td> { o.ContactFirstName.String() } </td>
+						<td>{ o.ContactFirstName.String() } </td>
 					</tr>
 					<tr>
 						<td>Last Name</td>
-						<td> { o.ContactLastName.String() } </td>
+						<td>{ o.ContactLastName.String() } </td>
 					</tr>
 					<tr>
 						<td>Email</td>
-						<td> { o.ContactEmail.String() } </td>
+						<td>{ o.ContactEmail.String() } </td>
 					</tr>
 					<tr>
 						<td>Phone</td>
-						<td> { o.ContactPhone.String() } </td>
+						<td>{ o.ContactPhone.String() } </td>
 					</tr>
 					<tr>
 						<td>Express</td>
 						if o.Express {
-							<td> Yes </td>
+							<td>Yes </td>
 						} else {
-							<td> No </td>
+							<td>No </td>
 						}
 					</tr>
 					<tr>
 						<td>Shipping Company</td>
-						<td> { o.ShippingCompany.String() } </td>
+						<td>{ o.ShippingCompany.String() } </td>
 					</tr>
 					<tr>
 						<td>Due</td>
-						<td> { o.Due.Format(time.RFC822) } </td>
+						<td>{ o.Due.Format(time.RFC822) } </td>
 					</tr>
 					<tr>
 						<td>Special Notes</td>
-						<td> { o.SpecialNotes.String() } </td>
+						<td>{ o.SpecialNotes.String() } </td>
 					</tr>
 				</table>
 			}
@@ -123,7 +123,8 @@ templ componentOrderForm(
 		hx-post="/form/"
 		hx-target="#form"
 		hx-swap="morph:outerHTML"
-		hx-trigger="sl-input delay:400ms">
+		hx-trigger="sl-input delay:400ms"
+	>
 		<h2 class="col-span-full">Contact</h2>
 		// Company Name
 		<div class="flex flex-col gap-1 col-span-full">
@@ -132,7 +133,7 @@ templ componentOrderForm(
 					id="input-company-name"
 					name="companyName"
 					label="Company Name"
-					value={form.ValueCompanyName}
+					value={ form.ValueCompanyName }
 				>
 					<sl-icon slot="prefix" name="buildings"></sl-icon>
 				</sl-input>
@@ -150,7 +151,8 @@ templ componentOrderForm(
 					id="input-first-name"
 					name="firstName"
 					label="First Name"
-					value={form.ValueFirstName}>
+					value={ form.ValueFirstName }
+				>
 					<sl-icon slot="prefix" name="person"></sl-icon>
 				</sl-input>
 			}
@@ -167,7 +169,7 @@ templ componentOrderForm(
 					id="input-last-name"
 					name="lastName"
 					label="Last Name"
-					value={form.ValueLastName}
+					value={ form.ValueLastName }
 				>
 					<sl-icon slot="prefix" name="person"></sl-icon>
 				</sl-input>
@@ -186,7 +188,7 @@ templ componentOrderForm(
 					name="email"
 					type="email"
 					label="Email"
-					value={form.ValueEmail}
+					value={ form.ValueEmail }
 				>
 					<sl-icon slot="prefix" name="envelope"></sl-icon>
 				</sl-input>
@@ -205,7 +207,7 @@ templ componentOrderForm(
 					name="phone"
 					type="tel"
 					label="Phone Number"
-					value={form.ValuePhone}
+					value={ form.ValuePhone }
 				>
 					<sl-icon slot="prefix" name="telephone"></sl-icon>
 				</sl-input>
@@ -224,13 +226,14 @@ templ componentOrderForm(
 					id="input-address-country"
 					name="addressCountry"
 					label="Country"
-					value={form.ValueAddressCountry}
+					value={ form.ValueAddressCountry }
 				>
 					if form.ValueAddressCountry != "" {
 						<slx-countryflag
 							slot="prefix"
 							width="22"
-							code={form.ValueAddressCountry}></slx-countryflag>
+							code={ form.ValueAddressCountry }
+						></slx-countryflag>
 					} else {
 						<sl-icon slot="prefix" name="map"></sl-icon>
 					}
@@ -250,7 +253,8 @@ templ componentOrderForm(
 					id="input-address-postal-code"
 					name="addressPostalCode"
 					label="Postal Code"
-					value={form.ValueAddressPostalCode}>
+					value={ form.ValueAddressPostalCode }
+				>
 					<sl-icon slot="prefix" name="mailbox-flag"></sl-icon>
 				</sl-input>
 			}
@@ -267,7 +271,8 @@ templ componentOrderForm(
 					id="input-address-city"
 					name="addressCity"
 					label="City"
-					value={form.ValueAddressCity}>
+					value={ form.ValueAddressCity }
+				>
 					<sl-icon slot="prefix" name="geo-alt"></sl-icon>
 				</sl-input>
 			}
@@ -278,7 +283,6 @@ templ componentOrderForm(
 			}
 		</div>
 		<h2 class="col-span-full">Shipping</h2>
-
 		// Due Date
 		<div class="flex flex-col gap-1">
 			@skeleton("100%", "4.2rem") {
@@ -287,7 +291,8 @@ templ componentOrderForm(
 					name="due"
 					type="date"
 					label="Due Date"
-					value={form.ValueDue}></sl-input>
+					value={ form.ValueDue }
+				></sl-input>
 			}
 			if form.ErrorDue != "" {
 				@animatedAppear() {
@@ -295,7 +300,6 @@ templ componentOrderForm(
 				}
 			}
 		</div>
-
 		// Shipping Company
 		<div class="flex flex-col gap-1">
 			@skeleton("100%", "4.2rem") {
@@ -303,7 +307,8 @@ templ componentOrderForm(
 					id="input-shipping-company"
 					name="shippingCompany"
 					label="Shipping Company"
-					value={form.ValueShippingCompanyID}>
+					value={ form.ValueShippingCompanyID }
+				>
 					<sl-icon slot="prefix" name="truck"></sl-icon>
 					@fragmentNamedOptions(shippingCompanyOptions)
 				</sl-select>
@@ -314,7 +319,6 @@ templ componentOrderForm(
 				}
 			}
 		</div>
-
 		// Express Shipping
 		<div class="flex items-center gap-1 col-span-full">
 			@skeleton("100%", "1.5rem") {
@@ -323,14 +327,13 @@ templ componentOrderForm(
 					name="express"
 					if form.ValueExpress != "" {
 						checked
-					}>
+					}
+				>
 					Express
 				</sl-checkbox>
 			}
 		</div>
-		
 		<h2 class="col-span-full">Additional</h2>
-
 		// Special Notes
 		<div class="flex flex-col gap-1 col-span-full">
 			@skeleton("100%", "8.4rem") {
@@ -339,8 +342,8 @@ templ componentOrderForm(
 					name="specialNotes"
 					label="Special Notes"
 					resize="auto"
-					value={form.ValueSpecialNotes}>
-				</sl-textarea>
+					value={ form.ValueSpecialNotes }
+				></sl-textarea>
 			}
 		</div>
 		if form.ErrorSpecialNotes != "" {
@@ -348,18 +351,16 @@ templ componentOrderForm(
 				<p class="mb-2 text-red-600">⚠️ { form.ErrorSpecialNotes }</p>
 			}
 		}
-
 		<div class="mt-6 col-span-full">
 			@skeleton("100%", "2.6rem") {
 				<sl-tooltip
 					if !form.IsValid() {
-						content={
-							"Some inputs are either missing or incorrect. "+
-								"Please correct them first."
-						}
+						content={ "Some inputs are either missing or incorrect. "+
+								"Please correct them first." }
 					} else {
 						content="Submit new order"
-					}>
+					}
+				>
 					<sl-button
 						if !form.IsValid() {
 							disabled
@@ -367,7 +368,8 @@ templ componentOrderForm(
 						type="submit"
 						hx-post="/orders/"
 						hx-swap="innerHTML"
-						hx-target="#viewport">
+						hx-target="#viewport"
+					>
 						Add
 						<sl-icon slot="prefix" name="file-earmark-plus"></sl-icon>
 					</sl-button>
@@ -377,7 +379,8 @@ templ componentOrderForm(
 						type="randomize"
 						hx-post="/form/randomized/"
 						hx-target="#form"
-						hx-swap="morph:outerHTML">
+						hx-swap="morph:outerHTML"
+					>
 						Randomize
 						<sl-icon slot="prefix" name="dice-3-fill"></sl-icon>
 					</sl-button>
@@ -393,7 +396,8 @@ templ fragmentCountryOptions(opts []NamedOption) {
 			<slx-countryflag
 				slot="prefix"
 				width="22"
-				code={opt.Value}></slx-countryflag>
+				code={ opt.Value }
+			></slx-countryflag>
 		}
 	}
 }
@@ -410,9 +414,9 @@ templ slOption(o NamedOption) {
 	// class "hidden" is applied to avoid CLS (cumulative layout shift) on
 	// page load. This class will be removed slOptionsReveal on `window.load`
 	// and `htmx:afterSwap` events.
-	<sl-option class="hidden" value={o.Value}>
-		{o.Name}
-		{children...}
+	<sl-option class="hidden" value={ o.Value }>
+		{ o.Name }
+		{ children... }
 	</sl-option>
 }
 
@@ -423,8 +427,9 @@ templ skeleton(minWidth, minHeight string) {
 		{ templ.Attributes{
 			"class": "skeleton",
 			"style": "min-width:"+minWidth+";min-height:"+minHeight,
-		}... }>
-		{children...}
+		}... }
+	>
+		{ children... }
 	</div>
 }
 
@@ -434,7 +439,8 @@ templ animatedAppear() {
 		x-init="$nextTick(() => {b = !b})"
 		x-show="b"
 		x-collapse
-		x-collapse.duration.300ms>
-		{children...}
+		x-collapse.duration.300ms
+	>
+		{ children... }
 	</div>
 }
