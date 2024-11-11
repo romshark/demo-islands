@@ -141,11 +141,11 @@ document.addEventListener("DOMContentLoaded", () => {
           "load",
           () => {
             // Switch styles.
-            document.body.classList.remove(
+            document.documentElement.classList.remove(
               themes[Theme.Light].className,
               themes[Theme.Dark].className
             );
-            document.body.classList.add(themes[current].className);
+            document.documentElement.classList.add(themes[current].className);
             this.themeLinkEl?.remove();
             this.themeLinkEl = newEl;
 
