@@ -23,13 +23,14 @@ func RenderPageIndex(
 
 func RenderViewIndex(
 	ctx context.Context, w io.Writer,
+	darkMode bool,
 	form Form,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 	orders []domain.ShippingDetails,
 ) error {
 	return viewIndex(
-		form, addressCountryOptions, shippingCompanyOptions, orders,
+		form, darkMode, addressCountryOptions, shippingCompanyOptions, orders,
 	).Render(ctx, w)
 }
 

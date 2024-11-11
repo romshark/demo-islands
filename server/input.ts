@@ -79,6 +79,36 @@ function getSystemTheme(): Theme {
   return Theme.Light;
 }
 
+function setCookieTheme(theme: Theme) {
+  switch (theme) {
+    case Theme.Dark: {
+      document.cookie = "theme=dark; path=/";
+      break;
+    }
+    case Theme.Light: {
+      document.cookie = "theme=light; path=/";
+      break;
+    }
+  }
+}
+
+function removeCookieTheme() {
+  document.cookie = "theme=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+}
+
+function getCookieTheme(): Theme | null {
+  const match = document.cookie.match(new RegExp(`(^| )theme=([^;]+)`));
+  const themeValue = match ? decodeURIComponent(match[2]) : null;
+
+  switch (themeValue) {
+    case "dark":
+      return Theme.Dark;
+    case "light":
+      return Theme.Light;
+  }
+  return null;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("alpine:init", () => {
     Alpine.data("app", () => ({
@@ -87,19 +117,20 @@ document.addEventListener("DOMContentLoaded", () => {
       themeLinkEl: null as HTMLLinkElement | null,
 
       init() {
-        const themeSetting = localStorage.getItem("theme");
-        switch (themeSetting) {
-          case "light":
+        this.theme = getCookieTheme();
+        switch (this.theme) {
+          case Theme.Light: {
             this.$refs.themeSelect.setAttribute("value", "light");
-            this.theme = Theme.Light;
             break;
-          case "dark":
+          }
+          case Theme.Dark: {
             this.$refs.themeSelect.setAttribute("value", "dark");
-            this.theme = Theme.Dark;
             break;
-          default:
+          }
+          default: {
             this.$refs.themeSelect.setAttribute("value", "");
             break;
+          }
         }
         this.applyTheme();
 
@@ -118,10 +149,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       setTheme(theme: Theme) {
         if (Object.values(Theme).includes(theme)) {
-          localStorage.setItem("theme", theme);
+          setCookieTheme(theme);
           this.theme = theme;
         } else {
-          localStorage.removeItem("theme");
+          removeCookieTheme();
           this.theme = null;
         }
         this.applyTheme();

@@ -70,12 +70,22 @@ func New(logAccess, logError *slog.Logger, conf Config) *Server {
 		return h
 	}
 
-	s.m.Handle("GET /public/", handler(handlerPublicAssets))
-	s.m.Handle("GET /{$}", handler(http.HandlerFunc(s.handleGetIndex)))
-	s.m.Handle("POST /form/{$}", handler(http.HandlerFunc(s.handlePostForm)))
+	s.m.Handle("GET /public/",
+		handler(handlerPublicAssets))
+	s.m.Handle("GET /{$}",
+		middleware.UserPreferences(
+			logError,
+			handler(http.HandlerFunc(s.handleGetIndex)),
+		))
+	s.m.Handle("POST /form/{$}",
+		handler(http.HandlerFunc(s.handlePostForm)))
 	s.m.Handle("POST /form/randomized/{$}",
 		handler(http.HandlerFunc(s.handlePostFormRandomize)))
-	s.m.Handle("POST /orders/{$}", handler(http.HandlerFunc(s.handlePostOrders)))
+	s.m.Handle("POST /orders/{$}",
+		middleware.UserPreferences(
+			logError,
+			handler(http.HandlerFunc(s.handlePostOrders)),
+		))
 	return s
 }
 
@@ -164,16 +174,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // handleGetIndex handles "GET /" which returns the main homepage.
 func (s *Server) handleGetIndex(w http.ResponseWriter, r *http.Request) {
-	// Tell the browser we're interested in receiveing the theme (dark/light)
-	// preferences of the user to improve UX.
-	w.Header().Set("Accept-CH", "Sec-CH-Prefers-Color-Scheme")
-
-	// Detect whether a theme hint was already sent.
-	darkMode := r.Header.Get("Sec-CH-Prefers-Color-Scheme") == "dark"
+	theme := middleware.GetCtxTheme(r.Context())
 
 	if err := template.RenderPageIndex(
 		r.Context(), w,
-		darkMode,
+		theme == middleware.ThemeDark,
 		template.Form{}, s.addressCountryOptions, s.shippingCompanyOptions, s.orders,
 	); err != nil {
 		s.errInternal(w, err)
@@ -235,6 +240,8 @@ func (s *Server) handlePostFormRandomize(w http.ResponseWriter, r *http.Request)
 // handlePostOrders handles "POST /orders/" which expects form inputs,
 // adds a new shipping order if the inputs are valid and renders the main page.
 func (s *Server) handlePostOrders(w http.ResponseWriter, r *http.Request) {
+	theme := middleware.GetCtxTheme(r.Context())
+
 	var f template.Form
 	f.UnmarshalForm(r)
 	if f.IsValid() {
@@ -260,6 +267,7 @@ func (s *Server) handlePostOrders(w http.ResponseWriter, r *http.Request) {
 	}
 	if err := template.RenderViewIndex(
 		r.Context(), w,
+		theme == middleware.ThemeDark,
 		f, s.addressCountryOptions, s.shippingCompanyOptions, s.orders,
 	); err != nil {
 		s.errInternal(w, err)

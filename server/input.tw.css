@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --skeleton-bg-color: #e8e8e8;
-  --skeleton-accent-color: #f2f2f2;
-}
-
 /* Default global styles */
 html button,
 html input,
@@ -39,11 +34,14 @@ html table td {
 
 /*--- Skeleton ---*/
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --skeleton-bg-color: #333333;
-    --skeleton-accent-color: #3b3b3b;
-  }
+:root {
+  --skeleton-bg-color: #e8e8e8;
+  --skeleton-accent-color: #f2f2f2;
+}
+
+:root.dark {
+  --skeleton-bg-color: #333333;
+  --skeleton-accent-color: #3b3b3b;
 }
 
 .skeleton {
@@ -59,10 +57,12 @@ html table td {
   right: 4px;
   bottom: 4px;
   border-radius: 12px;
-  background: linear-gradient(90deg,
-      var(--skeleton-bg-color) 25%,
-      var(--skeleton-accent-color) 50%,
-      var(--skeleton-bg-color) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-bg-color) 25%,
+    var(--skeleton-accent-color) 50%,
+    var(--skeleton-bg-color) 75%
+  );
   background-size: 200% 100%;
   /* Start fully transparent and transition to visible after a delay */
   opacity: 0;
@@ -83,8 +83,8 @@ html table td {
 .skeleton:has(:not(*:defined))::before {
   animation:
     /* 20ms delay before showing the skeleton for a clean white/black page.
-    This avoids visual flickering when the page loads within the delay period. */
-    fadeInSkeleton 0.2s forwards ease-in-out 20ms,
+    This avoids visual flickering when the page loads within the delay period. */ fadeInSkeleton
+      0.2s forwards ease-in-out 20ms,
     skeletonLoading 2s infinite linear 20ms;
 }
 
