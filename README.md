@@ -22,11 +22,13 @@ a cutting-edge tech stack:
 - **Dev Tools**
   - [Templiér](https://github.com/romshark/templier) for hot-reloads in dev mode. ♻️
   - [Bun](https://bun.sh/) for TypeScript bundling and JS package management. 🍞
-  - [Lit](https://lit.dev/) for building maintainable and fast web components. 🔥
+  - [ESLint](https://eslint.org/) for JavaScript/TypeScript linting. 🔎
 - **Frontend**
   - [TailwindCSS](https://tailwindcss.com/) for easy styling. 💅
   - [Shoelace](https://shoelace.style/) for reusable and extensible web components. 👟
-  - [ESLint](https://eslint.org/) for JavaScript/TypeScript linting. 🔎
+  - [Lit](https://lit.dev/) for building maintainable and fast web components. 🔥
+- **Scripting**
+  - [Alpine.js](https://alpinejs.dev/) for client-side scripting. ⛰️
 - **CI/CD**
   - [GitHub Actions](https://github.com/features/actions) for CI/CD.
 
