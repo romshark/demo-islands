@@ -10,13 +10,14 @@ import (
 
 func RenderPageIndex(
 	ctx context.Context, w io.Writer,
+	darkMode bool,
 	form Form,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 	orders []domain.ShippingDetails,
 ) error {
 	return pageIndex(
-		form, addressCountryOptions, shippingCompanyOptions, orders,
+		form, darkMode, addressCountryOptions, shippingCompanyOptions, orders,
 	).Render(ctx, w)
 }
 

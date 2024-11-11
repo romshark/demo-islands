@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --skeleton-bg-color: #e8e8e8;
+  --skeleton-accent-color: #f2f2f2;
+}
+
 /* Default global styles */
 html button,
 html input,
@@ -21,36 +26,6 @@ html table td {
   padding: 0.2rem 0.5rem 0.2rem 0.5rem;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: bold;
-}
-
-li {
-  padding-left: 0.5rem;
-  display: flex;
-  align-items: center;
-}
-li::before {
-  content: "-";
-  margin-right: 0.5rem;
-}
-.button-checkbox {
-  width: 1.5rem;
-  height: 1.5rem;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  position: relative;
-  font-size: 0.5rem;
-  text-align: center;
-}
-
 .non-interactable {
   pointer-events: none;
   animation: hx-eased-loading 0.4s forwards;
@@ -61,6 +36,16 @@ li::before {
     opacity: 0.35;
   }
 }
+
+/*--- Skeleton ---*/
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --skeleton-bg-color: #333333;
+    --skeleton-accent-color: #3b3b3b;
+  }
+}
+
 .skeleton {
   position: relative;
 }
@@ -74,7 +59,10 @@ li::before {
   right: 4px;
   bottom: 4px;
   border-radius: 12px;
-  background: linear-gradient(90deg, #f2f2f2 25%, #e8e8e8 50%, #f2f2f2 75%);
+  background: linear-gradient(90deg,
+      var(--skeleton-bg-color) 25%,
+      var(--skeleton-accent-color) 50%,
+      var(--skeleton-bg-color) 75%);
   background-size: 200% 100%;
   /* Start fully transparent and transition to visible after a delay */
   opacity: 0;
@@ -110,6 +98,7 @@ li::before {
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }

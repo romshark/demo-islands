@@ -6,26 +6,35 @@ import (
 	"time"
 )
 
-templ htmlMain(title string) {
+templ htmlMain(title string, darkMode bool) {
 	<!DOCTYPE html>
-	<html lang="en">
+	<html
+		lang="en"
+		if darkMode {
+			class="dark"
+		}
+	>
 		<head>
 			<title>{ title }</title>
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
 			<meta charset="UTF-8"/>
 			<meta name="description" content="Islands-Architecture Web App Demo"/>
+			<link rel="stylesheet" href="/public/dist.css"/>
 			<script src="https://unpkg.com/htmx.org@2.0.3"></script>
 			<script src="https://unpkg.com/idiomorph@0.3.0/dist/idiomorph-ext.min.js"></script>
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/themes/light.css"/>
+			if darkMode {
+				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/themes/dark.css"/>
+			} else {
+				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/themes/light.css"/>
+			}
 			<script src="/public/components.js" type="module"></script>
-			<link rel="stylesheet" href="/public/dist.css"/>
 			<script src="/public/dist.js"></script>
 			<link rel="icon" href="/public/favicon.ico"/>
 		</head>
 		<body
 			hx-ext="morph"
 			x-data="app"
-			class="dark:bg-gray-800 dark:text-slate-300"
+			class="dark:bg-neutral-900 dark:text-slate-300"
 		>
 			<div id="viewport">
 				{ children... }
@@ -113,11 +122,12 @@ templ viewIndex(
 
 templ pageIndex(
 	form Form,
+	darkMode bool,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 	shippingOrders []domain.ShippingDetails,
 ) {
-	@htmlMain("Index") {
+	@htmlMain("Index", darkMode) {
 		@viewIndex(
 			form,
 			addressCountryOptions,

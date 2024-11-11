@@ -164,8 +164,16 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // handleGetIndex handles "GET /" which returns the main homepage.
 func (s *Server) handleGetIndex(w http.ResponseWriter, r *http.Request) {
+	// Tell the browser we're interested in receiveing the theme (dark/light)
+	// preferences of the user to improve UX.
+	w.Header().Set("Accept-CH", "Sec-CH-Prefers-Color-Scheme")
+
+	// Detect whether a theme hint was already sent.
+	darkMode := r.Header.Get("Sec-CH-Prefers-Color-Scheme") == "dark"
+
 	if err := template.RenderPageIndex(
 		r.Context(), w,
+		darkMode,
 		template.Form{}, s.addressCountryOptions, s.shippingCompanyOptions, s.orders,
 	); err != nil {
 		s.errInternal(w, err)
