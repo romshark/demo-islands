@@ -66,6 +66,7 @@ html table td {
   background-size: 200% 100%;
   /* Start fully transparent and transition to visible after a delay */
   opacity: 0;
+  display: none;
 }
 
 .skeleton * {
@@ -81,6 +82,7 @@ html table td {
 }
 
 .skeleton:has(:not(*:defined))::before {
+  display: block;
   animation:
     /* 20ms delay before showing the skeleton for a clean white/black page.
     This avoids visual flickering when the page loads within the delay period. */ fadeInSkeleton
