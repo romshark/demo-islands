@@ -118,6 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       init() {
         this.theme = getCookieTheme();
+        this.themeLinkEl = document.getElementById(
+          "stylesheet-shoelace-theme"
+        ) as HTMLLinkElement;
         switch (this.theme) {
           case Theme.Light: {
             this.$refs.themeSelect.setAttribute("value", "light");
@@ -132,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
             break;
           }
         }
-        this.applyTheme();
 
         // Watch for changes to the system preference.
         window

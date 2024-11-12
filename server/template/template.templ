@@ -11,7 +11,9 @@ templ htmlMain(title string, darkMode bool) {
 	<html
 		lang="en"
 		if darkMode {
-			class="dark"
+			class="dark sl-theme-dark"
+		} else {
+			class="sl-theme-light"
 		}
 	>
 		<head>
@@ -22,11 +24,15 @@ templ htmlMain(title string, darkMode bool) {
 			<link rel="stylesheet" href="/public/dist.css"/>
 			<script src="https://unpkg.com/htmx.org@2.0.3"></script>
 			<script src="https://unpkg.com/idiomorph@0.3.0/dist/idiomorph-ext.min.js"></script>
-			if darkMode {
-				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/themes/dark.css"/>
-			} else {
-				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/themes/light.css"/>
-			}
+			<link
+				id="stylesheet-shoelace-theme"
+				rel="stylesheet"
+				if darkMode {
+					href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/themes/dark.css"
+				} else {
+					href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/themes/light.css"
+				}
+			/>
 			<script src="/public/components.js" type="module"></script>
 			<script src="/public/dist.js"></script>
 			<link rel="icon" href="/public/favicon.ico"/>
@@ -45,7 +51,6 @@ templ htmlMain(title string, darkMode bool) {
 
 templ viewIndex(
 	form Form,
-	darkMode bool,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 	shippingOrders []domain.ShippingDetails,
@@ -56,9 +61,6 @@ templ viewIndex(
 				x-ref="themeSelect"
 				class="w-32"
 				name="theme"
-				if darkMode {
-					value="dark"
-				}
 				@sl-change="(e) => app.setTheme(e.target.value)"
 			>
 				<sl-option value="">System</sl-option>
@@ -134,7 +136,6 @@ templ pageIndex(
 	@htmlMain("Index", darkMode) {
 		@viewIndex(
 			form,
-			darkMode,
 			addressCountryOptions,
 			shippingCompanyOptions,
 			shippingOrders,
