@@ -23,7 +23,7 @@ interface App {
 // showing loading indication after an HTMX request was sent.
 // If the request finishes fast (response time is below threshold)
 // then no loading indication should be applied.
-const hxThresholdLoadingIndicator = 150;
+const hxThresholdLoadingIndicator = 220;
 
 document.addEventListener("htmx:beforeRequest", function (event) {
   const target = (event as CustomEvent).detail.target;
