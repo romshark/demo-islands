@@ -421,10 +421,7 @@ templ fragmentNamedOptions(opts []NamedOption) {
 // slOption is an instance of <sl-option> that's automatically revealed
 // on window.load and htmx:afterSwap events to avoid CLS (cumulative layout shift).
 templ slOption(o NamedOption) {
-	// class "hidden" is applied to avoid CLS (cumulative layout shift) on
-	// page load. This class will be removed slOptionsReveal on `window.load`
-	// and `htmx:afterSwap` events.
-	<sl-option class="hidden" value={ o.Value }>
+	<sl-option value={ o.Value }>
 		{ o.Name }
 		{ children... }
 	</sl-option>
