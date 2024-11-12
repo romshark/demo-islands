@@ -70,16 +70,17 @@ document.addEventListener("htmx:afterRequest", function (event) {
   }
 });
 
-function slOptionsReveal() {
-  document
-    .querySelectorAll("sl-option.hidden")
-    .forEach((o) => o.classList.remove("hidden"));
+{
+  // Reveal <sl-option> elements once the page is loaded or
+  // parts of the page are reloaded to avoid CLS (cumulative layout shift).
+  function slOptionsReveal() {
+    document
+      .querySelectorAll("sl-option")
+      .forEach((o) => o.classList.add("visible"));
+  }
+  window.addEventListener("load", slOptionsReveal);
+  document.addEventListener("htmx:afterSwap", slOptionsReveal);
 }
-
-// Reveal <sl-option> elements once the page is loaded or
-// parts of the page are reloaded to avoid CLS (cumulative layout shift).
-window.addEventListener("load", slOptionsReveal);
-document.addEventListener("htmx:afterSwap", slOptionsReveal);
 
 enum Theme {
   Light = "light",
