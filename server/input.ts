@@ -19,6 +19,30 @@ interface App {
   applyTheme(): void;
 }
 
+// setLoadingIndicatorOn sets the hx-loading class on target
+// and overlays it with a loading indicator element.
+// The returned function can be used to undo those effects.
+function setLoadingIndicatorOn(target: HTMLElement): () => void {
+  target.classList.add("hx-loading");
+
+  // Create the loading indicator element.
+  const loadingIndicator = document.createElement("div");
+  loadingIndicator.classList.add("hx-loading-indicator");
+  (target.parentElement ?? document).appendChild(loadingIndicator);
+
+  // Position the indicator to overlay the target element.
+  const rect = target.getBoundingClientRect();
+  loadingIndicator.style.position = "absolute";
+  loadingIndicator.style.top = `${rect.top + window.scrollY}px`;
+  loadingIndicator.style.left = `${rect.left + window.scrollX}px`;
+  loadingIndicator.style.width = `${rect.width}px`;
+  loadingIndicator.style.height = `${rect.height}px`;
+  return () => {
+    loadingIndicator.remove();
+    target.classList.remove("hx-loading");
+  };
+}
+
 // hxThresholdLoadingIndicator defines how long to wait before
 // showing loading indication after an HTMX request was sent.
 // If the request finishes fast (response time is below threshold)
@@ -28,7 +52,7 @@ const hxThresholdLoadingIndicator = 220;
 document.addEventListener("htmx:beforeRequest", function (event) {
   const target = (event as CustomEvent).detail.target;
   target.htmxTimeoutId = setTimeout(function () {
-    target.classList.add("non-interactable");
+    target.disableLoadingIndication = setLoadingIndicatorOn(target);
   }, hxThresholdLoadingIndicator);
 });
 
@@ -41,8 +65,9 @@ document.addEventListener("htmx:afterRequest", function (event) {
     target.htmxTimeoutId = null; // Clear the timeout ID
   }
 
-  // Remove the class (just in case it was applied)
-  target.classList.remove("non-interactable");
+  if (target.disableLoadingIndication) {
+    target.disableLoadingIndication();
+  }
 });
 
 function slOptionsReveal() {

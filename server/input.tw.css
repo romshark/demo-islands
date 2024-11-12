@@ -21,14 +21,79 @@ html table td {
   padding: 0.2rem 0.5rem 0.2rem 0.5rem;
 }
 
-.non-interactable {
+/*--- HTMX loading indicator ---*/
+
+.hx-loading {
   pointer-events: none;
-  animation: hx-eased-loading 0.4s forwards;
+  animation: hx-loading-eased 0.4s forwards;
 }
 
-@keyframes hx-eased-loading {
+.hx-loading-indicator {
+  opacity: 0;
+  animation: hx-indicator-eased 1s forwards;
+}
+
+:root.dark .hx-loading-indicator::before {
+  /* dark mode */
+  --hx-loading-indicator-gradient: no-repeat
+    linear-gradient(
+      #ffffff calc(50% - 10px),
+      #ffffff00 0 calc(50% + 10px),
+      #ffffff 0
+    );
+  box-shadow: 0px 0px 10px 20px #181818;
+}
+
+.hx-loading-indicator::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 11;
+  top: calc(50%-1rem);
+  left: calc(50%-1rem);
+  opacity: 1;
+  width: 2rem;
+  aspect-ratio: 1;
+  animation: hx-loading-indicator-animation 1s infinite linear;
+  background: var(--hx-loading-indicator-gradient) 0% 100%,
+    var(--hx-loading-indicator-gradient) 50% 100%,
+    var(--hx-loading-indicator-gradient) 100% 100%;
+  background-size: 20% calc(200% + 20px);
+
+  /* light mode */
+  --hx-loading-indicator-gradient: no-repeat
+    linear-gradient(
+      #000000 calc(50% - 10px),
+      #00000000 0 calc(50% + 10px),
+      #000000 0
+    );
+  box-shadow: 0px 0px 10px 20px #ffffff;
+}
+
+@keyframes hx-loading-indicator-animation {
+  33% {
+    background-position: 0% 50%, 50% 100%, 100% 100%;
+  }
+  50% {
+    background-position: 0% 0%, 50% 50%, 100% 100%;
+  }
+  66% {
+    background-position: 0% 0%, 50% 0%, 100% 50%;
+  }
+  100% {
+    background-position: 0% 0%, 50% 0%, 100% 0%;
+  }
+}
+
+@keyframes hx-indicator-eased {
   to {
-    opacity: 0.35;
+    opacity: 1;
+  }
+}
+
+@keyframes hx-loading-eased {
+  to {
+    opacity: 0.3;
   }
 }
 
