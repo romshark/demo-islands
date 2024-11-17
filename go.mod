@@ -7,6 +7,7 @@ require (
 	github.com/andybalholm/brotli v1.1.1
 	github.com/brianvoe/gofakeit/v7 v7.1.2
 	github.com/romshark/templier v0.8.0
+	github.com/rs/zerolog v1.33.0
 	github.com/stretchr/testify v1.9.0
 )
 

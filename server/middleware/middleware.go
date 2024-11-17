@@ -4,11 +4,11 @@ package middleware
 import (
 	"context"
 	"io"
-	"log/slog"
 	"net/http"
 	"time"
 
 	"github.com/andybalholm/brotli"
+	"github.com/rs/zerolog"
 )
 
 // Compress enables brotli/gzip compression.
@@ -74,7 +74,7 @@ func GetCtxTheme(ctx context.Context) Theme {
 // can be retrieved using GetCtxTheme.
 //
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Color-Scheme
-func UserPreferences(log *slog.Logger, next http.Handler) http.Handler {
+func UserPreferences(log zerolog.Logger, next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Tell the browser we're interested in receiveing the theme (dark/light)
 		// preferences of the user to improve UX.
@@ -83,7 +83,7 @@ func UserPreferences(log *slog.Logger, next http.Handler) http.Handler {
 		theme := ThemeDefault // Default theme.
 		themeFromCookie, err := getThemeCookie(r)
 		if err != nil {
-			log.Error("reading theme cookie", slog.Any("error", err))
+			log.Error().Err(err).Msg("reading theme cookie")
 		} else if themeFromCookie == "dark" {
 			// Theme was explicitly set to dark via cookie.
 			theme = ThemeDark

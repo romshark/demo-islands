@@ -2,12 +2,12 @@ package server
 
 import (
 	"embed"
-	"log/slog"
 	"net/http"
 	"sort"
 	"time"
 
 	"github.com/brianvoe/gofakeit/v7"
+	"github.com/rs/zerolog"
 
 	"github.com/romshark/demo-islands/domain"
 	"github.com/romshark/demo-islands/internal/rand"
@@ -21,8 +21,8 @@ import (
 var embedDirPublic embed.FS
 
 type Server struct {
-	logAccess *slog.Logger
-	logError  *slog.Logger
+	logAccess zerolog.Logger
+	logError  zerolog.Logger
 	m         *http.ServeMux
 
 	// Pre-computed values.
@@ -40,7 +40,7 @@ type Config struct {
 	EnableCompression bool
 }
 
-func New(logAccess, logError *slog.Logger, conf Config) *Server {
+func New(logAccess, logError zerolog.Logger, conf Config) *Server {
 	s := &Server{
 		logAccess: logAccess,
 		logError:  logError,
@@ -164,11 +164,11 @@ func newShippingCompanyOptions() []template.NamedOption {
 }
 
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	s.logAccess.Info("access",
-		slog.String("method", r.Method),
-		slog.String("path", r.URL.Path),
-		slog.String("query", r.URL.Query().Encode()),
-	)
+	s.logAccess.Info().
+		Str("method", r.Method).
+		Str("path", r.URL.Path).
+		Str("query", r.URL.Query().Encode()).
+		Msg("access")
 	s.m.ServeHTTP(w, r)
 }
 
@@ -272,7 +272,7 @@ func (s *Server) handlePostOrders(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) errInternal(w http.ResponseWriter, err error) {
-	s.logError.Error("internal", slog.Any("error", err))
+	s.logError.Error().Err(err).Msg("internal")
 	http.Error(w,
 		http.StatusText(http.StatusInternalServerError),
 		http.StatusInternalServerError)

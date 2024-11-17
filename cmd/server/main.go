@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/romshark/demo-islands/server"
+	"github.com/rs/zerolog"
 )
 
 func main() {
@@ -19,7 +20,8 @@ func main() {
 	)
 	flag.Parse()
 
-	logAccess, logError := slog.Default(), slog.Default()
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	logAccess, logError := zerolog.New(os.Stdout), zerolog.New(os.Stdout)
 
 	_, devMode := os.LookupEnv("DEV")
 	s := server.New(logAccess, logError, server.Config{
