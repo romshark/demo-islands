@@ -155,7 +155,7 @@ templ componentOrderForm(
 		hx-post="/form/"
 		hx-target="#form"
 		hx-swap="morph:outerHTML"
-		hx-trigger="sl-input delay:400ms"
+		hx-trigger="sl-input delay:400ms, sl-change, sl-select"
 	>
 		<h2 class="col-span-full">Contact</h2>
 		// Company Name
@@ -285,14 +285,18 @@ templ componentOrderForm(
 		// Address City
 		<div class="flex flex-col gap-1 col-span-full">
 			@skeleton("100%", "4.2rem") {
-				<sl-input
+				// Set sl-input handler and prevent those events from being handled
+				// to avoid submitting the form while typing in the country search.
+				<slx-autocomplete
 					id="input-address-city"
 					name="addressCity"
 					label="City"
+					json-api-endpoint="/autocomplete/city"
+					debounce-ms="300"
+					@sl-input="(e) => {e.preventDefault(); e.stopPropagation()}"
 					value={ form.ValueAddressCity }
-				>
-					<sl-icon slot="prefix" name="geo-alt"></sl-icon>
-				</sl-input>
+					@sl-select="(e) => {console.log('SELECTED', e)}"
+				></slx-autocomplete>
 			}
 			if form.ErrorAddressCity != "" {
 				<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCity }</p>
@@ -322,6 +326,7 @@ templ componentOrderForm(
 					name="shippingCompany"
 					label="Shipping Company"
 					value={ form.ValueShippingCompanyID }
+					@sl-change="(e) => {console.log('COMPANY CHANGE', e)}"
 				>
 					<sl-icon slot="prefix" name="truck"></sl-icon>
 					@fragmentNamedOptions(shippingCompanyOptions)
@@ -348,7 +353,7 @@ templ componentOrderForm(
 		<h2 class="col-span-full">Additional</h2>
 		// Special Notes
 		<div class="flex flex-col gap-1 col-span-full">
-			@skeleton("100%", "8.4rem") {
+			@skeleton("100%", "8rem") {
 				<sl-textarea
 					id="input-special-notes"
 					name="specialNotes"

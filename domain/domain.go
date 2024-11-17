@@ -3,11 +3,48 @@
 package domain
 
 import (
+	_ "embed"
 	"errors"
 	"regexp"
 	"slices"
+	"strings"
 	"time"
 )
+
+//go:embed cities.txt
+var citiesList string
+
+var cities []string = strings.Split(citiesList, "\n")
+
+// AutocompleteCity returns a slice of city names that start with prefix.
+func AutocompleteCity(s string, limitResults int) (results []string) {
+	s = strings.ToLower(strings.TrimSpace(s))
+	for _, c := range cities {
+		if strings.HasPrefix(strings.ToLower(c), s) {
+			results = append(results, c)
+			if len(results) >= limitResults {
+				break
+			}
+		}
+	}
+	if results == nil {
+		return []string{}
+	}
+	return results
+}
+
+type CityName struct{ string }
+
+func (c CityName) String() string { return c.string }
+
+var ErrCityNameInvalid = errors.New("name invalid")
+
+func NewCityName(s string) (CityName, error) {
+	if !slices.Contains(cities, s) {
+		return CityName{}, ErrCityNameInvalid
+	}
+	return CityName{s}, nil
+}
 
 type ShippingDetails struct {
 	CompanyName        CompanyName
@@ -25,7 +62,7 @@ type ShippingDetails struct {
 
 type ShippingAddress struct {
 	Country    DestinationCountry
-	City       Name
+	City       CityName
 	PostalCode PostalCode
 }
 

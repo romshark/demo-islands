@@ -2,6 +2,8 @@ package server
 
 import (
 	"embed"
+	"encoding/json"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"sort"
@@ -70,6 +72,8 @@ func New(logAccess, logError *slog.Logger, conf Config) *Server {
 		return h
 	}
 
+	s.m.Handle("GET /autocomplete/city",
+		handler(http.HandlerFunc(s.handleAutocompleteCity)))
 	s.m.Handle("GET /public/",
 		handler(handlerPublicAssets))
 	s.m.Handle("GET /{$}",
@@ -172,6 +176,15 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	s.m.ServeHTTP(w, r)
 }
 
+func (s *Server) handleAutocompleteCity(w http.ResponseWriter, r *http.Request) {
+	name := r.URL.Query().Get("name")
+	suggestions := domain.AutocompleteCity(name, 10)
+	if err := json.NewEncoder(w).Encode(suggestions); err != nil {
+		s.errInternal(w, fmt.Errorf("encoding autocomplete city suggestions: %w", err))
+		return
+	}
+}
+
 // handleGetIndex handles "GET /" which returns the main homepage.
 func (s *Server) handleGetIndex(w http.ResponseWriter, r *http.Request) {
 	theme := middleware.GetCtxTheme(r.Context())
@@ -193,6 +206,7 @@ func (s *Server) handlePostForm(w http.ResponseWriter, r *http.Request) {
 	f.UnmarshalForm(r)
 	f.ResetErrorsForZero()
 
+	fmt.Printf("POSTED Value:%q Parsed:%q \n", f.ValueAddressCity, f.ParsedAddressCity)
 	if err := template.RenderComponentForm(
 		r.Context(), w,
 		f, s.addressCountryOptions, s.shippingCompanyOptions,
