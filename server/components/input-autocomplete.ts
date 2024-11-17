@@ -1,11 +1,9 @@
 import { LitElement, html, css } from "lit";
 import { property, state, query } from "lit/decorators.js";
 import {
-  SlBlurEvent,
   SlChangeEvent,
   SlDropdown,
   SlInput,
-  SlInputEvent,
   SlSelectEvent,
 } from "@shoelace-style/shoelace";
 
@@ -127,7 +125,7 @@ export default class InputAutocomplete extends LitElement {
     });
   }
 
-  #onInput(e: SlInputEvent) {
+  #onInput() {
     // Reopen the dropdown if it's closed.
     this.#loadSuggestions();
   }
