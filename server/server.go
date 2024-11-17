@@ -239,7 +239,7 @@ func (s *Server) handlePostFormRandomize(w http.ResponseWriter, r *http.Request)
 	}
 	destinationCountry := rand.Item(domain.DestinationCountryValues())
 	f.ValueAddressCountry = destinationCountry.String()
-	f.ValueAddressCity = gofakeit.City()
+	f.ValueAddressCity = rand.Item(domain.Cities()).String()
 	f.ValueAddressPostalCode = rand.String("ABCDEFGHIKLMNOPQ1234567890", 6, 9)
 
 	if err := template.RenderComponentForm(

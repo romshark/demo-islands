@@ -98,6 +98,16 @@ templ viewIndex(
 						<td>{ o.ContactEmail.String() } </td>
 					</tr>
 					<tr>
+						<td>Destination Address</td>
+						<td>
+							{ o.DestinationAddress.Country.String() +
+								" | " +
+								o.DestinationAddress.City.String() +
+								" | " +
+								o.DestinationAddress.PostalCode.String() }
+						</td>
+					</tr>
+					<tr>
 						<td>Phone</td>
 						<td>{ o.ContactPhone.String() } </td>
 					</tr>

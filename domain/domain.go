@@ -33,6 +33,14 @@ func AutocompleteCity(s string, limitResults int) (results []string) {
 	return results
 }
 
+func Cities() []CityName {
+	c := make([]CityName, len(cities))
+	for i := range cities {
+		c[i] = CityName{cities[i]}
+	}
+	return c
+}
+
 type CityName struct{ string }
 
 func (c CityName) String() string { return c.string }

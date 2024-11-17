@@ -29,6 +29,7 @@ export default class InputAutocomplete extends LitElement {
   @state() currentInput: string = "";
   @state() loadingAutocompletion: boolean = false;
 
+  static formAssociated = true;
   static styles = css`
     :host {
       display: inline-block;
@@ -40,10 +41,12 @@ export default class InputAutocomplete extends LitElement {
   `;
 
   #endpointURL: URL | null = null;
-  private debounceTimer = null as ReturnType<typeof setTimeout> | null;
+  #debounceTimer = null as ReturnType<typeof setTimeout> | null;
+  #internals: ElementInternals | null = null;
 
   connectedCallback(): void {
     super.connectedCallback();
+    this.#internals = this.attachInternals();
     this.#endpointURL = new URL(
       `${window.location.origin}/${this.jsonAPIEndpoint}`
     );
@@ -57,6 +60,7 @@ export default class InputAutocomplete extends LitElement {
   ) {
     if (changedProperties.has("value")) {
       this.currentInput = this.value || "";
+      this.#internals?.setFormValue(this.currentInput);
     }
   }
 
@@ -88,6 +92,7 @@ export default class InputAutocomplete extends LitElement {
 
   #onSelect(e: SlSelectEvent) {
     this.currentInput = e.detail.item.value;
+    this.#internals?.setFormValue(this.currentInput);
     this.elDropdown.hide();
   }
 
@@ -99,12 +104,12 @@ export default class InputAutocomplete extends LitElement {
     if (this.currentInput == "") {
       return;
     }
-    if (this.debounceTimer) {
-      clearTimeout(this.debounceTimer);
+    if (this.#debounceTimer) {
+      clearTimeout(this.#debounceTimer);
     }
-    this.debounceTimer = setTimeout(() => {
+    this.#debounceTimer = setTimeout(() => {
       this.#showSuggestions();
-      this.debounceTimer = null;
+      this.#debounceTimer = null;
     }, this.debounceMS);
   }
 
@@ -134,6 +139,7 @@ export default class InputAutocomplete extends LitElement {
 
   #emitSelectEvent() {
     if (this.currentInput) {
+      this.#internals?.setFormValue(this.currentInput);
       this.dispatchEvent(
         new CustomEvent("sl-select", {
           detail: {
