@@ -206,7 +206,6 @@ func (s *Server) handlePostForm(w http.ResponseWriter, r *http.Request) {
 	f.UnmarshalForm(r)
 	f.ResetErrorsForZero()
 
-	fmt.Printf("POSTED Value:%q Parsed:%q \n", f.ValueAddressCity, f.ParsedAddressCity)
 	if err := template.RenderComponentForm(
 		r.Context(), w,
 		f, s.addressCountryOptions, s.shippingCompanyOptions,
