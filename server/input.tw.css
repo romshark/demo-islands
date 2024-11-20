@@ -2,17 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* to avoid CLS (cumulative layout shift) on page load the "visible"
-class will be added on `window.load` and `htmx:afterSwap` events. */
-
-sl-option {
-  display: none;
-}
-
-sl-option.visible {
-  display: block;
-}
-
 /*--- HTMX loading indicator ---*/
 
 .hx-loading {
@@ -99,6 +88,18 @@ sl-option.visible {
 :root.dark {
   --skeleton-bg-color: #333333;
   --skeleton-accent-color: #3b3b3b;
+}
+
+.hide-until-loaded:has(:not(*:defined)) * {
+  /* Avoid displaying contents behind this wrapper before they're initialized.
+  This prevents HTML content from flashing before they get hidden by the dynamic
+  JS container components. */
+  display: none;
+}
+
+.hide-until-loaded.skeleton:has(:not(*:defined))::before {
+  /* Once the dynamic JS components are initialized their contents may display again. */
+  display: block;
 }
 
 .skeleton {

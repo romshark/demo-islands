@@ -11,7 +11,6 @@ declare global {
 }
 
 interface App {
-  testValue: string;
   theme: Theme | null;
   themeLinkEl: HTMLLinkElement | null;
   init(): void;
@@ -70,18 +69,6 @@ document.addEventListener("htmx:afterRequest", function (event) {
   }
 });
 
-{
-  // Reveal <sl-option> elements once the page is loaded or
-  // parts of the page are reloaded to avoid CLS (cumulative layout shift).
-  function slOptionsReveal() {
-    document
-      .querySelectorAll("sl-option")
-      .forEach((o) => o.classList.add("visible"));
-  }
-  window.addEventListener("load", slOptionsReveal);
-  document.addEventListener("htmx:afterSwap", slOptionsReveal);
-}
-
 enum Theme {
   Light = "light",
   Dark = "dark",
@@ -138,7 +125,6 @@ function getCookieTheme(): Theme | null {
 document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("alpine:init", () => {
     Alpine.data("app", () => ({
-      testValue: "dark",
       theme: null as Theme | null,
       themeLinkEl: null as HTMLLinkElement | null,
 
@@ -147,20 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
         this.themeLinkEl = document.getElementById(
           "stylesheet-shoelace-theme"
         ) as HTMLLinkElement;
-        switch (this.theme) {
-          case Theme.Light: {
-            this.$refs.themeSelect.setAttribute("value", "light");
-            break;
-          }
-          case Theme.Dark: {
-            this.$refs.themeSelect.setAttribute("value", "dark");
-            break;
-          }
-          default: {
-            this.$refs.themeSelect.setAttribute("value", "");
-            break;
-          }
-        }
 
         // Watch for changes to the system preference.
         window
