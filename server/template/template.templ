@@ -154,8 +154,9 @@ templ componentOrderForm(
 		class="grid gap-2 grid-cols-2"
 		hx-post="/form/"
 		hx-target="#form"
+		hx-sync="this:replace"
 		hx-swap="morph:outerHTML"
-		hx-trigger="sl-input delay:400ms"
+		hx-trigger="sl-change"
 	>
 		<h2 class="col-span-full">Contact</h2>
 		// Company Name
