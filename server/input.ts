@@ -11,7 +11,6 @@ declare global {
 }
 
 interface App {
-  testValue: string;
   theme: Theme | null;
   themeLinkEl: HTMLLinkElement | null;
   init(): void;
@@ -138,7 +137,6 @@ function getCookieTheme(): Theme | null {
 document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("alpine:init", () => {
     Alpine.data("app", () => ({
-      testValue: "dark",
       theme: null as Theme | null,
       themeLinkEl: null as HTMLLinkElement | null,
 
@@ -147,20 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
         this.themeLinkEl = document.getElementById(
           "stylesheet-shoelace-theme"
         ) as HTMLLinkElement;
-        switch (this.theme) {
-          case Theme.Light: {
-            this.$refs.themeSelect.setAttribute("value", "light");
-            break;
-          }
-          case Theme.Dark: {
-            this.$refs.themeSelect.setAttribute("value", "dark");
-            break;
-          }
-          default: {
-            this.$refs.themeSelect.setAttribute("value", "");
-            break;
-          }
-        }
 
         // Watch for changes to the system preference.
         window

@@ -56,24 +56,105 @@ templ viewIndex(
 	shippingCompanyOptions []NamedOption,
 	shippingOrders []domain.ShippingDetails,
 ) {
-	<div>
-		<nav class="p-4 h-20 flex items-center align-middle w-full">
-			<sl-select
-				x-ref="themeSelect"
-				class="w-32"
-				name="theme"
-				@sl-change="(e) => app.setTheme(e.target.value)"
+	<div x-data="{}">
+		@hideUntilLoaded() {
+			<sl-dialog
+				x-ref="signInDialog"
+				@sl-show="$refs.avatarMenu.hide()"
+				label="Sign in"
+				class="dialog-overview"
+				label="Whoops"
 			>
-				<sl-option value="">System</sl-option>
-				<sl-option value="dark">Dark</sl-option>
-				<sl-option value="light">Light</sl-option>
-			</sl-select>
+				This is just a tech-demo, remember?
+				<sl-button
+					@click="
+						$refs.signInDialog.hide()
+						$refs.formDrawer.show()
+					"
+					variant="primary"
+					slot="footer"
+				>Let's add an order!</sl-button>
+				<sl-button
+					@click="$refs.signInDialog.hide()"
+					variant="success"
+					slot="footer"
+				>Okay 🥲</sl-button>
+			</sl-dialog>
+		}
+		<nav class="p-4 h-20 flex items-center justify-between w-full">
+			<div class="flex flex-row items-center gap-2">
+				// Left
+				@skeleton("1rem", "1rem") {
+					<sl-button
+						slot="trigger"
+						outline
+						circle
+						@click="$refs.formDrawer.show()"
+					>
+						<sl-icon name="plus-circle"></sl-icon>
+					</sl-button>
+				}
+			</div>
+			<div class="flex flex-row items-center gap-2">
+				// Right
+				@skeleton("1rem", "1rem") {
+					<sl-dropdown
+						x-ref="avatarMenu"
+						placement="bottom"
+						distance="8"
+					>
+						<sl-button slot="trigger" outline circle>
+							<sl-icon name="person-circle"></sl-icon>
+						</sl-button>
+						<div
+							class="
+								flex
+								flex-col
+								gap-2
+								p-2
+								rounded
+								shadow-md
+								border
+								border-current
+								bg-popupbg
+							"
+						>
+							<sl-select
+								label="Theme"
+								class="w-32"
+								name="theme"
+								x-init="$nextTick(() => $el.value = theme || '')"
+								@sl-change="(e) => app.setTheme(e.target.value)"
+							>
+								<sl-option value="">System</sl-option>
+								<sl-option value="dark">Dark</sl-option>
+								<sl-option value="light">Light</sl-option>
+							</sl-select>
+							<sl-button
+								class="mt-2"
+								@click="
+									$refs.avatarMenu.hide()
+									$refs.signInDialog.show()
+								"
+								slot="footer"
+							>Sign in</sl-button>
+						</div>
+					</sl-dropdown>
+				}
+			</div>
 		</nav>
 		<div class="md:container md:mx-auto ml-4 mr-4 pb-16">
-			<div class="mt-4">
-				@componentOrderForm(form, addressCountryOptions, shippingCompanyOptions)
-			</div>
-			<hr class="mt-4"/>
+			@hideUntilLoaded() {
+				<sl-drawer
+					x-ref="formDrawer"
+					label="Add a new order"
+					label="Drawer"
+					placement="start"
+					class="drawer-placement-start"
+				>
+					@componentOrderForm(form, addressCountryOptions, shippingCompanyOptions)
+				</sl-drawer>
+			}
 			<h1 class="mt-2 mb-2">Pending Orders</h1>
 			if len(shippingOrders) < 1 {
 				<p>No currently pending orders.</p>
@@ -149,6 +230,7 @@ templ componentOrderForm(
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 ) {
+	// @keydown.enter.prevent on inputs prevents accidental form submission.
 	<form
 		id="form"
 		class="grid gap-2 grid-cols-2"
@@ -167,6 +249,7 @@ templ componentOrderForm(
 					name="companyName"
 					label="Company Name"
 					value={ form.ValueCompanyName }
+					@keydown.enter.prevent
 				>
 					<sl-icon slot="prefix" name="buildings"></sl-icon>
 				</sl-input>
@@ -183,6 +266,7 @@ templ componentOrderForm(
 					name="firstName"
 					label="First Name"
 					value={ form.ValueFirstName }
+					@keydown.enter.prevent
 				>
 					<sl-icon slot="prefix" name="person"></sl-icon>
 				</sl-input>
@@ -199,6 +283,7 @@ templ componentOrderForm(
 					name="lastName"
 					label="Last Name"
 					value={ form.ValueLastName }
+					@keydown.enter.prevent
 				>
 					<sl-icon slot="prefix" name="person"></sl-icon>
 				</sl-input>
@@ -216,6 +301,7 @@ templ componentOrderForm(
 					type="email"
 					label="Email"
 					value={ form.ValueEmail }
+					@keydown.enter.prevent
 				>
 					<sl-icon slot="prefix" name="envelope"></sl-icon>
 				</sl-input>
@@ -233,6 +319,7 @@ templ componentOrderForm(
 					type="tel"
 					label="Phone Number"
 					value={ form.ValuePhone }
+					@keydown.enter.prevent
 				>
 					<sl-icon slot="prefix" name="telephone"></sl-icon>
 				</sl-input>
@@ -250,6 +337,7 @@ templ componentOrderForm(
 					name="addressCountry"
 					label="Country"
 					value={ form.ValueAddressCountry }
+					@keydown.enter.prevent
 				>
 					if form.ValueAddressCountry != "" {
 						<slx-countryflag
@@ -275,6 +363,7 @@ templ componentOrderForm(
 					name="addressPostalCode"
 					label="Postal Code"
 					value={ form.ValueAddressPostalCode }
+					@keydown.enter.prevent
 				>
 					<sl-icon slot="prefix" name="mailbox-flag"></sl-icon>
 				</sl-input>
@@ -291,6 +380,7 @@ templ componentOrderForm(
 					name="addressCity"
 					label="City"
 					value={ form.ValueAddressCity }
+					@keydown.enter.prevent
 				>
 					<sl-icon slot="prefix" name="geo-alt"></sl-icon>
 				</sl-input>
@@ -309,6 +399,7 @@ templ componentOrderForm(
 					type="date"
 					label="Due Date"
 					value={ form.ValueDue }
+					@keydown.enter.prevent
 				></sl-input>
 			}
 			if form.ErrorDue != "" {
@@ -323,6 +414,7 @@ templ componentOrderForm(
 					name="shippingCompany"
 					label="Shipping Company"
 					value={ form.ValueShippingCompanyID }
+					@keydown.enter.prevent
 				>
 					<sl-icon slot="prefix" name="truck"></sl-icon>
 					@fragmentNamedOptions(shippingCompanyOptions)
@@ -341,6 +433,7 @@ templ componentOrderForm(
 					if form.ValueExpress != "" {
 						checked
 					}
+					@keydown.enter.prevent
 				>
 					Express
 				</sl-checkbox>
@@ -436,6 +529,14 @@ templ skeleton(minWidth, minHeight string) {
 			"style": "min-width:"+minWidth+";min-height:"+minHeight,
 		}... }
 	>
+		{ children... }
+	</div>
+}
+
+// hideUntilLoaded hides contents that would flash into view before hiding behind
+// dynamic JS container components to avoid CLS (cumulative layout shift) and flashing.
+templ hideUntilLoaded() {
+	<div class="hide-until-loaded">
 		{ children... }
 	</div>
 }
