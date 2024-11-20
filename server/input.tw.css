@@ -2,17 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* to avoid CLS (cumulative layout shift) on page load the "visible"
-class will be added on `window.load` and `htmx:afterSwap` events. */
-
-sl-option {
-  display: none;
-}
-
-sl-option.visible {
-  display: block;
-}
-
 /*--- HTMX loading indicator ---*/
 
 .hx-loading {
