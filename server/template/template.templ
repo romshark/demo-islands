@@ -52,6 +52,7 @@ templ htmlMain(title string, darkMode bool) {
 
 templ viewIndex(
 	form Form,
+	searchQuery string,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 	shippingOrders []domain.ShippingDetails,
@@ -95,6 +96,32 @@ templ viewIndex(
 						New Order
 						<sl-icon slot="prefix" name="plus-circle"></sl-icon>
 					</sl-button>
+				}
+			</div>
+			<div
+				class="
+					flex-grow-0
+					group
+					hover:flex-grow
+					focus-within:flex-grow
+					transition-all
+					ml-6 mr-6
+				"
+			>
+				@skeleton("10rem", "2.6rem") {
+					<sl-input
+						id="input-search"
+						name="searchQuery"
+						placeholder="Search"
+						hx-target="#viewport"
+						hx-get="/"
+						hx-trigger="sl-input delay:300ms"
+						hx-swap="morph:innerHTML"
+						hx-sync="this:replace"
+						hx-include="#form"
+						value={ searchQuery }
+						pill
+					></sl-input>
 				}
 			</div>
 			<div class="flex flex-row items-center gap-2">
@@ -290,6 +317,7 @@ templ viewIndex(
 
 templ pageIndex(
 	form Form,
+	searchQuery string,
 	darkMode bool,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
@@ -298,6 +326,7 @@ templ pageIndex(
 	@htmlMain("Index", darkMode) {
 		@viewIndex(
 			form,
+			searchQuery,
 			addressCountryOptions,
 			shippingCompanyOptions,
 			shippingOrders,
@@ -316,7 +345,7 @@ templ componentOrderForm(
 		class="grid gap-2 grid-cols-2"
 		hx-post="/form/"
 		hx-target="#form"
-		hx-sync="this:replace"
+		hx-sync="#viewport:replace"
 		hx-swap="morph:outerHTML"
 		hx-trigger="sl-change"
 	>

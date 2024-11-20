@@ -31,8 +31,7 @@ type Server struct {
 	addressCountryOptions  []template.NamedOption
 	shippingCompanyOptions []template.NamedOption
 
-	// In-memory state of the world simulation.
-	orders []domain.ShippingDetails
+	store *Store
 }
 
 var _ http.Handler = new(Server)
@@ -50,6 +49,8 @@ func New(logAccess, logError *slog.Logger, conf Config) *Server {
 
 		addressCountryOptions:  newAddressCountryOptions(),
 		shippingCompanyOptions: newShippingCompanyOptions(),
+
+		store: NewStore(),
 	}
 
 	var handlerPublicAssets http.Handler
@@ -189,10 +190,33 @@ func (s *Server) handleAutocompleteCity(w http.ResponseWriter, r *http.Request) 
 func (s *Server) handleGetIndex(w http.ResponseWriter, r *http.Request) {
 	theme := middleware.GetCtxTheme(r.Context())
 
+	searchQuery := r.FormValue("searchQuery")
+
+	orders, err := s.fetchOrders(searchQuery)
+	if err != nil {
+		s.errInternal(w, err)
+		return
+	}
+
+	if r.Header.Get("HX-Request") != "" {
+		var f template.Form
+		f.UnmarshalForm(r)
+		f.ResetErrorsForZero()
+		if err := template.RenderViewIndex(
+			r.Context(), w, f, searchQuery,
+			s.addressCountryOptions, s.shippingCompanyOptions, orders,
+		); err != nil {
+			s.errInternal(w, err)
+			return
+		}
+		return
+	}
+
+	// Blank page load.
 	if err := template.RenderPageIndex(
-		r.Context(), w,
-		theme == middleware.ThemeDark,
-		template.Form{}, s.addressCountryOptions, s.shippingCompanyOptions, s.orders,
+		r.Context(), w, theme == middleware.ThemeDark,
+		template.Form{}, searchQuery,
+		s.addressCountryOptions, s.shippingCompanyOptions, orders,
 	); err != nil {
 		s.errInternal(w, err)
 		return
@@ -257,7 +281,7 @@ func (s *Server) handlePostOrders(w http.ResponseWriter, r *http.Request) {
 	f.UnmarshalForm(r)
 	if f.IsValid() {
 		// Add order and display empty form.
-		s.orders = append(s.orders, domain.ShippingDetails{
+		newOrder := domain.ShippingDetails{
 			CompanyName:      f.ParsedCompanyName,
 			ContactFirstName: f.ParsedFirstName,
 			ContactLastName:  f.ParsedLastName,
@@ -273,14 +297,30 @@ func (s *Server) handlePostOrders(w http.ResponseWriter, r *http.Request) {
 			Due:             f.ParsedDue,
 			ShippingCompany: f.ParsedShippingCompany,
 			SpecialNotes:    f.ParsedSpecialNotes,
-		})
+		}
+		_, err := s.store.NewOrder(newOrder)
+		if err != nil {
+			s.errInternal(w, err)
+			return
+		}
 		f = template.Form{}
 	}
+
+	searchQuery := r.FormValue("searchQuery")
+
+	orders, err := s.fetchOrders(searchQuery)
+	if err != nil {
+		s.errInternal(w, err)
+		return
+	}
+
 	if err := template.RenderViewIndex(
 		r.Context(), w,
-		f, s.addressCountryOptions, s.shippingCompanyOptions, s.orders,
+		f, searchQuery,
+		s.addressCountryOptions, s.shippingCompanyOptions, orders,
 	); err != nil {
 		s.errInternal(w, err)
+		return
 	}
 }
 
@@ -289,4 +329,13 @@ func (s *Server) errInternal(w http.ResponseWriter, err error) {
 	http.Error(w,
 		http.StatusText(http.StatusInternalServerError),
 		http.StatusInternalServerError)
+}
+
+func (s *Server) fetchOrders(searchQuery string) (
+	orders []domain.ShippingDetails, err error,
+) {
+	if searchQuery != "" {
+		return s.store.OrderBySearchQuery(searchQuery, 10)
+	}
+	return s.store.GetAllOrders()
 }

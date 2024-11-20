@@ -12,24 +12,27 @@ func RenderPageIndex(
 	ctx context.Context, w io.Writer,
 	darkMode bool,
 	form Form,
+	searchQuery string,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 	orders []domain.ShippingDetails,
 ) error {
 	return pageIndex(
-		form, darkMode, addressCountryOptions, shippingCompanyOptions, orders,
+		form, searchQuery, darkMode,
+		addressCountryOptions, shippingCompanyOptions, orders,
 	).Render(ctx, w)
 }
 
 func RenderViewIndex(
 	ctx context.Context, w io.Writer,
 	form Form,
+	searchQuery string,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 	orders []domain.ShippingDetails,
 ) error {
 	return viewIndex(
-		form, addressCountryOptions, shippingCompanyOptions, orders,
+		form, searchQuery, addressCountryOptions, shippingCompanyOptions, orders,
 	).Render(ctx, w)
 }
 
