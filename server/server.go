@@ -2,6 +2,8 @@ package server
 
 import (
 	"embed"
+	"encoding/json"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"sort"
@@ -70,6 +72,8 @@ func New(logAccess, logError *slog.Logger, conf Config) *Server {
 		return h
 	}
 
+	s.m.Handle("GET /autocomplete/city",
+		handler(http.HandlerFunc(s.handleAutocompleteCity)))
 	s.m.Handle("GET /public/",
 		handler(handlerPublicAssets))
 	s.m.Handle("GET /{$}",
@@ -172,6 +176,15 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	s.m.ServeHTTP(w, r)
 }
 
+func (s *Server) handleAutocompleteCity(w http.ResponseWriter, r *http.Request) {
+	name := r.URL.Query().Get("name")
+	suggestions := domain.AutocompleteCity(name, 10)
+	if err := json.NewEncoder(w).Encode(suggestions); err != nil {
+		s.errInternal(w, fmt.Errorf("encoding autocomplete city suggestions: %w", err))
+		return
+	}
+}
+
 // handleGetIndex handles "GET /" which returns the main homepage.
 func (s *Server) handleGetIndex(w http.ResponseWriter, r *http.Request) {
 	theme := middleware.GetCtxTheme(r.Context())
@@ -225,7 +238,7 @@ func (s *Server) handlePostFormRandomize(w http.ResponseWriter, r *http.Request)
 	}
 	destinationCountry := rand.Item(domain.DestinationCountryValues())
 	f.ValueAddressCountry = destinationCountry.String()
-	f.ValueAddressCity = gofakeit.City()
+	f.ValueAddressCity = rand.Item(domain.Cities()).String()
 	f.ValueAddressPostalCode = rand.String("ABCDEFGHIKLMNOPQ1234567890", 6, 9)
 
 	if err := template.RenderComponentForm(

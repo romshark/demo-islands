@@ -72,7 +72,7 @@ type Form struct {
 	ParsedExpress           bool
 	ParsedSpecialNotes      domain.SpecialNotes
 	ParsedAddressCountry    domain.DestinationCountry
-	ParsedAddressCity       domain.Name
+	ParsedAddressCity       domain.CityName
 	ParsedAddressPostalCode domain.PostalCode
 
 	ErrorShippingCompany   string
@@ -156,7 +156,9 @@ func (f *Form) UnmarshalForm(source interface{ FormValue(string) string }) {
 		f.ErrorAddressCountry = err.Error()
 	}
 
-	if f.ParsedAddressCity, err = domain.NewName(f.ValueAddressCity); err != nil {
+	if f.ParsedAddressCity, err = domain.NewCityName(
+		f.ValueAddressCity,
+	); err != nil {
 		f.ErrorAddressCity = err.Error()
 	}
 

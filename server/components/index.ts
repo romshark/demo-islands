@@ -1,4 +1,5 @@
 import CountryFlag from "./countryflag";
+import InputAutocomplete from "./input-autocomplete";
 
 import "@shoelace-style/shoelace";
 
@@ -8,6 +9,7 @@ const defineCustom = (name: string, c: CustomElementConstructor) => {
 };
 
 defineCustom("countryflag", CountryFlag);
+defineCustom("autocomplete", InputAutocomplete);
 
 // Icons are copied from:
 // https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/

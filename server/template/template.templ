@@ -184,6 +184,16 @@ templ viewIndex(
 						<td>{ o.ContactEmail.String() } </td>
 					</tr>
 					<tr>
+						<td>Destination Address</td>
+						<td>
+							{ o.DestinationAddress.Country.String() +
+								" | " +
+								o.DestinationAddress.City.String() +
+								" | " +
+								o.DestinationAddress.PostalCode.String() }
+						</td>
+					</tr>
+					<tr>
 						<td>Phone</td>
 						<td>{ o.ContactPhone.String() } </td>
 					</tr>
@@ -380,15 +390,20 @@ templ componentOrderForm(
 		// Address City
 		<div class="flex flex-col gap-1 col-span-full">
 			@skeleton("100%", "4.2rem") {
-				<sl-input
+				// Set sl-input handler and prevent those events from being handled
+				// to avoid submitting the form while typing in the country search.
+				<slx-autocomplete
 					id="input-address-city"
 					name="addressCity"
 					label="City"
+					json-api-endpoint="/autocomplete/city"
+					debounce-ms="300"
+					@sl-input="(e) => {e.preventDefault(); e.stopPropagation()}"
 					value={ form.ValueAddressCity }
 					@keydown.enter.prevent
 				>
 					<sl-icon slot="prefix" name="geo-alt"></sl-icon>
-				</sl-input>
+				</slx-autocomplete>
 			}
 			if form.ErrorAddressCity != "" {
 				<p class="mb-2 text-red-600">⚠️ { form.ErrorAddressCity }</p>
@@ -447,7 +462,7 @@ templ componentOrderForm(
 		<h2 class="col-span-full">Additional</h2>
 		// Special Notes
 		<div class="flex flex-col gap-1 col-span-full">
-			@skeleton("100%", "8.4rem") {
+			@skeleton("100%", "8rem") {
 				<sl-textarea
 					id="input-special-notes"
 					name="specialNotes"
