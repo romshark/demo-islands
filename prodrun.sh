@@ -26,10 +26,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-clear
-
 # Run the server
-TLS_CERT="islands.demo.pem" TLS_KEY="islands.demo-key.pem" \
+sudo TLS_CERT="islands.demo.pem" TLS_KEY="islands.demo-key.pem" \
     $TEMP_BIN -compress -host islands.demo:443
 RUN_EXIT_CODE=$?
 
