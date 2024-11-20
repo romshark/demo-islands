@@ -160,65 +160,137 @@ templ viewIndex(
 					@componentOrderForm(form, addressCountryOptions, shippingCompanyOptions)
 				</sl-drawer>
 			}
-			<h1 class="mt-2 mb-2">Pending Orders</h1>
+			<h1 class="mt-2 mb-4 text-xl">Pending Orders:</h1>
 			if len(shippingOrders) < 1 {
 				<p>No currently pending orders.</p>
 			}
-			for i, o := range shippingOrders {
-				<h1>Order #{ fmt.Sprintf("%d", i) } </h1>
-				<table class="border border-solid">
-					<tr>
-						<td>Company Name</td>
-						<td>{ o.CompanyName.String() } </td>
-					</tr>
-					<tr>
-						<td>First Name</td>
-						<td>{ o.ContactFirstName.String() } </td>
-					</tr>
-					<tr>
-						<td>Last Name</td>
-						<td>{ o.ContactLastName.String() } </td>
-					</tr>
-					<tr>
-						<td>Email</td>
-						<td>{ o.ContactEmail.String() } </td>
-					</tr>
-					<tr>
-						<td>Destination Address</td>
-						<td>
-							{ o.DestinationAddress.Country.String() +
-								" | " +
-								o.DestinationAddress.City.String() +
-								" | " +
-								o.DestinationAddress.PostalCode.String() }
-						</td>
-					</tr>
-					<tr>
-						<td>Phone</td>
-						<td>{ o.ContactPhone.String() } </td>
-					</tr>
-					<tr>
-						<td>Express</td>
+			<div class="flex flex-row flex-wrap gap-4">
+				for i, o := range shippingOrders {
+					<div
+						class="
+							basis-full
+							relative
+							p-4
+							border
+							border-solid
+							border-neutral-200
+							dark:border-neutral-800
+							rounded-lg
+							grid
+							gap-4
+						"
+					>
+						<h1 class="text-lg uppercase tracking-wider font-thin text-neutral-500">
+							Order #{ fmt.Sprintf("%d", i) }
+						</h1>
+
 						if o.Express {
-							<td>Yes </td>
-						} else {
-							<td>No </td>
+							<div
+								class="
+									absolute
+									top-4
+									right-4
+									px-2
+									py-1
+									flex
+									gap-2
+									border
+									border-solid
+									border-amber-200
+									dark:border-amber-900
+									bg-amber-50
+									dark:bg-amber-950
+									rounded
+									-skew-x-12
+								"
+							>
+								<sl-icon
+									name="lightning-charge"
+									class="text-orange-400 dark:text-orange-300"
+								></sl-icon>
+								<span
+									class="
+										text-xs
+										uppercase
+										tracking-wide
+										text-amber-900
+										dark:text-amber-50
+									"
+								>Express delivery</span>
+							</div>
 						}
-					</tr>
-					<tr>
-						<td>Shipping Company</td>
-						<td>{ o.ShippingCompany.String() } </td>
-					</tr>
-					<tr>
-						<td>Due</td>
-						<td>{ o.Due.Format(time.RFC822) } </td>
-					</tr>
-					<tr>
-						<td>Special Notes</td>
-						<td>{ o.SpecialNotes.String() } </td>
-					</tr>
-				</table>
-			}
+
+						<div class="grid gap-2">
+							<div class="grid gap-2 md:flex md:gap-4">
+								<div class="flex items-center gap-1">
+									<sl-icon name="person" class="text-neutral-500"></sl-icon>
+									<span>{ o.ContactFirstName.String() } { o.ContactLastName.String() } </span>
+								</div>
+								<div class="flex items-center gap-1">
+									<sl-icon name="at" class="text-neutral-500"></sl-icon>
+									<span class="text-neutral-500">Email:</span>
+									<a href={ templ.URL("mailto:" + o.ContactEmail.String()) }>{ o.ContactEmail.String() } </a>
+								</div>
+								<div class="flex items-center gap-1">
+									<sl-icon name="telephone" class="text-neutral-500"></sl-icon>
+									<span class="text-neutral-500">Phone:</span>
+									<a href={ templ.URL("tel:" + o.ContactPhone.String()) }>{ o.ContactPhone.String() } </a>
+								</div>
+							</div>
+
+							<div class="flex items-center gap-2">
+								<sl-icon name="geo-alt" class="text-neutral-500"></sl-icon>
+								<div>
+									<slx-countryflag
+										slot="prefix"
+										width="16"
+										code={ o.DestinationAddress.Country.String() }
+									></slx-countryflag>
+									<span>{ o.DestinationAddress.Country.String() }</span>
+								</div>
+								<div>
+									<span class="text-neutral-500">City:</span>
+									{ o.DestinationAddress.City.String() }
+								</div>
+								<div>
+									<span class="text-neutral-500">ZIP:</span>
+									{ o.DestinationAddress.PostalCode.String() }
+								</div>
+							</div>
+
+							<div class="flex items-center gap-1">
+								<sl-icon name="buildings" class="text-neutral-500"></sl-icon>
+								<span class="text-neutral-500">Company:</span>
+								<span>{ o.CompanyName.String() } </span>
+							</div>
+						</div>
+
+						<hr class="border-neutral-200 dark:border-neutral-800" />
+
+						<div class="flex flex-row flex-wrap gap-2 items-center">
+							<sl-icon name="truck" class="text-neutral-500"></sl-icon>
+							<div>
+								<span class="text-neutral-500">Shipping by</span>
+								<span>{ o.ShippingCompany.String() } </span>
+							</div>
+							<div>
+								<span class="text-neutral-500">due to</span>
+								<span>{ o.Due.Format(time.RFC822) } </span>
+							</div>
+						</div>
+
+						if o.SpecialNotes.String() != "" {
+							<sl-details>
+								<div slot="summary" class="flex items-center gap-3">
+									<sl-icon name="sticky" class="text-amber-400 dark:text-amber-600"></sl-icon>
+									<span>Special Notes:</span>
+								</div>
+								<p>{ o.SpecialNotes.String() } </p>
+							</sl-details>
+						}
+					</div>
+				}
+			</div>
 		</div>
 	</div>
 }
