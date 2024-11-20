@@ -183,7 +183,6 @@ templ viewIndex(
 						<h1 class="text-lg uppercase tracking-wider font-thin text-neutral-500">
 							Order #{ fmt.Sprintf("%d", i) }
 						</h1>
-
 						if o.Express {
 							<div
 								class="
@@ -219,7 +218,6 @@ templ viewIndex(
 								>Express delivery</span>
 							</div>
 						}
-
 						<div class="grid gap-2">
 							<div class="grid gap-2 md:flex md:gap-4">
 								<div class="flex items-center gap-1">
@@ -237,7 +235,6 @@ templ viewIndex(
 									<a href={ templ.URL("tel:" + o.ContactPhone.String()) }>{ o.ContactPhone.String() } </a>
 								</div>
 							</div>
-
 							<div class="flex items-center gap-2">
 								<sl-icon name="geo-alt" class="text-neutral-500"></sl-icon>
 								<div>
@@ -257,16 +254,13 @@ templ viewIndex(
 									{ o.DestinationAddress.PostalCode.String() }
 								</div>
 							</div>
-
 							<div class="flex items-center gap-1">
 								<sl-icon name="buildings" class="text-neutral-500"></sl-icon>
 								<span class="text-neutral-500">Company:</span>
 								<span>{ o.CompanyName.String() } </span>
 							</div>
 						</div>
-
-						<hr class="border-neutral-200 dark:border-neutral-800" />
-
+						<hr class="border-neutral-200 dark:border-neutral-800"/>
 						<div class="flex flex-row flex-wrap gap-2 items-center">
 							<sl-icon name="truck" class="text-neutral-500"></sl-icon>
 							<div>
@@ -278,7 +272,6 @@ templ viewIndex(
 								<span>{ o.Due.Format(time.RFC822) } </span>
 							</div>
 						</div>
-
 						if o.SpecialNotes.String() != "" {
 							<sl-details>
 								<div slot="summary" class="flex items-center gap-3">
