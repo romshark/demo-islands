@@ -88,10 +88,12 @@ templ viewIndex(
 					<sl-button
 						slot="trigger"
 						outline
-						circle
+						pill
 						@click="$refs.formDrawer.show()"
+						aria-controls="form-drawer"
 					>
-						<sl-icon name="plus-circle"></sl-icon>
+						New Order
+						<sl-icon slot="prefix" name="plus-circle"></sl-icon>
 					</sl-button>
 				}
 			</div>
@@ -99,12 +101,14 @@ templ viewIndex(
 				// Right
 				@skeleton("1rem", "1rem") {
 					<sl-dropdown
+						id="profile-dropdown"
 						x-ref="avatarMenu"
 						placement="bottom"
 						distance="8"
 					>
-						<sl-button slot="trigger" outline circle>
-							<sl-icon name="person-circle"></sl-icon>
+						<sl-button slot="trigger" outline pill>
+							Profile
+							<sl-icon slot="prefix" name="person-circle"></sl-icon>
 						</sl-button>
 						<div
 							class="
@@ -146,6 +150,7 @@ templ viewIndex(
 		<div class="md:container md:mx-auto ml-4 mr-4 pb-16">
 			@hideUntilLoaded() {
 				<sl-drawer
+					id="form-drawer"
 					x-ref="formDrawer"
 					label="Add a new order"
 					label="Drawer"
@@ -472,6 +477,7 @@ templ componentOrderForm(
 						hx-post="/orders/"
 						hx-swap="innerHTML"
 						hx-target="#viewport"
+						aria-label="Order submission form"
 					>
 						Add
 						<sl-icon slot="prefix" name="file-earmark-plus"></sl-icon>
