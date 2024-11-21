@@ -16,7 +16,7 @@ func RenderPageIndex(
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 	totalOrdersAvailable int,
-	orders []domain.ShippingDetails,
+	orders []domain.Order,
 ) error {
 	return pageIndex(
 		form, searchQuery, darkMode,
@@ -32,7 +32,7 @@ func RenderViewIndex(
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 	totalOrdersAvailable int,
-	orders []domain.ShippingDetails,
+	orders []domain.Order,
 ) error {
 	return viewIndex(
 		form, searchQuery,

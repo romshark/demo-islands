@@ -54,6 +54,12 @@ func NewCityName(s string) (CityName, error) {
 	return CityName{s}, nil
 }
 
+type Order struct {
+	ID       string
+	Creation time.Time
+	ShippingDetails
+}
+
 type ShippingDetails struct {
 	CompanyName        CompanyName
 	ContactFirstName   Name

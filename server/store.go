@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"sync"
 	"time"
@@ -14,7 +15,7 @@ import (
 type Store struct {
 	lock           sync.Mutex
 	orderIDCounter uint64
-	orders         map[string]domain.ShippingDetails
+	orders         map[string]domain.Order
 	searchIndex    bleve.Index
 }
 
@@ -46,7 +47,7 @@ func NewStore() *Store {
 	}
 	return &Store{
 		searchIndex: searchIndex,
-		orders:      make(map[string]domain.ShippingDetails),
+		orders:      make(map[string]domain.Order),
 	}
 }
 
@@ -59,21 +60,24 @@ func (s *Store) TotalOrdersAvailable() (int, error) {
 }
 
 // GetAllOrders returns all currently stored orders.
-func (s *Store) GetAllOrders() ([]domain.ShippingDetails, error) {
+func (s *Store) GetAllOrders() ([]domain.Order, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	results := make([]domain.ShippingDetails, 0, len(s.orders))
+	results := make([]domain.Order, 0, len(s.orders))
 	for _, o := range s.orders {
 		results = append(results, o)
 	}
+	sort.Slice(results, func(i, j int) bool {
+		return results[i].Creation.Unix() < results[j].Creation.Unix()
+	})
 	return results, nil
 }
 
 // OrderBySearchQuery finds orders by generic search query with fuzzy matching.
 func (s *Store) OrderBySearchQuery(
 	query string, limit int,
-) ([]domain.ShippingDetails, error) {
+) ([]domain.Order, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -89,7 +93,7 @@ func (s *Store) OrderBySearchQuery(
 		return nil, err
 	}
 
-	results := make([]domain.ShippingDetails, len(r.Hits))
+	results := make([]domain.Order, len(r.Hits))
 	for i, hit := range r.Hits {
 		if order, ok := s.orders[hit.ID]; ok {
 			results[i] = order
@@ -99,7 +103,7 @@ func (s *Store) OrderBySearchQuery(
 }
 
 // NewOrder adds a new order and indexes it for search.
-func (s *Store) NewOrder(order domain.ShippingDetails) (id string, err error) {
+func (s *Store) NewOrder(shippingDetails domain.ShippingDetails) (id string, err error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -107,22 +111,28 @@ func (s *Store) NewOrder(order domain.ShippingDetails) (id string, err error) {
 	s.orderIDCounter++
 	id = strconv.FormatUint(s.orderIDCounter, 36)
 
+	order := domain.Order{
+		ID:              id,
+		Creation:        time.Now(),
+		ShippingDetails: shippingDetails,
+	}
+
 	orderIndexData := map[string]interface{}{
-		"CompanyName": order.CompanyName.String(),
-		"FirstName":   order.ContactFirstName.String(),
-		"LastName":    order.ContactLastName.String(),
-		"Email":       order.ContactEmail.String(),
+		"CompanyName": shippingDetails.CompanyName.String(),
+		"FirstName":   shippingDetails.ContactFirstName.String(),
+		"LastName":    shippingDetails.ContactLastName.String(),
+		"Email":       shippingDetails.ContactEmail.String(),
 		"DestinationAddress": fmt.Sprintf(
 			"%s | %s | %s",
-			order.DestinationAddress.Country.String(),
-			order.DestinationAddress.City.String(),
-			order.DestinationAddress.PostalCode.String(),
+			shippingDetails.DestinationAddress.Country.String(),
+			shippingDetails.DestinationAddress.City.String(),
+			shippingDetails.DestinationAddress.PostalCode.String(),
 		),
-		"Phone":           order.ContactPhone.String(),
-		"SpecialNotes":    order.SpecialNotes.String(),
-		"Express":         order.Express,
-		"Due":             order.Due.Format(time.RFC3339),
-		"ShippingCompany": order.ShippingCompany.String(),
+		"Phone":           shippingDetails.ContactPhone.String(),
+		"SpecialNotes":    shippingDetails.SpecialNotes.String(),
+		"Express":         shippingDetails.Express,
+		"Due":             shippingDetails.Due.Format(time.RFC3339),
+		"ShippingCompany": shippingDetails.ShippingCompany.String(),
 	}
 	if err := s.searchIndex.Index(id, orderIndexData); err != nil {
 		return "", err

@@ -347,7 +347,7 @@ func (s *Server) errInternal(w http.ResponseWriter, err error) {
 }
 
 func (s *Server) fetchOrders(searchQuery string) (
-	orders []domain.ShippingDetails, err error,
+	orders []domain.Order, err error,
 ) {
 	if searchQuery != "" {
 		return s.store.OrderBySearchQuery(searchQuery, 10)

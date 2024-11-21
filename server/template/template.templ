@@ -1,7 +1,6 @@
 package template
 
 import (
-	"fmt"
 	"github.com/romshark/demo-islands/domain"
 	"time"
 )
@@ -56,7 +55,7 @@ templ viewIndex(
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 	totalOrdersAvailable int,
-	shippingOrders []domain.ShippingDetails,
+	orders []domain.Order,
 ) {
 	<div x-data="{}">
 		@hideUntilLoaded() {
@@ -106,7 +105,7 @@ templ viewIndex(
 					hover:flex-grow
 					focus-within:flex-grow
 					transition-all
-					ml-6 mr-6
+					ml-2 mr-2
 				"
 			>
 				@skeleton("10rem", "2.6rem") {
@@ -200,14 +199,14 @@ templ viewIndex(
 						Add a new order
 					</sl-button>
 				</div>
-			} else if len(shippingOrders) < 1 {
+			} else if len(orders) < 1 {
 				// No search results.
 				<div class="flex flex-col w-full h-32 items-center justify-center">
 					<p>Couldn't find any orders.</p>
 				</div>
 			}
 			<div class="flex flex-row flex-wrap gap-4">
-				for i, o := range shippingOrders {
+				for _, o := range orders {
 					<div
 						class="
 							basis-full
@@ -223,7 +222,7 @@ templ viewIndex(
 						"
 					>
 						<h1 class="text-lg uppercase tracking-wider font-thin text-neutral-500">
-							Order #{ fmt.Sprintf("%d", i) }
+							Order { o.ID }
 						</h1>
 						if o.Express {
 							<div
@@ -263,22 +262,22 @@ templ viewIndex(
 						<div class="grid gap-2">
 							<div class="grid gap-2 md:flex md:gap-4">
 								<div class="flex items-center gap-1">
-									<sl-icon name="person" class="text-neutral-500"></sl-icon>
+									@fragmentIcon("person")
 									<span>{ o.ContactFirstName.String() } { o.ContactLastName.String() } </span>
 								</div>
 								<div class="flex items-center gap-1">
-									<sl-icon name="at" class="text-neutral-500"></sl-icon>
+									@fragmentIcon("at")
 									<span class="text-neutral-500">Email:</span>
 									<a href={ templ.URL("mailto:" + o.ContactEmail.String()) }>{ o.ContactEmail.String() } </a>
 								</div>
 								<div class="flex items-center gap-1">
-									<sl-icon name="telephone" class="text-neutral-500"></sl-icon>
+									@fragmentIcon("telephone")
 									<span class="text-neutral-500">Phone:</span>
 									<a href={ templ.URL("tel:" + o.ContactPhone.String()) }>{ o.ContactPhone.String() } </a>
 								</div>
 							</div>
 							<div class="flex items-center gap-2">
-								<sl-icon name="geo-alt" class="text-neutral-500"></sl-icon>
+								@fragmentIcon("geo-alt")
 								<div>
 									<slx-countryflag
 										slot="prefix"
@@ -297,7 +296,7 @@ templ viewIndex(
 								</div>
 							</div>
 							<div class="flex items-center gap-1">
-								<sl-icon name="buildings" class="text-neutral-500"></sl-icon>
+								@fragmentIcon("buildings")
 								<span class="text-neutral-500">Company:</span>
 								<span>{ o.CompanyName.String() } </span>
 							</div>
@@ -315,13 +314,15 @@ templ viewIndex(
 							</div>
 						</div>
 						if o.SpecialNotes.String() != "" {
-							<sl-details>
-								<div slot="summary" class="flex items-center gap-3">
-									<sl-icon name="sticky" class="text-amber-400 dark:text-amber-600"></sl-icon>
-									<span>Special Notes:</span>
-								</div>
-								<p>{ o.SpecialNotes.String() } </p>
-							</sl-details>
+							@skeleton("100%", "100%") {
+								<sl-details>
+									<div slot="summary" class="flex items-center gap-3">
+										<sl-icon name="sticky" class="text-amber-400 dark:text-amber-600"></sl-icon>
+										<span>Special Notes:</span>
+									</div>
+									<p>{ o.SpecialNotes.String() } </p>
+								</sl-details>
+							}
 						}
 					</div>
 				}
@@ -337,7 +338,7 @@ templ pageIndex(
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
 	totalOrdersAvailable int,
-	shippingOrders []domain.ShippingDetails,
+	orders []domain.Order,
 ) {
 	@htmlMain("Index", darkMode) {
 		@viewIndex(
@@ -346,7 +347,7 @@ templ pageIndex(
 			addressCountryOptions,
 			shippingCompanyOptions,
 			totalOrdersAvailable,
-			shippingOrders,
+			orders,
 		)
 	}
 }
@@ -640,6 +641,12 @@ templ fragmentCountryOptions(opts []NamedOption) {
 templ fragmentNamedOptions(opts []NamedOption) {
 	for _, opt := range opts {
 		@slOption(opt)
+	}
+}
+
+templ fragmentIcon(name string) {
+	@skeleton("1rem", "1rem") {
+		<sl-icon name={ name } class="text-neutral-500"></sl-icon>
 	}
 }
 
