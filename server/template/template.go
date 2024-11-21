@@ -15,11 +15,13 @@ func RenderPageIndex(
 	searchQuery string,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
+	totalOrdersAvailable int,
 	orders []domain.ShippingDetails,
 ) error {
 	return pageIndex(
 		form, searchQuery, darkMode,
-		addressCountryOptions, shippingCompanyOptions, orders,
+		addressCountryOptions, shippingCompanyOptions,
+		totalOrdersAvailable, orders,
 	).Render(ctx, w)
 }
 
@@ -29,10 +31,13 @@ func RenderViewIndex(
 	searchQuery string,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
+	totalOrdersAvailable int,
 	orders []domain.ShippingDetails,
 ) error {
 	return viewIndex(
-		form, searchQuery, addressCountryOptions, shippingCompanyOptions, orders,
+		form, searchQuery,
+		addressCountryOptions, shippingCompanyOptions,
+		totalOrdersAvailable, orders,
 	).Render(ctx, w)
 }
 

@@ -55,6 +55,7 @@ templ viewIndex(
 	searchQuery string,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
+	totalOrdersAvailable int,
 	shippingOrders []domain.ShippingDetails,
 ) {
 	<div x-data="{}">
@@ -187,9 +188,23 @@ templ viewIndex(
 					@componentOrderForm(form, addressCountryOptions, shippingCompanyOptions)
 				</sl-drawer>
 			}
-			<h1 class="mt-2 mb-4 text-xl">Pending Orders:</h1>
-			if len(shippingOrders) < 1 {
-				<p>No currently pending orders.</p>
+			if totalOrdersAvailable == 0 {
+				// No orders available.
+				<div class="flex flex-col w-full h-32 items-center justify-center">
+					<p>There are no currently pending orders.</p>
+					<sl-button
+						class="mt-4"
+						@click="$refs.formDrawer.show()"
+					>
+						<sl-icon slot="prefix" name="file-earmark-plus"></sl-icon>
+						Add a new order
+					</sl-button>
+				</div>
+			} else if len(shippingOrders) < 1 {
+				// No search results.
+				<div class="flex flex-col w-full h-32 items-center justify-center">
+					<p>Couldn't find any orders.</p>
+				</div>
 			}
 			<div class="flex flex-row flex-wrap gap-4">
 				for i, o := range shippingOrders {
@@ -321,6 +336,7 @@ templ pageIndex(
 	darkMode bool,
 	addressCountryOptions []NamedOption,
 	shippingCompanyOptions []NamedOption,
+	totalOrdersAvailable int,
 	shippingOrders []domain.ShippingDetails,
 ) {
 	@htmlMain("Index", darkMode) {
@@ -329,6 +345,7 @@ templ pageIndex(
 			searchQuery,
 			addressCountryOptions,
 			shippingCompanyOptions,
+			totalOrdersAvailable,
 			shippingOrders,
 		)
 	}

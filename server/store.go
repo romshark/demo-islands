@@ -50,6 +50,14 @@ func NewStore() *Store {
 	}
 }
 
+// TotalOrdersAvailable returns the total number of orders stored.
+func (s *Store) TotalOrdersAvailable() (int, error) {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+
+	return len(s.orders), nil
+}
+
 // GetAllOrders returns all currently stored orders.
 func (s *Store) GetAllOrders() ([]domain.ShippingDetails, error) {
 	s.lock.Lock()

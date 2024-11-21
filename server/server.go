@@ -198,13 +198,20 @@ func (s *Server) handleGetIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	totalOrdersAvailable, err := s.store.TotalOrdersAvailable()
+	if err != nil {
+		s.errInternal(w, err)
+		return
+	}
+
 	if r.Header.Get("HX-Request") != "" {
 		var f template.Form
 		f.UnmarshalForm(r)
 		f.ResetErrorsForZero()
 		if err := template.RenderViewIndex(
 			r.Context(), w, f, searchQuery,
-			s.addressCountryOptions, s.shippingCompanyOptions, orders,
+			s.addressCountryOptions, s.shippingCompanyOptions,
+			totalOrdersAvailable, orders,
 		); err != nil {
 			s.errInternal(w, err)
 			return
@@ -216,7 +223,8 @@ func (s *Server) handleGetIndex(w http.ResponseWriter, r *http.Request) {
 	if err := template.RenderPageIndex(
 		r.Context(), w, theme == middleware.ThemeDark,
 		template.Form{}, searchQuery,
-		s.addressCountryOptions, s.shippingCompanyOptions, orders,
+		s.addressCountryOptions, s.shippingCompanyOptions,
+		totalOrdersAvailable, orders,
 	); err != nil {
 		s.errInternal(w, err)
 		return
@@ -314,10 +322,17 @@ func (s *Server) handlePostOrders(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	totalOrdersAvailable, err := s.store.TotalOrdersAvailable()
+	if err != nil {
+		s.errInternal(w, err)
+		return
+	}
+
 	if err := template.RenderViewIndex(
 		r.Context(), w,
 		f, searchQuery,
-		s.addressCountryOptions, s.shippingCompanyOptions, orders,
+		s.addressCountryOptions, s.shippingCompanyOptions,
+		totalOrdersAvailable, orders,
 	); err != nil {
 		s.errInternal(w, err)
 		return
