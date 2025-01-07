@@ -2,14 +2,18 @@ proxy-timeout: 10s
 format: true
 lint: true
 templier-host: "localhost:7331"
+
 log:
   level: erronly
   clear-on: file-change
   print-js-debug-logs: true
+
 debounce:
   templ: 50ms
   go: 50ms
+
 tls:
+
 app:
   dir-src-root: "./"
   exclude:
@@ -20,9 +24,18 @@ app:
   dir-cmd: "./cmd/server"
   dir-work:
   host: "http://127.0.0.1:8080"
-  go-flags:
   flags:
+
 custom-watchers:
+  - name: "Go mod update"
+    cmd:
+    include:
+      - "go.mod"
+      - "go.sum"
+    exclude:
+    debounce:
+    fail-on-error: true
+    requires: rebuild
   - name: "Bundle CSS"
     cmd: bun run build:css
     include:
@@ -59,3 +72,15 @@ custom-watchers:
     fail-on-error:
     debounce:
     requires: reload
+
+compiler:
+  gcflags:
+  ldflags:
+  asmflags:
+  race:
+  msan:
+  tags:
+  trimpath:
+  p:
+  env:
+    CGO_ENABLED: 0
