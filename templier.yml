@@ -8,9 +8,7 @@ log:
   clear-on: file-change
   print-js-debug-logs: true
 
-debounce:
-  templ: 50ms
-  go: 50ms
+debounce: 50ms
 
 tls:
 
