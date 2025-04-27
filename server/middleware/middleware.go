@@ -15,7 +15,9 @@ import (
 func Compress(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		wr := brotli.HTTPCompressor(w, r)
-		defer wr.Close()
+		defer func() {
+			_ = wr.Close()
+		}()
 		next.ServeHTTP(compressedResponseWriter{ResponseWriter: w, w: wr}, r)
 	})
 }

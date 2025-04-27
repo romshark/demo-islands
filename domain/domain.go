@@ -273,11 +273,11 @@ func (s SpecialNotes) String() string { return s.string }
 
 const SpecialNotesRunesMax = 1000
 
-var SpecialNotesTooLong = errors.New("special notes too long")
+var ErrSpecialNotesTooLong = errors.New("special notes too long")
 
 func NewSpecialNotes(s string) (SpecialNotes, error) {
 	if len([]rune(s)) > SpecialNotesRunesMax {
-		return SpecialNotes{}, SpecialNotesTooLong
+		return SpecialNotes{}, ErrSpecialNotesTooLong
 	}
 	return SpecialNotes{s}, nil
 }

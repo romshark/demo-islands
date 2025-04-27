@@ -227,15 +227,15 @@ func (f *Form) IsValid() bool {
 		return false
 	}
 
-	return !(f.ErrorCompanyName != "" ||
-		f.ErrorFirstName != "" ||
-		f.ErrorLastName != "" ||
-		f.ErrorEmail != "" ||
-		f.ErrorPhone != "" ||
-		f.ErrorDue != "" ||
-		f.ErrorShippingCompany != "" ||
-		f.ErrorAddressCountry != "" ||
-		f.ErrorAddressCity != "" ||
-		f.ErrorAddressPostalCode != "" ||
-		f.ErrorSpecialNotes != "")
+	return f.ErrorCompanyName == "" &&
+		f.ErrorFirstName == "" &&
+		f.ErrorLastName == "" &&
+		f.ErrorEmail == "" &&
+		f.ErrorPhone == "" &&
+		f.ErrorDue == "" &&
+		f.ErrorShippingCompany == "" &&
+		f.ErrorAddressCountry == "" &&
+		f.ErrorAddressCity == "" &&
+		f.ErrorAddressPostalCode == "" &&
+		f.ErrorSpecialNotes == ""
 }
