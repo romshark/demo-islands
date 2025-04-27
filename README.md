@@ -34,7 +34,7 @@ a cutting-edge tech stack:
 
 ## Prerequisits
 
-- [Go 1.23](https://go.dev/doc/install)
+- [Go 1.24](https://go.dev/doc/install)
 - [Bun](https://bun.sh/)
 - [mkcert](https://github.com/FiloSottile/mkcert) (only when HTTPS is required)
 
