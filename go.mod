@@ -3,11 +3,11 @@ module github.com/romshark/demo-islands
 go 1.24.2
 
 require (
-	github.com/a-h/templ v0.3.857
+	github.com/a-h/templ v0.3.865
 	github.com/andybalholm/brotli v1.1.1
 	github.com/blevesearch/bleve/v2 v2.5.0
 	github.com/brianvoe/gofakeit/v7 v7.2.1
-	github.com/romshark/templier v0.10.9
+	github.com/romshark/templier v0.10.10
 	github.com/stretchr/testify v1.10.0
 )
 
