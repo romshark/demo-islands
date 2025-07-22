@@ -22,15 +22,15 @@ templ htmlMain(title string, darkMode bool) {
 			<meta name="description" content="Islands-Architecture Web App Demo"/>
 			<meta name="color-scheme" content="light dark"/>
 			<link rel="stylesheet" href="/public/dist.css"/>
-			<script src="https://unpkg.com/htmx.org@2.0.4"></script>
-			<script src="https://unpkg.com/idiomorph@0.4.0/dist/idiomorph-ext.min.js"></script>
+			<script src="https://unpkg.com/htmx.org@2.0.6"></script>
+			<script src="https://unpkg.com/idiomorph@0.7.3/dist/idiomorph-ext.min.js"></script>
 			<link
 				id="stylesheet-shoelace-theme"
 				rel="stylesheet"
 				if darkMode {
-					href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/themes/dark.css"
+					href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/dark.css"
 				} else {
-					href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/themes/light.css"
+					href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css"
 				}
 			/>
 			<script src="/public/components.js" type="module"></script>
