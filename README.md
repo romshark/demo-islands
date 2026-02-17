@@ -1,3 +1,5 @@
+**📦 This demo is archived as I've now moved my attention from [HTMX](https://htmx.org) to [Datastar](https://data-star.dev).**
+
 ![lighthouse_desktop_score](https://github.com/user-attachments/assets/5ccea4f9-8040-4a09-8d78-8a235f3715d8)
 
 Perfect [Lighthouse](https://developer.chrome.com/docs/lighthouse) score.
